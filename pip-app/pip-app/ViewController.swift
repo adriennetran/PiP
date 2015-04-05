@@ -17,9 +17,10 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
-		var testPipView = BasePipView(frame: CGRectMake(100, 100, 100, 100))
+		var testPipView = TextPipView(point: CGPointMake(25, 25))
 		
 		self.view.addSubview(testPipView)
+		activePips.append(testPipView)
 		
 		self.view.userInteractionEnabled = true;
 	}
@@ -28,10 +29,5 @@ class ViewController: UIViewController {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-
-	
-	
-	
-
 }
 

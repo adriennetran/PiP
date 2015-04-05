@@ -11,7 +11,7 @@ import UIKit
 
 class BasePipView: UIImageView {
 	
-	let pipImage: UIImage!
+	var pipImage: UIImage!
 	
 	//Used for dragging
 	var lastLocation: CGPoint = CGPointMake(0, 0)
@@ -34,23 +34,32 @@ class BasePipView: UIImageView {
 		self.image = pipImage
 		
 		self.userInteractionEnabled = true;
-		
-		
-		
 	}
 	
+	// setPipViewImage: UIImage -> nil
+	// I/O: takes an UIImage, image, and sets pipImage to this value
+	func setPipViewImage(image: UIImage){
+		pipImage = image
+		self.image = pipImage
+	}
+	
+	
+	// detectPan: UIPanGestureRecognizer -> nil
+	// I/O: takes in recognizer and computes the distance the user has panned
+	//		finally applying this vector to the uiview's center, effectively
+	//		moving the view.
 	func detectPan(recognizer: UIPanGestureRecognizer!){
-		println("2")
 		var translation = recognizer.translationInView(self.superview!)
 		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
 	}
 	
+	// touchesBegan: NSSet, UIEvent -> nil
+	// I/O: called when the user presses the UIView. This implementation
+	//		tells the superview to bring this view to the front, and update
+	//		lastLocation's value
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
 		self.superview?.bringSubviewToFront(self)
-		
 		lastLocation = self.center
-		
-		println("1")
 	}
 	
 	
