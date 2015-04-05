@@ -19,6 +19,11 @@ class TextPipView: BasePipView {
 		fatalError("coder initializer not coded")
 	}
 	
+	
+	// init: CGPoint -> ?
+	// I/O: takse a CGPoint and passes it to super.init as the views position
+	//		sets the image of the node, and initializes the textField used for
+	//		entry to the model
 	init (point: CGPoint) {
 		super.init(frame: CGRectMake(point.x, point.y, 400/2, 150/2))
 		

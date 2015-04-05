@@ -24,6 +24,7 @@ class BasePipView: UIImageView {
 	
 	//init: CGRect -> ? (it technically doesn't return a BasePipView
 	//I/O: takes in a CGRect, frame, which represents the bounds and position of the view
+	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		
@@ -38,6 +39,7 @@ class BasePipView: UIImageView {
 	
 	// setPipViewImage: UIImage -> nil
 	// I/O: takes an UIImage, image, and sets pipImage to this value
+	
 	func setPipViewImage(image: UIImage){
 		pipImage = image
 		self.image = pipImage
@@ -48,6 +50,7 @@ class BasePipView: UIImageView {
 	// I/O: takes in recognizer and computes the distance the user has panned
 	//		finally applying this vector to the uiview's center, effectively
 	//		moving the view.
+	
 	func detectPan(recognizer: UIPanGestureRecognizer!){
 		var translation = recognizer.translationInView(self.superview!)
 		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
@@ -57,10 +60,12 @@ class BasePipView: UIImageView {
 	// I/O: called when the user presses the UIView. This implementation
 	//		tells the superview to bring this view to the front, and update
 	//		lastLocation's value
+	
 	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
 		self.superview?.bringSubviewToFront(self)
 		lastLocation = self.center
 	}
+	
 	
 	
 }

@@ -17,10 +17,14 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
-		var testPipView = TextPipView(point: CGPointMake(25, 25))
+		var testColorPip = ColorPipView(point: CGPointMake(25, 25))
+		var testTextPip = TextPipView(point: CGPointMake(200, 100))
 		
-		self.view.addSubview(testPipView)
-		activePips.append(testPipView)
+		self.view.addSubview(testColorPip)
+		self.view.addSubview(testTextPip)
+		
+		activePips.append(testColorPip)
+		activePips.append(testTextPip)
 		
 		self.view.userInteractionEnabled = true;
 	}
