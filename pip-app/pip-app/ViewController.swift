@@ -9,10 +9,17 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+	
+	//Array of Pips which are currently in the workspace
+	var activePips: [BasePipView] = []
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
+		
+		var testPipView = BasePipView(frame: CGRectMake(100, 100, 100, 100))
+		
+		self.view.addSubview(testPipView)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -20,6 +27,9 @@ class ViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 
+	
+	
+	
 
 }
 

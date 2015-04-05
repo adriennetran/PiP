@@ -6,11 +6,7 @@
 //  Copyright (c) 2015 Peter Slattery. All rights reserved.
 //
 
-import Foundation
-
 class BasePip {
 	
-	init(){
-		
-	}
+	
 }

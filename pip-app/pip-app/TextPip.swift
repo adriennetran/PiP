@@ -10,7 +10,5 @@ import Foundation
 
 class TextPip: BasePip {
 	
-	override init(){
-		super.init()
-	}
+	
 }
