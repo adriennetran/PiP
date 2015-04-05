@@ -20,6 +20,8 @@ class ViewController: UIViewController {
 		var testPipView = BasePipView(frame: CGRectMake(100, 100, 100, 100))
 		
 		self.view.addSubview(testPipView)
+		
+		self.view.userInteractionEnabled = true;
 	}
 
 	override func didReceiveMemoryWarning() {
