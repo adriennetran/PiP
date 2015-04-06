@@ -30,13 +30,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		
 		scrollView.contentSize = containerView.bounds.size
 		
-		var testColorPip = ColorPipView(point: CGPointMake(25, 25))
+		var testSwitchPip = SwitchPipView(point: CGPointMake(75, 75))
 		var testTextPip = TextPipView(point: CGPointMake(100, 100))
 		
-		containerView.addSubview(testColorPip)
+		containerView.addSubview(testSwitchPip)
 		containerView.addSubview(testTextPip)
 		
-		activePips.append(testColorPip)
+		activePips.append(testSwitchPip)
 		activePips.append(testTextPip)
 		
 		self.view.userInteractionEnabled = true;
@@ -55,8 +55,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		let minScale: CGFloat = min(scaleWidth, scaleHeight)
 		
 		scrollView.minimumZoomScale = minScale
-		scrollView.maximumZoomScale = 1.0
-		scrollView.zoomScale = minScale
+		scrollView.maximumZoomScale = 1.5
+		scrollView.zoomScale = 0.5
 	}
 
 	override func didReceiveMemoryWarning() {
