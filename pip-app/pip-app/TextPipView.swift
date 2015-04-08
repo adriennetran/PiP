@@ -25,8 +25,8 @@ class TextPipView: BasePipView {
 	//		sets the image of the node, and initializes the textField used for
 	//		entry to the model
 	
-	init (point: CGPoint) {
-		super.init(point: point, image: UIImage(named: "textPip-image")!)
+    init (point: CGPoint, modelPip: TextPip) {
+		super.init(point: point, image: UIImage(named: "textPip-image")!) //[o] what does super init do?
 		
 		textField = UITextField(frame: CGRectMake(75, 75, 315, 45))
 		textField.borderStyle = UITextBorderStyle.RoundedRect
@@ -41,6 +41,6 @@ class TextPipView: BasePipView {
 	// Note: Use this to pass the content of field to the model
 	
 	func textFieldDidChange(field: UITextField) {
-		
+		modelPip.updateText(field.text)
 	}
 }
