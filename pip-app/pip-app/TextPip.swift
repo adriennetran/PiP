@@ -18,7 +18,7 @@ class TextOutput{
     
     // not included: sound
     
-    var myswitch: Int
+    var myswitch: Int?
 	
 	init(){
 		
@@ -27,12 +27,16 @@ class TextOutput{
 	func getText() -> String{
 		return text
 	}
+    
+    func setText(newText: String){
+        text = newText
+    }
 }
 
 class TextPip: BasePip {
     
     // of type text
-    var output: TextOutput
+    var output: TextOutput!
     
     // TextPip's constructor
     init(){
@@ -41,7 +45,8 @@ class TextPip: BasePip {
 
     
     func updateText(newVal: String){
-        output.text = newVal
+        output.setText(newVal)
+        
     }
     
     // getOutput loops through the array of inputPips and processes each, storing the information in output
@@ -65,16 +70,20 @@ class TextPip: BasePip {
 				if castItem != nil {
 					output.text = castItem.getOutput().getText()
 				}
+                return output
 				
-            case .Color:
-				let castItem: ColorPip! = item as? ColorPip
-				
-				if castItem != nil{
-					output.color = (ColorPip) (item).getOutput() // color of item.color
-				}
+//            case .Color:
+//				let castItem: ColorPip! = item as? ColorPip
+//				
+//				if castItem != nil{
+//					output.color = castItem.getOutput().getColor() // color of item.color
+//				}
+            default:
+                return output
             }
             
         }
+        return output
         
     }
 }
