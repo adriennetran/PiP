@@ -21,6 +21,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
+		
+		/* -------------------
+			Scroll View Setup
+		   ------------------- */
+		
 		containerView = UIView(frame: CGRectMake(0, 0, 1440, 1440))
 		scrollView.addSubview(containerView)
 		
@@ -29,6 +34,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		containerView.addSubview(backgroundView)
 		
 		scrollView.contentSize = containerView.bounds.size
+		
+		
+		/* ------------
+			TEST PIPS
+		   ------------ */
 		
 		var testSwitchPip = SwitchPipView(point: CGPointMake(75, 75))
 		var testTextPip = TextPipView(point: CGPointMake(100, 100))
@@ -39,11 +49,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		activePips.append(testSwitchPip)
 		activePips.append(testTextPip)
 		
+		/* ------------------------
+			Tap Gesture Recognizer
+		   ------------------------ */
+		
 		self.view.userInteractionEnabled = true;
 		scrollView.userInteractionEnabled = true;
 		
-		//Sets up a gestureRecognizer that lets a double tap zoom in
-		//
 		var doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
 		doubleTapRecognizer.numberOfTapsRequired = 2
 		doubleTapRecognizer.numberOfTouchesRequired = 1
@@ -59,13 +71,18 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.zoomScale = 0.5
 	}
 
+	
+	// BUILTIN - not sure what to use for
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
 	
+	
+	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
+	// I/O: 
+	
 	func scrollViewDoubleTapped(recognizer: UITapGestureRecognizer) {
-		println("1")
 		let pointInView = recognizer.locationInView(containerView)
 		
 		var newZoomScale = min((scrollView.zoomScale * 1.5), scrollView.maximumZoomScale)

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5E26ACC01AD1A6F400B416C5 /* TextPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26ACBF1AD1A6F400B416C5 /* TextPipView.swift */; };
 		5E26ACC21AD1B3F900B416C5 /* ColorPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */; };
+		5E26ACFE1AD2362900B416C5 /* ButtonPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26ACFD1AD2362900B416C5 /* ButtonPipView.swift */; };
+		5E339B631AD238F400CC3E8A /* SwitchPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E339B621AD238F400CC3E8A /* SwitchPipView.swift */; };
 		5E53545D1AD17E9800617B7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E53545C1AD17E9800617B7C /* AppDelegate.swift */; };
 		5E53545F1AD17E9800617B7C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E53545E1AD17E9800617B7C /* ViewController.swift */; };
 		5E5354621AD17E9800617B7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E5354601AD17E9800617B7C /* Main.storyboard */; };
@@ -33,6 +35,8 @@
 /* Begin PBXFileReference section */
 		5E26ACBF1AD1A6F400B416C5 /* TextPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPipView.swift; sourceTree = "<group>"; };
 		5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPipView.swift; sourceTree = "<group>"; };
+		5E26ACFD1AD2362900B416C5 /* ButtonPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonPipView.swift; sourceTree = "<group>"; };
+		5E339B621AD238F400CC3E8A /* SwitchPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchPipView.swift; sourceTree = "<group>"; };
 		5E5354571AD17E9800617B7C /* pip-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pip-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E53545B1AD17E9800617B7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5E53545C1AD17E9800617B7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +143,8 @@
 				5E879C781AD18B8500DCAC47 /* BasePipView.swift */,
 				5E26ACBF1AD1A6F400B416C5 /* TextPipView.swift */,
 				5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */,
+				5E26ACFD1AD2362900B416C5 /* ButtonPipView.swift */,
+				5E339B621AD238F400CC3E8A /* SwitchPipView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -244,11 +250,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E879C761AD1881200DCAC47 /* BasePip.swift in Sources */,
+				5E339B631AD238F400CC3E8A /* SwitchPipView.swift in Sources */,
 				5E26ACC01AD1A6F400B416C5 /* TextPipView.swift in Sources */,
 				5E26ACC21AD1B3F900B416C5 /* ColorPipView.swift in Sources */,
 				5E879C791AD18B8500DCAC47 /* BasePipView.swift in Sources */,
 				5E53545F1AD17E9800617B7C /* ViewController.swift in Sources */,
 				5E53545D1AD17E9800617B7C /* AppDelegate.swift in Sources */,
+				5E26ACFE1AD2362900B416C5 /* ButtonPipView.swift in Sources */,
 				5E5354821AD1805D00617B7C /* TextPip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

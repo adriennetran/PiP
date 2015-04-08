@@ -8,5 +8,9 @@
 
 class BasePip {
 	
+	// Pip Type enum
+	
+	// getPipType
+	
 	
 }
