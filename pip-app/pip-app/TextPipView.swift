@@ -43,6 +43,6 @@ class TextPipView: BasePipView {
 	// Note: Use this to pass the content of field to the model
 	
 	func textFieldDidChange(field: UITextField) {
-		
+		modelPip.updateText(field.text)
 	}
 }
