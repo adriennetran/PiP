@@ -8,24 +8,30 @@
 
 class BasePip {
 	
+	enum PipType{
+		case Text, Color, Button, Switch
+	}
+	
 	// Pip Type enum
-    
-    enum PipType{
-        case Text
-        case Color
-        case Button
-        case Switch
-    }
+    private let pipType: PipType! // let so never changes
     
     // Input Pips represented as an array of type pip
-    var inputPips: Array
+	var inputPips: [BasePip]!
+	
+	init(pipType: PipType){
+		self.pipType = pipType
+	}
+	
+	// getPipType: nil -> PipType
+	// I/O: accessor for pipType
+	
+	func getPipType() -> PipType{
+		return pipType
+	}
     
 	// getPipType
 	
     func setInput(inputPip: BasePip){
-        inputPips.append(inputPip)
+		inputPips.append(inputPip)
     }
-    
-    let type: PipType! // let so never changes
-	
 }

@@ -7,29 +7,36 @@
 //
 
 import Foundation
+import UIKit
 
 class TextOutput{
 //    saves information from past Pips
 
     // if there aren't data types that combine the two
-    var text: String
-    var color: UIColor
+    var text: String!
+    var color: UIColor!
     
     // not included: sound
     
     var myswitch: Int
-
+	
+	init(){
+		
+	}
+	
+	func getText() -> String{
+		return text
+	}
 }
 
 class TextPip: BasePip {
     
     // of type text
     var output: TextOutput
-    var inputPips: [BasePip]?
     
     // TextPip's constructor
     init(){
-        type = PipType.Text
+		super.init(pipType: PipType.Text)
     }
 
     
@@ -41,7 +48,7 @@ class TextPip: BasePip {
     
     // Input: Array of input pips
     
-    func getOutput(inputPips: Array) -> TextOutput{
+    func getOutput() -> TextOutput{
         // format
         
         // Takes in the last input
@@ -50,14 +57,21 @@ class TextPip: BasePip {
         
         for item in inputPips{
             
-            switch item.type{
+            switch item.getPipType(){
 
-            case .Text:
-                output.text += (TextPip)(item).getOutput()
-                
+			case .Text:
+				let castItem: TextPip! = item as? TextPip
+				
+				if castItem != nil {
+					output.text = castItem.getOutput().getText()
+				}
+				
             case .Color:
-                output.color = (ColorPip) (item).getOutput() // color of item.color
-        
+				let castItem: ColorPip! = item as? ColorPip
+				
+				if castItem != nil{
+					output.color = (ColorPip) (item).getOutput() // color of item.color
+				}
             }
             
         }
