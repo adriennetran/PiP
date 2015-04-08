@@ -11,7 +11,14 @@ import UIKit
 
 class BasePipView: UIImageView {
 	
+	//Reference to ViewController
+	var viewController: ViewController!
+	
+	
 	var pipImage: UIImage!
+	
+	var pipInputView: UIView!
+	var pipOutputView: UIView!
 	
 	//Used for dragging
 	var lastLocation: CGPoint = CGPointMake(0, 0)
@@ -25,8 +32,10 @@ class BasePipView: UIImageView {
 	// init: CGRect -> ? (it technically doesn't return a BasePipView
 	// I/O: takes in a CGRect, frame, which represents the bounds and position of the view
 	
-	override init(frame: CGRect) {
+	init(frame: CGRect, vC: ViewController) {
 		super.init(frame: frame)
+		
+		viewController = vC
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
 		addGestureRecognizer(panRecognizer)
@@ -35,14 +44,25 @@ class BasePipView: UIImageView {
 		self.image = pipImage
 		
 		self.userInteractionEnabled = true;
+		
+		pipInputView = UIView(frame: CGRectMake(pipImage.size.width - 20, 0, 20, pipImage.size.height))
+		pipOutputView = UIView(frame: CGRectMake(0, 0, 20, pipImage.size.height))
+		
+		pipInputView.backgroundColor = UIColor.blackColor()
+		pipOutputView.backgroundColor = UIColor.blackColor()
+		
+		addSubview(pipOutputView)
+		addSubview(pipInputView)
 	}
 	
 	// init: CGPoint, UIImage -> ?
 	// I/O: takes in a CGPoint, point, and an UIImage, image, which are used to define
 	//		the bounds of the view
 	
-	init(point: CGPoint, image: UIImage) {
+	init(point: CGPoint, image: UIImage, vC: ViewController) {
 		super.init(frame: CGRectMake(point.x, point.y, image.size.width, image.size.height))
+		
+		viewController = vC
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
 		addGestureRecognizer(panRecognizer)
@@ -51,6 +71,22 @@ class BasePipView: UIImageView {
 		self.image = pipImage
 		
 		self.userInteractionEnabled = true;
+		
+		
+		pipInputView = UIView(frame: CGRectMake(pipImage.size.width - 20, 0, 20, pipImage.size.height))
+		pipOutputView = UIView(frame: CGRectMake(0, 0, 20, pipImage.size.height))
+		
+		pipInputView.backgroundColor = UIColor.blackColor()
+		pipOutputView.backgroundColor = UIColor.blackColor()
+		
+		pipInputView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "inputViewTapped:"))
+		pipOutputView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "outputViewTapped:"))
+		pipInputView.userInteractionEnabled = true;
+		pipOutputView.userInteractionEnabled = true;
+		
+		addSubview(pipInputView)
+		addSubview(pipOutputView)
+		
 	}
 	
 	// setPipViewImage: UIImage -> nil
@@ -72,6 +108,25 @@ class BasePipView: UIImageView {
 		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
 	}
 	
+	
+	// inputViewTapped: UITapGestureRecognizer -> nil
+	// I/O: called by pipInputView's gesture recognizer,
+	//		takes in recognizer and calls setActiveInputPip in viewController
+	
+	func inputViewTapped(recognizer: UITapGestureRecognizer!){
+		viewController.setActiveInputPip(self)
+	}
+	
+	
+	// outputViewTapped: UITapGestureRecognizer -> nil
+	// I/O: called by pipOutputView's gesture recognizer,
+	//		takes in recognizer and calls setActiveOutputPip in viewController
+	
+	func outputViewTapped(recongizer: UITapGestureRecognizer!){
+		viewController.setActiveOutputPip(self)
+	}
+	
+	
 	// touchesBegan: NSSet, UIEvent -> nil
 	// I/O: called when the user presses the UIView. This implementation
 	//		tells the superview to bring this view to the front, and update
@@ -81,6 +136,7 @@ class BasePipView: UIImageView {
 		self.superview?.bringSubviewToFront(self)
 		lastLocation = self.center
 	}
+	
 	
 	
 	

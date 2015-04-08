@@ -28,8 +28,8 @@ class ColorPipView: BasePipView{
 	// I/O: takes a CGPoint, point, which is passed, along with the Pip's image
 	//		up to super.init. Initializes colorPickerView.
 	
-	init(point: CGPoint){
-		super.init(point: point, image: UIImage(named: "colorPip-image")!)
+	init(point: CGPoint, vC: ViewController){
+		super.init(point: point, image: UIImage(named: "colorPip-image")!, vC: vC)
 		
 		colorPickerView = ColorPickerView(point: CGPoint(x: 0, y: 0), parentView: self)
 		self.addSubview(colorPickerView)

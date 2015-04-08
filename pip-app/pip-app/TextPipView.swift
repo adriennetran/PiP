@@ -13,7 +13,6 @@ class TextPipView: BasePipView {
 	
 	var textField: UITextField!
 	
-	
 	//Required
 	required init(coder aDecoder: NSCoder) {
 		fatalError("coder initializer not coded")
@@ -25,14 +24,17 @@ class TextPipView: BasePipView {
 	//		sets the image of the node, and initializes the textField used for
 	//		entry to the model
 	
-	init (point: CGPoint) {
-		super.init(point: point, image: UIImage(named: "textPip-image")!)
+	init (point: CGPoint, vC: ViewController) {
+		super.init(point: point, image: UIImage(named: "textPip-image")!, vC: vC)
 		
 		textField = UITextField(frame: CGRectMake(75, 75, 315, 45))
 		textField.borderStyle = UITextBorderStyle.RoundedRect
 		textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
 		textField.font = UIFont(name: textField.font!.fontName, size: 24)
 		self.addSubview(textField)
+		
+		pipInputView.frame.size.width = 40
+		pipOutputView.frame.size.width = 40
 	}
 	
 	

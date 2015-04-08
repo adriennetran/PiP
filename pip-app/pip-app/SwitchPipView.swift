@@ -24,8 +24,8 @@ class SwitchPipView: BasePipView{
 	//		to super.init. 
 	// TODO: gets initial state on creation from Model
 	
-	init(point: CGPoint) {
-		super.init(point: point, image: stateImages[0])
+	init(point: CGPoint, vC: ViewController) {
+		super.init(point: point, image: stateImages[0], vC: vC)
 	}
 	
 	

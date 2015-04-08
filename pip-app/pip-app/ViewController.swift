@@ -10,12 +10,14 @@ import UIKit
 
 class ViewController: UIViewController, UIScrollViewDelegate {
 	
-	
 	@IBOutlet var scrollView: UIScrollView!
 	
 	//Array of Pips which are currently in the workspace
 	var activePips: [BasePipView] = []
 	var containerView: UIView!
+	
+	var activeOutputPip: BasePipView? = nil
+	var activeInputPip: BasePipView? = nil
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -40,8 +42,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 			TEST PIPS
 		   ------------ */
 		
-		var testSwitchPip = SwitchPipView(point: CGPointMake(75, 75))
-		var testTextPip = TextPipView(point: CGPointMake(100, 100))
+		var testSwitchPip = SwitchPipView(point: CGPointMake(75, 75), vC: self)
+		var testTextPip = TextPipView(point: CGPointMake(100, 100), vC: self)
 		
 		containerView.addSubview(testSwitchPip)
 		containerView.addSubview(testTextPip)
@@ -80,7 +82,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	
 	
 	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
-	// I/O: 
+	// I/O: called when the background is double tapped
+	//		zooms the view in by 1.5%
 	
 	func scrollViewDoubleTapped(recognizer: UITapGestureRecognizer) {
 		let pointInView = recognizer.locationInView(containerView)
@@ -104,6 +107,40 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	
 	func scrollViewDidZoom(scrollView: UIScrollView) {
 		return
+	}
+	
+	
+	// setActiveOutputPip: BasePipView -> nil
+	// I/O: called when a BasePipView object's pipOutputView is tapped
+	//		sets activeOutputPip, and, if activeInputPip has a value
+	//		conects the two nodes
+	
+	func setActiveOutputPip(pip: BasePipView){
+		activeOutputPip = pip
+		
+		if activeInputPip != nil{
+			//Make connection
+			
+			activeOutputPip = nil
+			activeInputPip = nil
+		}
+	}
+	
+	
+	// setActiveOutputPip: BasePipView -> nil
+	// I/O: called when a BasePipView object's pipInputView is tapped
+	//		sets activeInputPip, and, if activeOutputPip has a value
+	//		conects the two nodes
+	
+	func setActiveInputPip(pip: BasePipView){
+		activeInputPip = pip
+		
+		if activeOutputPip != nil{
+			//Make connection
+			
+			activeOutputPip = nil
+			activeInputPip = nil
+		}
 	}
 }
 
