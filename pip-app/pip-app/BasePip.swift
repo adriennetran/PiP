@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Peter Slattery. All rights reserved.
 //
 
+enum PipType{
+	case Text, Color, Button, Switch
+}
+
 class BasePip {
-	
-	enum PipType{
-		case Text, Color, Button, Switch
-	}
 	
 	// Pip Type enum
     private let pipType: PipType! // let so never changes

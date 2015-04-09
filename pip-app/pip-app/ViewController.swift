@@ -13,7 +13,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	@IBOutlet var scrollView: UIScrollView!
 	
 	//Array of Pips which are currently in the workspace
-	var activePips: [BasePipView] = []
+	var activePips: [(model: BasePip, view: BasePipView)] = []
+	
 	var containerView: UIView!
 	
 	var activeOutputPip: BasePipView? = nil
@@ -42,14 +43,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 			TEST PIPS
 		   ------------ */
 		
-		var testSwitchPip = SwitchPipView(point: CGPointMake(75, 75), vC: self)
-		var testTextPip = TextPipView(point: CGPointMake(100, 100), vC: self)
-		
-		containerView.addSubview(testSwitchPip)
-		containerView.addSubview(testTextPip)
-		
-		activePips.append(testSwitchPip)
-		activePips.append(testTextPip)
+		createPipOfType(PipType.Text)
+		createPipOfType(PipType.Switch)
 		
 		/* ------------------------
 			Tap Gesture Recognizer
@@ -71,6 +66,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
 		scrollView.zoomScale = 0.5
+
 	}
 
 	
@@ -78,6 +74,48 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
+	}
+	
+	// createPipOfType: PipType -> (BasePip, BasePipView)
+	// I/O: creates the model and view of the given PipType
+	//		and links them together
+	
+	func createPipOfType(pType: PipType){
+		switch pType{
+			
+		case .Text:
+			
+			// Create View and Model
+			var textModel: TextPip = TextPip()
+			var textView: TextPipView = TextPipView(point: CGPoint(x: 25, y: 25), vC: self)
+			
+			// Link view and Model
+			containerView.addSubview(textView)
+			
+			// Add Tuple to array
+			var tuple: (model: BasePip, view: BasePipView) = (model: textModel, view: textView)
+			activePips += [tuple]
+			
+		case .Color:
+			
+			// Create View and Model
+			var colorModel = ColorPip()
+			var colorView = ColorPipView(point: CGPoint(x: 25, y: 25), vC: self)
+			
+			// Link view and Model
+			containerView.addSubview(colorView)
+			
+			// Add Tuple to array
+			var tuple: (model: BasePip, view: BasePipView) = (model: colorModel, view: colorView)
+			activePips += [tuple]
+			
+		default: // creates .Switch
+			
+			// Create View and Model
+			var switchView = SwitchPipView(point: CGPoint(x: 25, y: 25), vC: self)
+			
+			containerView.addSubview(switchView)
+		}
 	}
 	
 	
@@ -118,7 +156,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	func setActiveOutputPip(pip: BasePipView){
 		activeOutputPip = pip
 		
-		if activeInputPip != nil{
+		if activeInputPip != nil && activeInputPip != activeOutputPip{
 			//Make connection
 			
 			activeOutputPip = nil
@@ -135,7 +173,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	func setActiveInputPip(pip: BasePipView){
 		activeInputPip = pip
 		
-		if activeOutputPip != nil{
+		if activeOutputPip != nil && activeInputPip != activeOutputPip{
 			//Make connection
 			
 			activeOutputPip = nil
