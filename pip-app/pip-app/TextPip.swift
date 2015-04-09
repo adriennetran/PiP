@@ -17,7 +17,8 @@ class TextOutput{
     var color: UIColor!
 	
 	init(){
-		
+		text = ""
+		color = UIColor.blackColor()
 	}
 	
 	func getText() -> String{
@@ -26,6 +27,14 @@ class TextOutput{
     
     func setText(newText: String){
         text = newText
+    }
+    
+    func getColor() -> UIColor{
+        return color
+    }
+    
+    func setColor(newColor: UIColor){
+        color = newColor
     }
 }
 
@@ -46,20 +55,14 @@ class TextPip: BasePip {
 		output.setText(newVal)
     }
     
-    // getOutput loops through the array of inputPips and processes each, storing the information in output
-    
-    // Input: Array of input pips
-    
+	// getOutput: nil -> TextOutput
+	// I/O: updates the output field of the object
+	
     func getOutput() -> TextOutput{
-        // format
-        
-        // Takes in the last input
-        // color -> text
-        // Output is always of same type of Pip
         
         for item in inputPipIDs{
 			
-			let inPip = viewController.getPipByID(item).model
+			let inPip = _mainPipDirectory.getPipByID(item).model
 			
             switch inPip.getPipType(){
 
@@ -70,24 +73,25 @@ class TextPip: BasePip {
 					let newString = output.getText() + castItem.getOutput().getText()
 					output.setText(newString)
 				}
-                return output
 				
-//            case .Color:
-//				let castItem: ColorPip! = item as? ColorPip
-//				
-//				if castItem != nil{
-//					output.color = castItem.getOutput().getColor() // color of item.color
-//				}
+			case .Color:
+				let castItem: ColorPip! = inPip as? ColorPip
+				
+				if castItem != nil {
+					let setColor = castItem.output.color
+					println(setColor)
+					output.setColor(setColor)
+				}
 			default: // Switch Pip
 				let castItem: SwitchPip! = inPip as? SwitchPip
 				
 				if castItem != nil {
 					output.setText("\(castItem.getOutput())")
 				}
-                return output
             }
             
         }
+		
         return output
         
     }

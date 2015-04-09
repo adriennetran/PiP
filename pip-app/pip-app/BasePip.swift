@@ -52,10 +52,25 @@ class BasePip {
 	// ---------------
 	
 	func setInput(inputPipID: Int){
-		self.inputPipIDs.append(inputPipID)
+		if !contains(inputPipIDs, inputPipID){
+			self.inputPipIDs.append(inputPipID)
+		}
     }
 	
 	func setOutput(outputPipID: Int){
-		self.outputPipIDs.append(outputPipID)
+		if !contains(outputPipIDs, outputPipID){
+			self.outputPipIDs.append(outputPipID)
+		}
+	}
+	
+	func modelDidChange(){
+		_mainPipDirectory.getPipByID(pipID).view.updateView()
+	}
+	
+	func updateReliantPips(){
+		
+		for pID in outputPipIDs {
+			_mainPipDirectory.updatePip(pID)
+		}
 	}
 }

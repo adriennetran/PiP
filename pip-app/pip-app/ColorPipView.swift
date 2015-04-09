@@ -15,8 +15,6 @@ import UIKit
 
 class ColorPipView: BasePipView{
 	
-	var colorModel: ColorPip!
-	
 	//Required
 	required init(coder aDecoder: NSCoder) {
 		fatalError("coder initializer not coded")
@@ -26,20 +24,48 @@ class ColorPipView: BasePipView{
 	// I/O: takes a CGPoint, point, which is passed, along with the Pip's image
 	//		up to super.init. Initializes colorPickerView.
 	
-	init(point: CGPoint, vC: ViewController){
-		super.init(point: point, image: UIImage(named: "colorPip-image")!, vC: vC)
-	}
-	
-	
-	// setTextModel: TextPip -> nil
-	// I/O: creates connection between the model and view
-	
-	func setColorModel(basePip: ColorPip) {
-		self.colorModel = basePip
+	init(point: CGPoint, id: Int){
+		super.init(point: point, image: UIImage(named: "colorPip-image")!, id: id)
+		
+		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 80, self.frame.height)
+		
+		pipInputView.frame = CGRectMake(frame.width-40, 0, 40, frame.height)
+		pipOutputView.frame = CGRectMake(0, 0, 40, frame.height)
+		
+		var blueFrame = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
+		blueFrame.backgroundColor = UIColor.blueColor()
+		blueFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "blueTouched:"))
+		addSubview(blueFrame)
+		
+		var greenFrame = UIView(frame: CGRectMake(frame.width/2 + 30, 120, 60, 60))
+		greenFrame.backgroundColor = UIColor.greenColor()
+		greenFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "greenTouched:"))
+		addSubview(greenFrame)
+		
+		var redFrame = UIView(frame: CGRectMake(frame.width/2 - 90, 120, 60, 60))
+		redFrame.backgroundColor = UIColor.redColor()
+		redFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "redTouched:"))
+		addSubview(redFrame)
 	}
 	
 	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
 		
+	}
+	
+	// ---------------
+	//  TEMPORARY -- GET RID OF THIS SHIT... FAST!!!
+	// ---------------
+	
+	func blueTouched(recognizer: UITapGestureRecognizer){
+		(getModel() as? ColorPip)?.updateColor(UIColor.blueColor())
+	}
+	
+	func greenTouched(recognizer: UITapGestureRecognizer){
+		(getModel() as? ColorPip)?.updateColor(UIColor.greenColor())
+	}
+	
+	func redTouched(recognizer: UITapGestureRecognizer){
+		(getModel() as? ColorPip)?.updateColor(UIColor.redColor())
 	}
 	
 	// ---------------
@@ -48,7 +74,7 @@ class ColorPipView: BasePipView{
 	
 	// OVERRIDE
 	override func getModel() -> BasePip {
-		return colorModel
+		return _mainPipDirectory.getPipByID(pipId).model
 	}
 	
 	

@@ -13,8 +13,6 @@ class TextPipView: BasePipView {
 	
 	var textField: UITextField!
 	
-	var textModel: TextPip!
-	
 	//Required
 	required init(coder aDecoder: NSCoder) {
 		fatalError("coder initializer not coded")
@@ -26,8 +24,8 @@ class TextPipView: BasePipView {
 	//		sets the image of the node, and initializes the textField used for
 	//		entry to the model
 	
-	init (point: CGPoint, vC: ViewController) {
-		super.init(point: point, image: UIImage(named: "textPip-image")!, vC: vC)
+	init (point: CGPoint, id: Int) {
+		super.init(point: point, image: UIImage(named: "textPip-image")!, id: id)
 		
 		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 80, self.frame.height)
 		
@@ -35,6 +33,8 @@ class TextPipView: BasePipView {
 		textField.borderStyle = UITextBorderStyle.RoundedRect
 		textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
 		textField.font = UIFont(name: textField.font!.fontName, size: 24)
+		textField.backgroundColor = UIColor.whiteColor()
+		textField.textColor = UIColor.blackColor()
 		self.addSubview(textField)
 		
 		pipInputView.frame = CGRectMake(frame.width-40, 0, 40, frame.height)
@@ -47,30 +47,25 @@ class TextPipView: BasePipView {
 	
 	// OVERRIDE
 	override func getModel() -> BasePip {
-		return textModel
+		return _mainPipDirectory.getPipByID(pipId).model
 	}
 	
 	// ---------------
 	//  Accessors
 	// ---------------
 	
-	// setTextModel: TextPip -> nil
-	// I/O: creates connection between the model and view
-	
-	func setTextModel(basePip: TextPip) {
-		self.textModel = basePip
-	}
-	
 	// textFieldDidChage: UITextField -> nil
 	// I/O: takes in a UITextField, field, whose content has just changed.
 	// Note: Use this to pass the content of field to the model
 	
 	func textFieldDidChange(field: UITextField) {
-		textModel.updateText(field.text)
+		(getModel() as? TextPip)?.updateText(field.text)
 	}
 	
-	override func updatePip() {
-		textField.text = textModel.getOutput().text
-		println(textModel.getOutput())
+	override func updateView() {
+		let output = (getModel() as? TextPip)?.getOutput()
+		textField.text = output?.text
+		textField.textColor = output?.color
+		println("update view: \(textField.textColor)")
 	}
 }

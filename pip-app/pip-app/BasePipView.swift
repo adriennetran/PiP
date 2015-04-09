@@ -11,9 +11,7 @@ import UIKit
 
 class BasePipView: UIImageView {
 	
-	//References
-	var viewController: ViewController!
-	private let base: BasePip!
+	var pipId: Int!
 	
 	var pipImage: UIImage!
 	
@@ -32,10 +30,10 @@ class BasePipView: UIImageView {
 	// init: CGRect -> ? (it technically doesn't return a BasePipView
 	// I/O: takes in a CGRect, frame, which represents the bounds and position of the view
 	
-	init(frame: CGRect, vC: ViewController) {
+	init(frame: CGRect, id: Int) {
 		super.init(frame: frame)
 		
-		viewController = vC
+		pipId = id
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
 		addGestureRecognizer(panRecognizer)
@@ -59,16 +57,18 @@ class BasePipView: UIImageView {
 	// I/O: takes in a CGPoint, point, and an UIImage, image, which are used to define
 	//		the bounds of the view
 	
-	init(point: CGPoint, image: UIImage, vC: ViewController) {
+	init(point: CGPoint, image: UIImage, id: Int) {
 		super.init(frame: CGRectMake(point.x, point.y, image.size.width, image.size.height))
 		
-		viewController = vC
+		pipId = id
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
 		addGestureRecognizer(panRecognizer)
 		
 		pipImage = image
+		self.contentMode = UIViewContentMode.ScaleAspectFit
 		self.image = pipImage
+		
 		
 		self.userInteractionEnabled = true;
 		
@@ -106,7 +106,7 @@ class BasePipView: UIImageView {
 	//		takes in recognizer and calls setActiveInputPip in viewController
 	
 	func inputViewTapped(recognizer: UITapGestureRecognizer!){
-		viewController.setActiveInputPip(self)
+		_mainPipDirectory.setActiveInputPip(pipId)
 	}
 	
 	
@@ -115,7 +115,7 @@ class BasePipView: UIImageView {
 	//		takes in recognizer and calls setActiveOutputPip in viewController
 	
 	func outputViewTapped(recongizer: UITapGestureRecognizer!){
-		viewController.setActiveOutputPip(self)
+		_mainPipDirectory.setActiveOutputPip(pipId)
 	}
 	
 	
@@ -132,10 +132,9 @@ class BasePipView: UIImageView {
 	// ---------------
 	//  Accessors
 	// ---------------
-	
-	// OVERRIDE
+
 	func getModel() -> BasePip{
-		return base
+		return _mainPipDirectory.getPipByID(pipId!).model
 	}
 	
 	// ---------------
@@ -153,8 +152,7 @@ class BasePipView: UIImageView {
 	// updatePip: nil -> nil
 	// I/O: called when the model of a pip changes
 	
-	func updatePip(){
-		
+	func updateView(){
 	}
 	
 }

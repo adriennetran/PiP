@@ -10,17 +10,19 @@ import Foundation
 
 class SwitchPip: BasePip {
 	
-	private var output = false
+	private var output = true
 	
 	init(vc: ViewController, id: Int){
 		super.init(vc: vc, pipType: .Switch, id: id)
 	}
 	
-	func switchStateChange(){
+	func switchStateChange() -> Bool{
 		output = !output
+		updateReliantPips()
+		return output
 	}
 	
-	func getOutput() -> Bool {
+	func getOutput() -> Bool{
 		return output
 	}
 	

@@ -12,21 +12,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	
 	@IBOutlet var scrollView: UIScrollView!
 	
-	//Array of Pips which are currently in the workspace
-	var activePips: [(model: BasePip, view: BasePipView)] = []
-	var pipDirectory: [Int: (model: BasePip, view: BasePipView)]!
-	
-	var lastPipID: Int = 0
-	
 	var containerView: UIView!
-	
-	var activeOutputPipID: Int? = nil
-	var activeInputPipID: Int? = nil
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
+		_mainPipDirectory.registerViewController(self)
 		
 		/* -------------------
 			Scroll View Setup
@@ -40,20 +32,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		containerView.addSubview(backgroundView)
 		
 		scrollView.contentSize = containerView.bounds.size
-		
-		
-		/* ----------------------
-			PIP DATA STRUCTURES
-		   ---------------------- */
-		
-		pipDirectory = [:]
-		
-		/* ------------
-			TEST PIPS
-		   ------------ */
-		
-		createPipOfType(PipType.Text)
-		createPipOfType(PipType.Switch)
 		
 		/* ------------------------
 			Tap Gesture Recognizer
@@ -75,6 +53,14 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
 		scrollView.zoomScale = 0.5
+		
+		/* -------------------
+			Scroll View Setup
+		   ------------------- */
+		
+		_mainPipDirectory.createPipOfType(PipType.Switch)
+		_mainPipDirectory.createPipOfType(PipType.Text)
+		_mainPipDirectory.createPipOfType(PipType.Color)
 	}
 
 	
@@ -83,60 +69,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-	
-	// createPipOfType: PipType -> (BasePip, BasePipView)
-	// I/O: creates the model and view of the given PipType
-	//		and links them together
-	
-	func createPipOfType(pType: PipType){
-		switch pType{
-			
-		case .Text:
-			
-			// Create View and Model
-			var textModel: TextPip = TextPip(vc: self, id: lastPipID)
-			var textView: TextPipView = TextPipView(point: CGPoint(x: 25, y: 25), vC: self)
-			
-			// Link view and Model
-			containerView.addSubview(textView)
-			textView.setTextModel(textModel)
-			
-			// Add Tuple to array
-			var tuple: (model: BasePip, view: BasePipView) = (model: textModel, view: textView)
-			pipDirectory[lastPipID] = tuple
-			
-		case .Color:
-			
-			// Create View and Model
-			var colorModel = ColorPip(vc: self, id: ++lastPipID)
-			var colorView = ColorPipView(point: CGPoint(x: 25, y: 25), vC: self)
-			
-			// Link view and Model
-			containerView.addSubview(colorView)
-			colorView.setColorModel(colorModel)
-			
-			// Add Tuple to array
-			var tuple: (model: BasePip, view: BasePipView) = (model: colorModel, view: colorView)
-			pipDirectory[lastPipID] = tuple
-			
-		default: // creates .Switch
-			
-			// Create View and Model
-			var switchModel = SwitchPip(vc: self, id: lastPipID)
-			var switchView = SwitchPipView(point: CGPoint(x: 25, y: 25), vC: self)
-			
-			// Link view and Model
-			containerView.addSubview(switchView)
-			switchView.setSwitchModel(switchModel)
-			
-			// Add Tuple to Array
-			var tuple: (model: BasePip, view: BasePipView) = (model: switchModel, view: switchView)
-			pipDirectory[lastPipID] = tuple
-		}
-		
-		lastPipID++
-	}
-	
 	
 	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
 	// I/O: called when the background is double tapped
@@ -166,70 +98,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		return
 	}
 	
-	
-	// getPipByID: Int -> (BasePip, BasePipView)
-	// I/O: given an ID, returns the tuple representing the pip
-	
-	func getPipByID(id: Int) -> (model: BasePip, view: BasePipView){
-		return pipDirectory[id]!
-	}
-	
-	
-	// setActiveOutputPip: BasePipView -> nil
-	// I/O: called when a BasePipView object's pipOutputView is tapped
-	//		sets activeOutputPip, and, if activeInputPip has a value
-	//		conects the two nodes
-	
-	func setActiveOutputPip(pip: BasePipView){
-		activeOutputPipID = pip.getModel().getPipID()
-		println("1")
-		
-		if activeInputPipID != nil && activeInputPipID != activeOutputPipID{
-			
-			let out: (model: BasePip, view: BasePipView) = pipDirectory[activeOutputPipID!]!
-			let input: (model: BasePip, view: BasePipView) = pipDirectory[activeInputPipID!]!
-			
-			out.model.setOutput(activeInputPipID!)
-			input.model.setInput(activeOutputPipID!)
-			
-			pipDirectory[activeOutputPipID!]! = out
-			pipDirectory[activeInputPipID!]! = input
-			
-			activeOutputPipID = nil
-			activeInputPipID = nil
-			
-			input.view.updatePip()
-			println("!");
-		}
-	}
-	
-	
-	// setActiveOutputPip: BasePipView -> nil
-	// I/O: called when a BasePipView object's pipInputView is tapped
-	//		sets activeInputPip, and, if activeOutputPip has a value
-	//		conects the two nodes
-	
-	func setActiveInputPip(pip: BasePipView){
-		activeInputPipID = pip.getModel().getPipID()
-		println("2")
-		if activeOutputPipID != nil && activeInputPipID != activeOutputPipID{
-			
-			let out: (model: BasePip, view: BasePipView) = pipDirectory[activeOutputPipID!]!
-			let input: (model: BasePip, view: BasePipView) = pipDirectory[activeInputPipID!]!
-			
-			out.model.setOutput(activeInputPipID!)
-			input.model.setInput(activeOutputPipID!)
-			
-			pipDirectory[activeOutputPipID!]! = out
-			pipDirectory[activeInputPipID!]! = input
-			
-			activeOutputPipID = nil
-			activeInputPipID = nil
-			
-			input.view.updatePip()
-			
-			println("@")
-		}
+	func addPipView(pipView: BasePipView) {
+		containerView.addSubview(pipView)
 	}
 }
 
