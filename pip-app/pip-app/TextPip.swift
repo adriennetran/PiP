@@ -31,6 +31,14 @@ class TextOutput{
     func setText(newText: String){
         text = newText
     }
+    
+    func getColor() -> UIColor{
+        return color
+    }
+    
+    func setColor(newColor: UIColor){
+        color = newColor
+    }
 }
 
 class TextPip: BasePip {
