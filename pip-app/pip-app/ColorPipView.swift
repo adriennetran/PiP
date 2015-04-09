@@ -15,9 +15,7 @@ import UIKit
 
 class ColorPipView: BasePipView{
 	
-	var colorPickerView: ColorPickerView!
-	
-	
+	var colorModel: ColorPip!
 	
 	//Required
 	required init(coder aDecoder: NSCoder) {
@@ -30,17 +28,27 @@ class ColorPipView: BasePipView{
 	
 	init(point: CGPoint, vC: ViewController){
 		super.init(point: point, image: UIImage(named: "colorPip-image")!, vC: vC)
-		
-		colorPickerView = ColorPickerView(point: CGPoint(x: 0, y: 0), parentView: self)
-		self.addSubview(colorPickerView)
 	}
 	
 	
+	// setTextModel: TextPip -> nil
+	// I/O: creates connection between the model and view
+	
+	func setColorModel(basePip: ColorPip) {
+		self.colorModel = basePip
+	}
 	
 	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-		let newColor: UIColor = getPixelColor(colorPickerView.center)
-		colorPickerView.backgroundColor = newColor
-		println("!")
+		
+	}
+	
+	// ---------------
+	//  Accessors
+	// ---------------
+	
+	// OVERRIDE
+	override func getModel() -> BasePip {
+		return colorModel
 	}
 	
 	
@@ -64,66 +72,4 @@ class ColorPipView: BasePipView{
 		return UIColor(red: r, green: g, blue: b, alpha: a)
 	}
 
-}
-
-// ---------------------
-// ColorPickerView
-// ---------------------
-
-class ColorPickerView: UIImageView{
-	
-	//Constants
-	let centerLocation: CGPoint = CGPoint(x: 0, y: 0)
-	let maxDistFromCenter: Float = 50.0
-	
-	//Used to create new location on detectPan
-	var lastLocation: CGPoint = CGPoint(x: 0, y: 0)
-	
-	var parentView: UIImageView!
-	
-	
-	// init: CGPoint -> ?
-	// I/O: Takes in a CGPoint, point, which represents the center of the view
-	//		Sets the view image, backgroundColor, and panRecognizer
-	
-	init(point: CGPoint, parentView: UIImageView){
-		super.init(frame: CGRectMake(point.x, point.y, 93/2, 93/2))
-		self.image = UIImage(named: "colorPip-picker")
-		self.backgroundColor = UIColor.greenColor()
-		
-		self.parentView = parentView
-		
-		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
-		addGestureRecognizer(panRecognizer)
-		
-		self.userInteractionEnabled = true
-	}
-
-	//Required
-	required init(coder aDecoder: NSCoder) {
-	    fatalError("init(coder:) has not been implemented")
-	}
-	
-	
-	// detectPan: UIPanGestureRecognizer -> nil
-	// I/O: moves the view when recognizer detects a pan gesture
-	
-	func detectPan(recognizer: UIPanGestureRecognizer!){
-		var translation = recognizer.translationInView(self.superview!)
-		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
-	}
-	
-	
-	// touchesBegan: NSSet, UIEvent -> nil
-	// I/O: resets lastLocation to self.center
-	
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-		self.superview?.bringSubviewToFront(self)
-		lastLocation = self.center
-	}
-	
-	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-		println("2")
-		self.superview?.touchesEnded(touches, withEvent: event)
-	}
 }

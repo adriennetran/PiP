@@ -14,11 +14,14 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	
 	//Array of Pips which are currently in the workspace
 	var activePips: [(model: BasePip, view: BasePipView)] = []
+	var pipDirectory: [Int: (model: BasePip, view: BasePipView)]!
+	
+	var lastPipID: Int = 0
 	
 	var containerView: UIView!
 	
-	var activeOutputPip: BasePipView? = nil
-	var activeInputPip: BasePipView? = nil
+	var activeOutputPipID: Int? = nil
+	var activeInputPipID: Int? = nil
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -38,6 +41,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		
 		scrollView.contentSize = containerView.bounds.size
 		
+		
+		/* ----------------------
+			PIP DATA STRUCTURES
+		   ---------------------- */
+		
+		pipDirectory = [:]
 		
 		/* ------------
 			TEST PIPS
@@ -66,7 +75,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
 		scrollView.zoomScale = 0.5
-
 	}
 
 	
@@ -86,36 +94,47 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		case .Text:
 			
 			// Create View and Model
-			var textModel: TextPip = TextPip()
+			var textModel: TextPip = TextPip(vc: self, id: lastPipID)
 			var textView: TextPipView = TextPipView(point: CGPoint(x: 25, y: 25), vC: self)
 			
 			// Link view and Model
 			containerView.addSubview(textView)
+			textView.setTextModel(textModel)
 			
 			// Add Tuple to array
 			var tuple: (model: BasePip, view: BasePipView) = (model: textModel, view: textView)
-			activePips += [tuple]
+			pipDirectory[lastPipID] = tuple
 			
 		case .Color:
 			
 			// Create View and Model
-			var colorModel = ColorPip()
+			var colorModel = ColorPip(vc: self, id: ++lastPipID)
 			var colorView = ColorPipView(point: CGPoint(x: 25, y: 25), vC: self)
 			
 			// Link view and Model
 			containerView.addSubview(colorView)
+			colorView.setColorModel(colorModel)
 			
 			// Add Tuple to array
 			var tuple: (model: BasePip, view: BasePipView) = (model: colorModel, view: colorView)
-			activePips += [tuple]
+			pipDirectory[lastPipID] = tuple
 			
 		default: // creates .Switch
 			
 			// Create View and Model
+			var switchModel = SwitchPip(vc: self, id: lastPipID)
 			var switchView = SwitchPipView(point: CGPoint(x: 25, y: 25), vC: self)
 			
+			// Link view and Model
 			containerView.addSubview(switchView)
+			switchView.setSwitchModel(switchModel)
+			
+			// Add Tuple to Array
+			var tuple: (model: BasePip, view: BasePipView) = (model: switchModel, view: switchView)
+			pipDirectory[lastPipID] = tuple
 		}
+		
+		lastPipID++
 	}
 	
 	
@@ -148,19 +167,39 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	}
 	
 	
+	// getPipByID: Int -> (BasePip, BasePipView)
+	// I/O: given an ID, returns the tuple representing the pip
+	
+	func getPipByID(id: Int) -> (model: BasePip, view: BasePipView){
+		return pipDirectory[id]!
+	}
+	
+	
 	// setActiveOutputPip: BasePipView -> nil
 	// I/O: called when a BasePipView object's pipOutputView is tapped
 	//		sets activeOutputPip, and, if activeInputPip has a value
 	//		conects the two nodes
 	
 	func setActiveOutputPip(pip: BasePipView){
-		activeOutputPip = pip
+		activeOutputPipID = pip.getModel().getPipID()
+		println("1")
 		
-		if activeInputPip != nil && activeInputPip != activeOutputPip{
-			//Make connection
+		if activeInputPipID != nil && activeInputPipID != activeOutputPipID{
 			
-			activeOutputPip = nil
-			activeInputPip = nil
+			let out: (model: BasePip, view: BasePipView) = pipDirectory[activeOutputPipID!]!
+			let input: (model: BasePip, view: BasePipView) = pipDirectory[activeInputPipID!]!
+			
+			out.model.setOutput(activeInputPipID!)
+			input.model.setInput(activeOutputPipID!)
+			
+			pipDirectory[activeOutputPipID!]! = out
+			pipDirectory[activeInputPipID!]! = input
+			
+			activeOutputPipID = nil
+			activeInputPipID = nil
+			
+			input.view.updatePip()
+			println("!");
 		}
 	}
 	
@@ -171,13 +210,25 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	//		conects the two nodes
 	
 	func setActiveInputPip(pip: BasePipView){
-		activeInputPip = pip
-		
-		if activeOutputPip != nil && activeInputPip != activeOutputPip{
-			//Make connection
+		activeInputPipID = pip.getModel().getPipID()
+		println("2")
+		if activeOutputPipID != nil && activeInputPipID != activeOutputPipID{
 			
-			activeOutputPip = nil
-			activeInputPip = nil
+			let out: (model: BasePip, view: BasePipView) = pipDirectory[activeOutputPipID!]!
+			let input: (model: BasePip, view: BasePipView) = pipDirectory[activeInputPipID!]!
+			
+			out.model.setOutput(activeInputPipID!)
+			input.model.setInput(activeOutputPipID!)
+			
+			pipDirectory[activeOutputPipID!]! = out
+			pipDirectory[activeInputPipID!]! = input
+			
+			activeOutputPipID = nil
+			activeInputPipID = nil
+			
+			input.view.updatePip()
+			
+			println("@")
 		}
 	}
 }

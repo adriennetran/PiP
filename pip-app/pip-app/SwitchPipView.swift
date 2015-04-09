@@ -13,6 +13,8 @@ class SwitchPipView: BasePipView{
 	
 	let stateImages: [UIImage] = [UIImage(named: "switchPipOn-image")!, UIImage(named: "switchPipOff-image")!]
 	
+	var switchModel: SwitchPip!
+	
 	//Required
 	required init(coder aDecoder: NSCoder) {
 		fatalError("coder initializer not coded")
@@ -26,6 +28,24 @@ class SwitchPipView: BasePipView{
 	
 	init(point: CGPoint, vC: ViewController) {
 		super.init(point: point, image: stateImages[0], vC: vC)
+	}
+	
+	// ---------------
+	//  Accessors
+	// ---------------
+	
+	// OVERRIDE
+	override func getModel() -> BasePip {
+		return switchModel
+	}
+	
+	
+	
+	// setTextModel: TextPip -> nil
+	// I/O: creates connection between the model and view
+	
+	func setSwitchModel(basePip: SwitchPip) {
+		self.switchModel = basePip
 	}
 	
 	
@@ -43,10 +63,12 @@ class SwitchPipView: BasePipView{
 	// TODO: get state from model. Don't assume
 	
 	func buttonPressed() {
-		if self.image? == stateImages[0]{
-			self.image = stateImages[1]
+		switchModel.switchStateChange()
+		
+		if switchModel.getOutput(){
+			self.image? = stateImages[0]
 		}else{
-			self.image = stateImages[0]
+			self.image? = stateImages[1]
 		}
 	}
 	

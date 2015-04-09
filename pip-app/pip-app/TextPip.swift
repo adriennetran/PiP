@@ -15,10 +15,6 @@ class TextOutput{
     // if there aren't data types that combine the two
     var text: String!
     var color: UIColor!
-    
-    // not included: sound
-    
-    var myswitch: Int?
 	
 	init(){
 		
@@ -39,14 +35,15 @@ class TextPip: BasePip {
     var output: TextOutput!
     
     // TextPip's constructor
-    init(){
-		super.init(pipType: PipType.Text)
+	init(vc: ViewController, id: Int){
+		super.init(vc: vc, pipType: PipType.Text, id: id)
+		
+		output = TextOutput()
     }
 
     
     func updateText(newVal: String){
-        output.setText(newVal)
-        
+		output.setText(newVal)
     }
     
     // getOutput loops through the array of inputPips and processes each, storing the information in output
@@ -60,15 +57,18 @@ class TextPip: BasePip {
         // color -> text
         // Output is always of same type of Pip
         
-        for item in inputPips{
-            
-            switch item.getPipType(){
+        for item in inputPipIDs{
+			
+			let inPip = viewController.getPipByID(item).model
+			
+            switch inPip.getPipType(){
 
 			case .Text:
-				let castItem: TextPip! = item as? TextPip
+				let castItem: TextPip! = inPip as? TextPip
 				
 				if castItem != nil {
-					output.text = castItem.getOutput().getText()
+					let newString = output.getText() + castItem.getOutput().getText()
+					output.setText(newString)
 				}
                 return output
 				
@@ -78,7 +78,12 @@ class TextPip: BasePip {
 //				if castItem != nil{
 //					output.color = castItem.getOutput().getColor() // color of item.color
 //				}
-            default:
+			default: // Switch Pip
+				let castItem: SwitchPip! = inPip as? SwitchPip
+				
+				if castItem != nil {
+					output.setText("\(castItem.getOutput())")
+				}
                 return output
             }
             

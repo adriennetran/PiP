@@ -11,9 +11,9 @@ import UIKit
 
 class BasePipView: UIImageView {
 	
-	//Reference to ViewController
+	//References
 	var viewController: ViewController!
-	
+	private let base: BasePip!
 	
 	var pipImage: UIImage!
 	
@@ -89,14 +89,6 @@ class BasePipView: UIImageView {
 		
 	}
 	
-	// setPipViewImage: UIImage -> nil
-	// I/O: takes an UIImage, image, and sets pipImage to this value
-	
-	func setPipViewImage(image: UIImage){
-		pipImage = image
-		self.image = pipImage
-	}
-	
 	
 	// detectPan: UIPanGestureRecognizer -> nil
 	// I/O: takes in recognizer and computes the distance the user has panned
@@ -137,7 +129,32 @@ class BasePipView: UIImageView {
 		lastLocation = self.center
 	}
 	
+	// ---------------
+	//  Accessors
+	// ---------------
 	
+	// OVERRIDE
+	func getModel() -> BasePip{
+		return base
+	}
 	
+	// ---------------
+	//  Mutators
+	// ---------------
+	
+	// setPipViewImage: UIImage -> nil
+	// I/O: takes an UIImage, image, and sets pipImage to this value
+	
+	func setPipViewImage(image: UIImage){
+		pipImage = image
+		self.image = pipImage
+	}
+	
+	// updatePip: nil -> nil
+	// I/O: called when the model of a pip changes
+	
+	func updatePip(){
+		
+	}
 	
 }

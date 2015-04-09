@@ -12,15 +12,29 @@ enum PipType{
 
 class BasePip {
 	
+	// Reference
+	var viewController: ViewController!
+	
 	// Pip Type enum
     private let pipType: PipType! // let so never changes
-    
-    // Input Pips represented as an array of type pip
-	var inputPips: [BasePip]!
+	private let pipID: Int
 	
-	init(pipType: PipType){
+    // Input Pips represented as an array of type pip
+	var inputPipIDs: [Int]!
+	var outputPipIDs: [Int]!
+	
+	init(vc: ViewController, pipType: PipType, id: Int){
 		self.pipType = pipType
+		self.pipID = id
+		
+		inputPipIDs = []
+		outputPipIDs = []
+		
 	}
+	
+	// ---------------
+	//    Accessors
+	// ---------------
 	
 	// getPipType: nil -> PipType
 	// I/O: accessor for pipType
@@ -28,10 +42,20 @@ class BasePip {
 	func getPipType() -> PipType{
 		return pipType
 	}
-    
-	// getPipType
 	
-    func setInput(inputPip: BasePip){
-		inputPips.append(inputPip)
+	func getPipID() -> Int{
+		return pipID
+	}
+    
+	// ---------------
+	//    Mutators
+	// ---------------
+	
+	func setInput(inputPipID: Int){
+		self.inputPipIDs.append(inputPipID)
     }
+	
+	func setOutput(outputPipID: Int){
+		self.outputPipIDs.append(outputPipID)
+	}
 }

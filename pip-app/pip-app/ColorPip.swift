@@ -18,8 +18,8 @@ class ColorOutput{
 
 class ColorPip: BasePip{
     
-    init(){
-        super.init(pipType: PipType.Color)
+	init(vc: ViewController, id: Int){
+		super.init(vc: vc, pipType: PipType.Color, id: id)
         
     }
     
