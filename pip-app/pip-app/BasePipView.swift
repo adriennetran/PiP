@@ -88,6 +88,10 @@ class BasePipView: UIImageView {
 		addSubview(pipOutputView)
 		
 	}
+    
+    func changeInputViewColorOrange(){
+        self.pipInputView.backgroundColor = UIColor(red: (253.0/255.0), green: (159.0/255.0), blue: (47.0/255.0), alpha: 1.0);
+    }
 	
 	
 	// detectPan: UIPanGestureRecognizer -> nil
@@ -107,6 +111,7 @@ class BasePipView: UIImageView {
 	
 	func inputViewTapped(recognizer: UITapGestureRecognizer!){
 		_mainPipDirectory.setActiveInputPip(pipId)
+        changeInputViewColorOrange()
 	}
 	
 	
@@ -124,10 +129,10 @@ class BasePipView: UIImageView {
 	//		tells the superview to bring this view to the front, and update
 	//		lastLocation's value
 	
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-		self.superview?.bringSubviewToFront(self)
-		lastLocation = self.center
-	}
+//	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+//		self.superview?.bringSubviewToFront(self)
+//		lastLocation = self.center
+//	}
 	
 	// ---------------
 	//  Accessors
