@@ -12,8 +12,8 @@ class SwitchPip: BasePip {
 	
 	private var output = true
 	
-	init(vc: ViewController, id: Int){
-		super.init(vc: vc, pipType: .Switch, id: id)
+	init(id: Int){
+		super.init(pipType: .Switch, id: id)
 	}
 	
 	func switchStateChange() -> Bool{

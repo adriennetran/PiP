@@ -30,8 +30,8 @@ class ColorPip: BasePip{
 	
 	var output: ColorOutput!
 	
-	init(vc: ViewController, id: Int){
-		super.init(vc: vc, pipType: PipType.Color, id: id)
+	init(id: Int){
+		super.init(pipType: PipType.Color, id: id)
 		
 		output = ColorOutput()
 		

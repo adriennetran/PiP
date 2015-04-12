@@ -12,9 +12,6 @@ enum PipType{
 
 class BasePip {
 	
-	// Reference
-	var viewController: ViewController!
-	
 	// Pip Type enum
     private let pipType: PipType! // let so never changes
 	private let pipID: Int
@@ -23,7 +20,7 @@ class BasePip {
 	var inputPipIDs: [Int]!
 	var outputPipIDs: [Int]!
 	
-	init(vc: ViewController, pipType: PipType, id: Int){
+	init(pipType: PipType, id: Int){
 		self.pipType = pipType
 		self.pipID = id
 		

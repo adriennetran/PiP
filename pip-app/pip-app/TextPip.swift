@@ -44,8 +44,8 @@ class TextPip: BasePip {
     var output: TextOutput!
     
     // TextPip's constructor
-	init(vc: ViewController, id: Int){
-		super.init(vc: vc, pipType: PipType.Text, id: id)
+	init(id: Int){
+		super.init(pipType: PipType.Text, id: id)
 		
 		output = TextOutput()
     }

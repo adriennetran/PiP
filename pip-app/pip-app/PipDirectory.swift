@@ -45,7 +45,7 @@ class PipDirectory{
 		case .Text:
 			
 			// Create View and Model
-			var textModel: TextPip = TextPip(vc: viewController!, id: lastPipID)
+			var textModel: TextPip = TextPip(id: lastPipID)
 			var textView: TextPipView = TextPipView(point: CGPoint(x: 25, y: 25), id: lastPipID)
 			
 			// Link view and Model
@@ -58,7 +58,7 @@ class PipDirectory{
 		case .Color:
 			
 			// Create View and Model
-			var colorModel = ColorPip(vc: viewController!, id: ++lastPipID)
+			var colorModel = ColorPip(id: ++lastPipID)
 			var colorView = ColorPipView(point: CGPoint(x: 25, y: 25), id: lastPipID)
 			
 			// Link view and Model
@@ -71,7 +71,7 @@ class PipDirectory{
 		default: // creates .Switch
 			
 			// Create View and Model
-			var switchModel = SwitchPip(vc: viewController!, id: lastPipID)
+			var switchModel = SwitchPip(id: lastPipID)
 			var switchView = SwitchPipView(point: CGPoint(x: 25, y: 25), id: lastPipID)
 			
 			// Link view and Model

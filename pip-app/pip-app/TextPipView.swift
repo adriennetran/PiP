@@ -27,7 +27,7 @@ class TextPipView: BasePipView {
 	init (point: CGPoint, id: Int) {
 		super.init(point: point, image: UIImage(named: "textPip-image")!, id: id)
 		
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 80, self.frame.height)
+		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
 		
 		textField = UITextField(frame: CGRectMake(75, 75, 315, 45))
 		textField.borderStyle = UITextBorderStyle.RoundedRect
@@ -37,8 +37,8 @@ class TextPipView: BasePipView {
 		textField.textColor = UIColor.blackColor()
 		self.addSubview(textField)
 		
-		pipInputView.frame = CGRectMake(frame.width-40, 0, 40, frame.height)
-		pipOutputView.frame = CGRectMake(0, 0, 40, frame.height)
+		pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
+		pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
 	}
 	
 	// ---------------
