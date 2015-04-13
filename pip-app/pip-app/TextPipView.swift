@@ -60,12 +60,16 @@ class TextPipView: BasePipView {
 	
 	func textFieldDidChange(field: UITextField) {
 		(getModel() as? TextPip)?.updateText(field.text)
+		(getModel() as? TextPip)?.updateReliantPips()
 	}
+	
+	// updateView: nil -> nil
+	// I/O: updates the model and forces the view to reflect it
 	
 	override func updateView() {
 		let output = (getModel() as? TextPip)?.getOutput()
 		textField.text = output?.text
 		textField.textColor = output?.color
-		println("update view: \(textField.textColor)")
+		(getModel() as? TextPip)?.updateReliantPips()
 	}
 }

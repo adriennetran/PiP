@@ -58,7 +58,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 			Scroll View Setup
 		   ------------------- */
 		
-		_mainPipDirectory.createPipOfType(PipType.Switch)
+		_mainPipDirectory.createPipOfType(PipType.Text)
 		_mainPipDirectory.createPipOfType(PipType.Text)
 		_mainPipDirectory.createPipOfType(PipType.Color)
 	}

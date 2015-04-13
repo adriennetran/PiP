@@ -108,7 +108,6 @@ class PipDirectory{
 	
 	func setActiveOutputPip(pipID: Int){
 		activeOutputPipID = pipID
-		println("1")
 		
 		if activeInputPipID != nil && activeInputPipID != activeOutputPipID{
 			
@@ -125,7 +124,6 @@ class PipDirectory{
 			activeInputPipID = nil
 			
 			input.view.updateView()
-			println("!");
 		}
 	}
 	
@@ -137,7 +135,7 @@ class PipDirectory{
 	
 	func setActiveInputPip(pipID: Int){
 		activeInputPipID = pipID
-		println("2")
+		
 		if activeOutputPipID != nil && activeInputPipID != activeOutputPipID{
 			
 			let out: (model: BasePip, view: BasePipView) = pipDirectory[activeOutputPipID!]!
@@ -153,8 +151,6 @@ class PipDirectory{
 			activeInputPipID = nil
 			
 			input.view.updateView()
-			
-			println("@")
 		}
 	}
 	
@@ -171,6 +167,18 @@ class PipDirectory{
 	//		forces a Pip to check its inputs and change accordingly
 	
 	func updatePip(pID: Int){
+		let type = getPipByID(pID).model.getPipType()
+		switch type{
+			//case .Button:
+			
+		case .Color:
+			(getPipByID(pID).model as? ColorPip)?.getOutput()
+		case .Text:
+			(getPipByID(pID).model as? TextPip)?.getOutput()
+		default:	//defaults to switch
+			(getPipByID(pID).model as? SwitchPip)?.getOutput()
+		}
+		
 		getPipByID(pID).view.updateView()
 	}
 }

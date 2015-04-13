@@ -53,6 +53,7 @@ class TextPip: BasePip {
     
     func updateText(newVal: String){
 		output.setText(newVal)
+		updateReliantPips()
     }
     
 	// getOutput: nil -> TextOutput
@@ -78,7 +79,7 @@ class TextPip: BasePip {
 				let castItem: ColorPip! = inPip as? ColorPip
 				
 				if castItem != nil {
-					let setColor = castItem.output.color
+					let setColor = castItem.getOutput().color
 					println(setColor)
 					output.setColor(setColor)
 				}
@@ -91,7 +92,6 @@ class TextPip: BasePip {
             }
             
         }
-		
         return output
         
     }

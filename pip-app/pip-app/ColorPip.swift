@@ -30,6 +30,11 @@ class ColorPip: BasePip{
 	
 	var output: ColorOutput!
 	
+	var colorDirectory: [String: UIColor] =
+	["Red":UIColor.redColor(),
+	"Blue":UIColor.blueColor(),
+	"Green": UIColor.greenColor()]
+	
 	init(id: Int){
 		super.init(pipType: PipType.Color, id: id)
 		
@@ -52,6 +57,7 @@ class ColorPip: BasePip{
         // Takes in the last input
         // color -> text
         // Output is always of same type of Pip
+		println("!")
         
         for item in inputPipIDs{
 			
@@ -60,7 +66,17 @@ class ColorPip: BasePip{
             switch inPip.getPipType(){
                 
             case .Text:
-               
+				let castItem: TextPip! = inPip as? TextPip
+				
+				if castItem != nil{
+					
+					if let unwrappedValue = colorDirectory[castItem.getOutput().getText()]{
+						output.color = colorDirectory[castItem.getOutput().getText()]
+					}else{
+						output.color = UIColor.blackColor()
+					}
+				}
+				println(output.color)
                 return output
                 
             case .Color:
@@ -70,10 +86,11 @@ class ColorPip: BasePip{
                     output.color = castItem.getOutput().getColor() // color of item.color
                 }
             default:
-                return output
+                output.color = UIColor.blackColor()
             }
             
         }
+		
         return output
         
     }

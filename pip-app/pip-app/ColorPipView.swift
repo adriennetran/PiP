@@ -97,5 +97,12 @@ class ColorPipView: BasePipView{
 		
 		return UIColor(red: r, green: g, blue: b, alpha: a)
 	}
+	
+	// updateView: nil -> nil
+	// I/O: updates the model and forces the view to reflect it
+	
+	override func updateView() {
+		(getModel() as? ColorPip)?.updateReliantPips()
+	}
 
 }
