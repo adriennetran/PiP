@@ -80,7 +80,6 @@ class TextPip: BasePip {
 				
 				if castItem != nil {
 					let setColor = castItem.getOutput().color
-					println(setColor)
 					output.setColor(setColor)
 				}
 			default: // Switch Pip

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E21A2981ADC508C001D82DD /* GridMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E21A2971ADC508C001D82DD /* GridMenuView.swift */; };
 		5E26ACC01AD1A6F400B416C5 /* TextPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26ACBF1AD1A6F400B416C5 /* TextPipView.swift */; };
 		5E26ACC21AD1B3F900B416C5 /* ColorPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */; };
 		5E339B631AD238F400CC3E8A /* SwitchPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E339B621AD238F400CC3E8A /* SwitchPipView.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E21A2971ADC508C001D82DD /* GridMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridMenuView.swift; sourceTree = "<group>"; };
 		5E26ACBF1AD1A6F400B416C5 /* TextPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPipView.swift; sourceTree = "<group>"; };
 		5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPipView.swift; sourceTree = "<group>"; };
 		5E339B621AD238F400CC3E8A /* SwitchPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchPipView.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				5E26ACBF1AD1A6F400B416C5 /* TextPipView.swift */,
 				5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */,
 				5E339B621AD238F400CC3E8A /* SwitchPipView.swift */,
+				5E21A2971ADC508C001D82DD /* GridMenuView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				5E5354821AD1805D00617B7C /* TextPip.swift in Sources */,
 				AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */,
 				5E53990C1AD6261D00A2CAC7 /* PipDirectory.swift in Sources */,
+				5E21A2981ADC508C001D82DD /* GridMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

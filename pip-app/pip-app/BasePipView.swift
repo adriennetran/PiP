@@ -15,6 +15,8 @@ class BasePipView: UIImageView {
 	
 	var pipImage: UIImage!
 	
+	var longTouchdetected = false
+	
 	var pipInputView: UIView!
 	var pipOutputView: UIView!
 	
@@ -36,6 +38,7 @@ class BasePipView: UIImageView {
 		pipId = id
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
+		
 		addGestureRecognizer(panRecognizer)
 		
 		pipImage = UIImage(named: "pip-logo")
@@ -63,6 +66,7 @@ class BasePipView: UIImageView {
 		pipId = id
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
+		
 		addGestureRecognizer(panRecognizer)
 		
 		pipImage = image
@@ -129,11 +133,14 @@ class BasePipView: UIImageView {
 	//		tells the superview to bring this view to the front, and update
 	//		lastLocation's value
 	
-//	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-//		self.superview?.bringSubviewToFront(self)
-//		lastLocation = self.center
-//	}
+	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+		self.superview?.bringSubviewToFront(self)
+		lastLocation = self.center
+	}
 	
+	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+		longTouchdetected = false
+	}
 	// ---------------
 	//  Accessors
 	// ---------------

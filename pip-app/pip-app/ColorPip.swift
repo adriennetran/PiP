@@ -57,7 +57,6 @@ class ColorPip: BasePip{
         // Takes in the last input
         // color -> text
         // Output is always of same type of Pip
-		println("!")
         
         for item in inputPipIDs{
 			
@@ -76,7 +75,6 @@ class ColorPip: BasePip{
 						output.color = UIColor.blackColor()
 					}
 				}
-				println(output.color)
                 return output
                 
             case .Color:

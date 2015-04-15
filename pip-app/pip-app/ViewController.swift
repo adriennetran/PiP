@@ -13,6 +13,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	@IBOutlet var scrollView: UIScrollView!
 	
 	var containerView: UIView!
+	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -23,15 +24,70 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		/* -------------------
 			Scroll View Setup
 		   ------------------- */
-		
-		containerView = UIView(frame: CGRectMake(0, 0, 1440, 1440))
+	
+		containerView = UIView(frame: CGRectMake(0, 0, 1440, 2880))
 		scrollView.addSubview(containerView)
 		
-		var backgroundView = UIView(frame: CGRectMake(0, 0, 1440, 1440))
+		var backgroundView = UIView(frame: CGRectMake(0, 0, 1440, 2880))
 		backgroundView.backgroundColor = UIColor.whiteColor()
 		containerView.addSubview(backgroundView)
 		
 		scrollView.contentSize = containerView.bounds.size
+		
+		/*  -------------------
+			 Menu's Setup
+			------------------- */
+		
+		// Add Menus
+		// first so that they are under buttons
+		let pipMenuPos = CGPoint(x: 0, y: 0)
+		var pipMenu = CanvasMenuView.makePipMenu(pipMenuPos)
+		let pipMenuTuple: (view: UIView, pos: CGPoint) = (view: pipMenu, pos: pipMenuPos)
+		staticScreenElements.append(pipMenuTuple)
+		
+		
+		scrollView.addSubview(pipMenu)
+		
+		/*  -------------------
+			 Scroll View Setup
+			------------------- */
+		
+		// Add Menu Buttons
+		// second so that they are on top of menus
+		let pipMenuBtnPos = CGPoint(x: 0, y: 0)
+		var pipMenuButton = UIButton(frame: CGRectMake(pipMenuBtnPos.x, pipMenuBtnPos.y, 50, 50))
+		pipMenuButton.backgroundColor = UIColor.redColor()
+		pipMenuButton.addTarget(pipMenu, action: "toggleActive:", forControlEvents: .TouchUpInside)
+		let pipTuple: (view: UIView, pos: CGPoint) = (view: pipMenuButton, pos: pipMenuBtnPos)
+		staticScreenElements.append(pipTuple)
+		
+		let userDataBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 50, y: 0)
+		var userDataButton = UIButton(frame: CGRectMake(userDataBtnPos.x, userDataBtnPos.y, 50, 50))
+		userDataButton.backgroundColor = UIColor.yellowColor()
+		userDataButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
+		let userTuple: (view: UIView, pos: CGPoint) = (view: userDataButton, pos: userDataBtnPos)
+		staticScreenElements.append(userTuple)
+		
+		let networkBtnPos = CGPoint(x: 0, y: UIScreen.mainScreen().bounds.height - 50)
+		var networkButton = UIButton(frame: CGRectMake(networkBtnPos.x, networkBtnPos.y, 50, 50))
+		networkButton.backgroundColor = UIColor.greenColor()
+		networkButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
+		let netTuple: (view: UIView, pos: CGPoint) = (view: networkButton, pos: networkBtnPos)
+		staticScreenElements.append(netTuple)
+		
+		let settingsBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 50,
+			y: UIScreen.mainScreen().bounds.height - 50)
+		var settingsButton = UIButton(frame: CGRectMake(settingsBtnPos.x, settingsBtnPos.y, 50, 50))
+		settingsButton.backgroundColor = UIColor.purpleColor()
+		settingsButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
+		let settingsTuple: (view: UIView, pos: CGPoint) = (view: settingsButton, settingsBtnPos)
+		staticScreenElements.append(settingsTuple)
+		
+		scrollView.addSubview(pipMenuButton)
+		scrollView.addSubview(userDataButton)
+		scrollView.addSubview(networkButton)
+		scrollView.addSubview(settingsButton)
+		
 		
 		/* ------------------------
 			Tap Gesture Recognizer
@@ -53,14 +109,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
 		scrollView.zoomScale = 0.5
-		
-		/* -------------------
-			Scroll View Setup
-		   ------------------- */
-		
-		_mainPipDirectory.createPipOfType(PipType.Text)
-		_mainPipDirectory.createPipOfType(PipType.Text)
-		_mainPipDirectory.createPipOfType(PipType.Color)
 	}
 
 	
@@ -98,8 +146,32 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		return
 	}
 	
+	func scrollViewDidScroll(scrollView: UIScrollView) {
+		let offset: CGPoint = scrollView.contentOffset
+		
+		for ele in staticScreenElements {
+			if var menuView = (ele.view as? CanvasMenuView) {
+				var basePos: CGPoint!
+				if menuView.viewIsActive {
+					basePos = menuView.baseLocation
+				} else {
+					basePos = menuView.offsetLocation
+				}
+				
+				menuView.frame = CGRectMake(basePos.x + offset.x, basePos.y + offset.y,
+					ele.view.frame.width, ele.view.frame.height)
+			} else {
+				ele.view.frame = CGRectMake(ele.pos.x + offset.x, ele.pos.y + offset.y, ele.view.frame.width, ele.view.frame.height)
+			}
+		}
+	}
+	
 	func addPipView(pipView: BasePipView) {
 		containerView.addSubview(pipView)
+	}
+	
+	func menuButtonPressed(sender: UIButton!){
+		println("no menu to toggle yet")
 	}
 }
 

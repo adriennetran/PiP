@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Peter Slattery. All rights reserved.
 //
 
-enum PipType{
+enum PipType: Int{
 	case Text, Color, Button, Switch
 }
 
@@ -23,8 +23,6 @@ class BasePip {
 	init(pipType: PipType, id: Int){
 		self.pipType = pipType
 		self.pipID = id
-		
-		println("\(pipType): \(pipID)")
 		
 		inputPipIDs = []
 		outputPipIDs = []
@@ -54,14 +52,12 @@ class BasePip {
 		if !contains(inputPipIDs, inputPipID){
 			self.inputPipIDs.append(inputPipID)
 		}
-		println("\(pipID) inputs: \(inputPipIDs)")
     }
 	
 	func setOutput(outputPipID: Int){
 		if !contains(outputPipIDs, outputPipID){
 			self.outputPipIDs.append(outputPipID)
 		}
-		println("\(pipID) outputs: \(outputPipIDs)")
 	}
 	
 	func modelDidChange(){
@@ -69,7 +65,6 @@ class BasePip {
 	}
 	
 	func updateReliantPips(){
-		println(outputPipIDs)
 		for pID in outputPipIDs {
 			_mainPipDirectory.updatePip(pID)
 		}

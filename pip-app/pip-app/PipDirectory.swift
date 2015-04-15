@@ -46,7 +46,7 @@ class PipDirectory{
 			
 			// Create View and Model
 			var textModel: TextPip = TextPip(id: lastPipID)
-			var textView: TextPipView = TextPipView(point: CGPoint(x: 25, y: 25), id: lastPipID)
+			var textView: TextPipView = TextPipView(point: CGPoint(x: 25, y: 150 + 150 * lastPipID), id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(textView)
@@ -59,7 +59,7 @@ class PipDirectory{
 			
 			// Create View and Model
 			var colorModel = ColorPip(id: ++lastPipID)
-			var colorView = ColorPipView(point: CGPoint(x: 25, y: 25), id: lastPipID)
+			var colorView = ColorPipView(point: CGPoint(x: 25, y: 150 + 150 * lastPipID), id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(colorView)
@@ -72,7 +72,7 @@ class PipDirectory{
 			
 			// Create View and Model
 			var switchModel = SwitchPip(id: lastPipID)
-			var switchView = SwitchPipView(point: CGPoint(x: 25, y: 25), id: lastPipID)
+			var switchView = SwitchPipView(point: CGPoint(x: 25, y: 150 + 150 * lastPipID), id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(switchView)
@@ -83,6 +83,28 @@ class PipDirectory{
 		}
 		
 		lastPipID++
+	}
+	
+	// createPipFromButtonTag: UIButton -> nil
+	// I/O: a function usable as a @selector for UIButton.addTarget
+	//		allows programmatically created buttons to be used to create Pips
+	@objc func createPipFromButtonTag(sender: UIButton!){
+		createPipOfType(PipType(rawValue: sender.tag)!)
+	}
+	
+	// getImageForPipType: PipType -> UIImage
+	// I/O: returns the background image for a given pipType
+	//		allow programmatic, and iterative creation of Pips
+	//		READ: extra function = shorter code
+	func getImageForPipType(type: PipType) -> UIImage{
+		switch type{
+		case .Color:
+			return UIImage(named: "colorPip-image")!
+		case .Text:
+			return UIImage(named: "textPip-image")!
+		default:
+			return UIImage(named: "switchPipOn-image")!
+		}
 	}
 	
 	// ---------------
