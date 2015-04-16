@@ -70,7 +70,7 @@ class ColorPip: BasePip{
 				if castItem != nil{
 					
 					if let unwrappedValue = colorDirectory[castItem.getOutput().getText()]{
-						output.color = colorDirectory[castItem.getOutput().getText()]
+						output.color = unwrappedValue
 					}else{
 						output.color = UIColor.blackColor()
 					}
@@ -81,10 +81,24 @@ class ColorPip: BasePip{
                 let castItem: ColorPip! = inPip as? ColorPip
                 
                 if castItem != nil{
-                    output.color = castItem.getOutput().getColor() // color of item.color
+					var h1:CGFloat = 0; var s1:CGFloat=0; var b1:CGFloat = 0; var a1:CGFloat = 0;
+					var h2:CGFloat = 0; var s2:CGFloat=0; var b2:CGFloat = 0; var a2:CGFloat = 0;
+					
+					output.color.getHue(&h1, saturation: &s1, brightness: &b1, alpha: &a1)
+					castItem.getOutput().getColor().getHue(&h2, saturation: &s2, brightness: &b2, alpha: &a2)
+					
+                    output.color = UIColor(hue: (h1 * h2)/2, saturation: (s1*s2)/2, brightness: (b1*b2)/2, alpha: (a1*a2)/2)
                 }
-            default:
-                output.color = UIColor.blackColor()
+			default:	//Switch Pip case
+				let castItem: SwitchPip! = inPip as? SwitchPip
+				
+				if castItem != nil{
+					if castItem.getOutput() {
+						output.color = UIColor.whiteColor()
+					}else{
+						output.color = UIColor.blackColor()
+					}
+				}
             }
             
         }

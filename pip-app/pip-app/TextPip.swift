@@ -71,7 +71,7 @@ class TextPip: BasePip {
 				let castItem: TextPip! = inPip as? TextPip
 				
 				if castItem != nil {
-					let newString = output.getText() + castItem.getOutput().getText()
+					let newString = castItem.getOutput().getText() + output.getText()
 					output.setText(newString)
 				}
 				
