@@ -30,7 +30,9 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		var menu = CanvasMenuView(offsetLocation: CGPoint(x: -UIScreen.mainScreen().bounds.width, y: 0),
 			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, 500))
 		
-		menu.backgroundColor = UIColor.whiteColor()
+		menu.backgroundColor = UIColor.grayColor()
+		menu.contentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: 700)
+		menu.userInteractionEnabled = true
 		
 		// Add Buttons here
 		var typeInt: Int = 0

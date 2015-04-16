@@ -46,7 +46,7 @@ class PipDirectory{
 			
 			// Create View and Model
 			var textModel: TextPip = TextPip(id: lastPipID)
-			var textView: TextPipView = TextPipView(point: CGPoint(x: 25, y: 150 + 150 * lastPipID), id: lastPipID)
+			var textView: TextPipView = TextPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(textView)
@@ -59,7 +59,7 @@ class PipDirectory{
 			
 			// Create View and Model
 			var colorModel = ColorPip(id: ++lastPipID)
-			var colorView = ColorPipView(point: CGPoint(x: 25, y: 150 + 150 * lastPipID), id: lastPipID)
+			var colorView = ColorPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(colorView)
@@ -72,7 +72,7 @@ class PipDirectory{
 			
 			// Create View and Model
 			var switchModel = SwitchPip(id: lastPipID)
-			var switchView = SwitchPipView(point: CGPoint(x: 25, y: 150 + 150 * lastPipID), id: lastPipID)
+			var switchView = SwitchPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(switchView)

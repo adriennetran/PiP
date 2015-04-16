@@ -118,6 +118,19 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		// Dispose of any resources that can be recreated.
 	}
 	
+	// touchesBegan: 
+	// I/O: used to exit/cancel any active screen elements
+	//		active buttons, open menus etc.
+	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+		println("!")
+		for ele in staticScreenElements {
+			if var menu = (ele.view as? CanvasMenuView){
+				menu.toggleActive()
+				println("!")
+			}
+		}
+	}
+	
 	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
 	// I/O: called when the background is double tapped
 	//		zooms the view in by 1.5%
