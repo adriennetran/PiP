@@ -48,10 +48,6 @@ class ColorPipView: BasePipView{
 		addSubview(redFrame)
 	}
 	
-//	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-//		
-//	}
-	
 	// ---------------
 	//  TEMPORARY -- GET RID OF THIS SHIT... FAST!!!
 	// ---------------

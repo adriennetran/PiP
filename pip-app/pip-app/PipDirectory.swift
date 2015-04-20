@@ -160,20 +160,28 @@ class PipDirectory{
 		
 		if activeOutputPipID != nil && activeInputPipID != activeOutputPipID{
 			
-			let out: (model: BasePip, view: BasePipView) = pipDirectory[activeOutputPipID!]!
-			let input: (model: BasePip, view: BasePipView) = pipDirectory[activeInputPipID!]!
-			
-			out.model.setOutput(activeInputPipID!)
-			input.model.setInput(activeOutputPipID!)
-			
-			pipDirectory[activeOutputPipID!]! = out
-			pipDirectory[activeInputPipID!]! = input
-			
-			activeOutputPipID = nil
-			activeInputPipID = nil
-			
-			input.view.updateView()
+			makeConnection(activeInputPipID!, outPip: activeOutputPipID!)
 		}
+	}
+	
+	// makeConnection: Int, Int -> nil
+	// I/P: makes a link from inPip to outPip
+	
+	func makeConnection(inPip: Int, outPip: Int) {
+		let inPipModel: (model: BasePip, view:BasePipView) = pipDirectory[inPip]!
+		let outPipModel: (model: BasePip, view:BasePipView) = pipDirectory[outPip]!
+		
+		inPipModel.model.setOutput(outPip)
+		outPipModel.model.setInput(inPip)
+		
+		pipDirectory[inPip]! = inPipModel
+		pipDirectory[outPip]! = outPipModel
+		
+		activeOutputPipID = nil
+		activeInputPipID = nil
+		
+		outPipModel.view.updateView()
+		
 	}
 	
 	// clearActiveInOut: nil -> nil

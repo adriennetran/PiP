@@ -83,8 +83,8 @@ class BasePipView: UIImageView {
 		pipInputView.backgroundColor = UIColor.blackColor()
 		pipOutputView.backgroundColor = UIColor.blackColor()
 		
-		pipInputView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "inputViewTapped:"))
-		pipOutputView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "outputViewTapped:"))
+		pipInputView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "inputViewTapped:"))
+		pipOutputView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "outputViewTapped:"))
 		pipInputView.userInteractionEnabled = true;
 		pipOutputView.userInteractionEnabled = true;
 		
@@ -138,8 +138,9 @@ class BasePipView: UIImageView {
 		lastLocation = self.center
 	}
 	
+	// [] - could be used to tell which node a connection is being made to
 	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-		longTouchdetected = false
+		
 	}
 	// ---------------
 	//  Accessors
@@ -165,6 +166,13 @@ class BasePipView: UIImageView {
 	// I/O: called when the model of a pip changes
 	
 	func updateView(){
+	}
+	
+	// drawConnection
+	// I/O
+	
+	func drawConnection() {
+		
 	}
 	
 }

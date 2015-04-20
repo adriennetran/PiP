@@ -53,8 +53,6 @@ class SwitchPipView: BasePipView{
 	
 	// buttonPressed: nil -> nil
 	// I/O: tells the model to change state. Updates image to reflect that state.
-	// -------
-	// TODO: get state from model. Don't assume
 	
 	func buttonPressed() {
 
@@ -66,6 +64,10 @@ class SwitchPipView: BasePipView{
 			}
 		}
 	}
+	
+	// updateView: nil -> nil
+	// I/O: gets the model associated with the instance of SwitchPipView
+	//		updates the view to match, and calls model.updateReliantPips
 	
 	override func updateView() {
 		if var model = (_mainPipDirectory.getPipByID(pipId).model as? SwitchPip){

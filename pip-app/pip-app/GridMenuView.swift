@@ -21,11 +21,16 @@ protocol SlideInView {
 	func slideOut()
 }
 
+// Custom UIScrollView
+// Used to tell PipDirectory to create pips
+
 class CanvasMenuView: UIScrollView, SlideInView {
 	
 	/* ------------------
 	*	Static Functions
 	   ------------------ */
+	
+	// Does all the initialization for PipMenu
 	class func makePipMenu(pos: CGPoint) -> CanvasMenuView{
 		var menu = CanvasMenuView(offsetLocation: CGPoint(x: -UIScreen.mainScreen().bounds.width, y: 0),
 			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, 500))
@@ -66,10 +71,15 @@ class CanvasMenuView: UIScrollView, SlideInView {
 	*	Start Class Def
 	   ------------------ */
 	
+	// These two points allow the view to slide in and out
 	var baseLocation: CGPoint!
 	var offsetLocation: CGPoint!
 	
 	var viewIsActive: Bool = false
+	
+	// init: CGPoint, CGRect -> GridMenuView
+	// I/O: creates a GridMenuView at frame, and sets base and offsetLocations
+	//		based on the information given.
 	
 	init(offsetLocation: CGPoint, frame: CGRect) {
 		super.init(frame: frame)
@@ -78,9 +88,14 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		self.offsetLocation = offsetLocation
 	}
 
+	// REQUIRED - dont use
 	required init(coder aDecoder: NSCoder) {
 	    fatalError("init(coder:) has not been implemented")
 	}
+	
+	// createButtonFromImage: UIImage, Float -> UIButton
+	// I/O: creates a UIButton at (0,0) with an aspect ratio to fit img at the images size
+	//		times scale, and returns this button
 	
 	class func createButtonFromImage(img : UIImage, scale: Float) -> UIButton {
 		let width = img.size.width * CGFloat(scale)
@@ -90,9 +105,13 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		return btn
 	}
 	
+	// Overridden
 	func toggleActive() {
 		
 	}
+	
+	// toggleActive: UIButton -> nil
+	// I/O: toggles the value of viewIsActive, and slides the view In/Out as appropriate
 	
 	func toggleActive(sender: UIButton) {
 		viewIsActive = !viewIsActive
@@ -103,6 +122,9 @@ class CanvasMenuView: UIScrollView, SlideInView {
 			slideOut()
 		}
 	}
+	
+	// slideIn: nil -> nil
+	// I/O: moves the view to baseLocation with compensation for the view's superview.offset
 	
 	func slideIn() {
 		var offset: CGPoint!
@@ -116,6 +138,10 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		frame.origin = CGPoint(x: offset.x + baseLocation.x, y: offset.y + baseLocation.y)
 	}
 	
+	// slideOut: nil -> nil
+	// I/O:  moves the veiw to offsetLocation with compensation for the view's
+	//		 superview.offset
+	
 	func slideOut() {
 		var offset: CGPoint!
 		
@@ -125,7 +151,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 			offset = CGPoint.zeroPoint
 		}
 		
-		frame.origin = offsetLocation
+		frame.origin = CGPoint(x: offset.x + baseLocation.x, y: offset.y + baseLocation.y)
 	}
 	
 }
