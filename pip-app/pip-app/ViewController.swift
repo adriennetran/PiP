@@ -7,18 +7,47 @@
 //
 
 import UIKit
+import CoreMotion
 
 class ViewController: UIViewController, UIScrollViewDelegate {
+    lazy var motionManager = CMMotionManager()
 	
 	@IBOutlet var scrollView: UIScrollView!
 	
 	var containerView: UIView!
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
+    
+    func isCameraAvailable() -> Bool{
+        return UIImagePickerController.isSourceTypeAvailable(.Camera)
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
+        
+        // get camera data
+        print("Camera is ")
+        if isCameraAvailable() == false{
+            print ("not ")
+        }
+        println("available")
+        
+        //Get accelerometer data
+        if motionManager.accelerometerAvailable{
+            let queue = NSOperationQueue()
+            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler:
+                {(data: CMAccelerometerData!, error: NSError!) in
+                    println("X = \(data.acceleration.x)")
+                    println("Y = \(data.acceleration.y)")
+                    println("Z = \(data.acceleration.z)")
+                }
+            )
+        } else{
+            println("accelerometer is not available.")
+        }
+        
+        
 		_mainPipDirectory.registerViewController(self)
 		
 		/* -------------------
@@ -121,15 +150,16 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	// touchesBegan: 
 	// I/O: used to exit/cancel any active screen elements
 	//		active buttons, open menus etc.
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-		println("!")
-		for ele in staticScreenElements {
-			if var menu = (ele.view as? CanvasMenuView){
-				menu.toggleActive()
-				println("!")
-			}
-		}
-	}
+//	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+//		println("!")
+//		for ele in staticScreenElements {
+//			if var menu = (ele.view as? CanvasMenuView){
+//				menu.toggleActive()
+//				println("!")
+//			}
+//		}
+//        return
+//	}
 	
 	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
 	// I/O: called when the background is double tapped

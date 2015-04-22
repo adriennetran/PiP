@@ -7,7 +7,7 @@
 //
 
 enum PipType: Int{
-	case Text, Color, Button, Switch
+	case Text, Color, Button, Switch, Accel
 }
 
 class BasePip {

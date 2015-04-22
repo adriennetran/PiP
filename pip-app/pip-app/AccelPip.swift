@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import CoreMotion
 
-class TextOutput{
+class AccelTextOutput{
 //    saves information from past Pips
 
     // if there aren't data types that combine the two
@@ -38,16 +39,16 @@ class TextOutput{
     }
 }
 
-class TextPip: BasePip {
+class AccelPip: BasePip {
     
     // of type text
-    var output: TextOutput!
+    var output: AccelTextOutput!
     
     // TextPip's constructor
 	init(id: Int){
 		super.init(pipType: PipType.Text, id: id)
 		
-		output = TextOutput()
+		output = AccelTextOutput()
     }
 
     
@@ -59,7 +60,7 @@ class TextPip: BasePip {
 	// getOutput: nil -> TextOutput
 	// I/O: updates the output field of the object
 	
-    func getOutput() -> TextOutput{
+    func getOutput() -> AccelTextOutput{
         
         for item in inputPipIDs{
 			
@@ -67,7 +68,7 @@ class TextPip: BasePip {
 			
             switch inPip.getPipType(){
 
-            case .Text:
+			case .Text:
 				let castItem: TextPip! = inPip as? TextPip
 				
 				if castItem != nil {

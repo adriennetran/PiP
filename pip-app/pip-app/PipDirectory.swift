@@ -41,6 +41,20 @@ class PipDirectory{
 	
 	func createPipOfType(pType: PipType){
 		switch pType{
+            
+        case .Accel:
+            
+            // Create View and Model
+            var accelModel: AccelPip = AccelPip(id: lastPipID)
+            var accelView: AccelPipView = AccelPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+            
+            // Link view and model
+            viewController?.addPipView(accelView)
+            
+            // Add tuple to array
+            var tuple: (model: BasePip, view: BasePipView) = (model: accelModel, view: accelView)
+            pipDirectory[lastPipID] = tuple
+            
 			
 		case .Text:
 			
