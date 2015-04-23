@@ -31,6 +31,8 @@ class SwitchPipView: BasePipView{
 		
 		pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
 		pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+		
+		addGestureRecognizer(UITapGestureRecognizer(target: self, action: "buttonPressed:"))
 	}
 	
 	// ---------------
@@ -42,19 +44,10 @@ class SwitchPipView: BasePipView{
 		return _mainPipDirectory.getPipByID(pipId).model
 	}
 	
-	
-	// onTouchesEnded: NSSet, UIEvent -> nil
-	// I/O: called when a touch ends over this view. Triggers a state change of the button
-	
-	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-		buttonPressed()
-	}
-	
-	
 	// buttonPressed: nil -> nil
 	// I/O: tells the model to change state. Updates image to reflect that state.
 	
-	func buttonPressed() {
+	func buttonPressed(sender: UITapGestureRecognizer) {
 		if let v = (getModel() as? SwitchPip)?.switchStateChange(){
 			if v {
 				self.image? = stateImages[0]

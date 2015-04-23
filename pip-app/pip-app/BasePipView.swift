@@ -79,9 +79,7 @@ class BasePipView: UIImageView {
 		self.contentMode = UIViewContentMode.ScaleAspectFit
 		self.image = pipImage
 		
-		
 		self.userInteractionEnabled = true;
-		
 		
 		pipInputView = UIView(frame: CGRectMake(pipImage.size.width - 20, 0, 20, pipImage.size.height))
 		pipOutputView = UIView(frame: CGRectMake(0, 0, 20, pipImage.size.height))
