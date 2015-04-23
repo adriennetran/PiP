@@ -128,6 +128,8 @@ class PipDirectory{
 	//		READ: extra function = shorter code
 	func getImageForPipType(type: PipType) -> UIImage{
 		switch type{
+        case .Accel:
+            return UIImage(named: "mathPip-image")!
         case .Image:
             return UIImage(named: "imagePip-image")!
 		case .Color:

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreMotion
 
 class AccelPipView: BasePipView {
 	
@@ -39,6 +40,8 @@ class AccelPipView: BasePipView {
 		
 		pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
 		pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+        
+        
 	}
 	
 	// ---------------
@@ -49,6 +52,33 @@ class AccelPipView: BasePipView {
 	override func getModel() -> BasePip {
 		return _mainPipDirectory.getPipByID(pipId).model
 	}
+    
+    /*
+    lazy var motionManager = CMMotionManager()
+    
+    // TO DO- MOVE THIS.
+    func viewDidLoad(){
+//        super.viewDidLoad()
+        var label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+        label.center = CGPointMake(160, 284)
+        label.textAlignment = NSTextAlignment.Center
+        label.text = "I'am a test label"
+//        self.view.addSubview(label)
+        
+        //Get accelerometer data
+        if motionManager.accelerometerAvailable{
+            let queue = NSOperationQueue()
+            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler:
+                {(data: CMAccelerometerData!, error: NSError!) in
+                    //println("X = \(data.acceleration.x)")
+                    //println("Y = \(data.acceleration.y)")
+                    //println("Z = \(data.acceleration.z)")
+            })
+        } else{
+            println("accelerometer is not available.")
+        }
+    }
+*/
 	
 	// ---------------
 	//  Accessors

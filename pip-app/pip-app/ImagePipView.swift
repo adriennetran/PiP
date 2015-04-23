@@ -9,15 +9,22 @@
 
 import Foundation
 import UIKit
+import MobileCoreServices
 
 // Create a subview which is the "images directory"
 
-class ImagePipView: BasePipView{
+protocol PhotoLibraryDelegate {
+    func openPhotoLibrary(sender: ImagePipView)
+}
+
+class ImagePipView: BasePipView, NSURLConnectionDelegate{
+
+    var delegate: PhotoLibraryDelegate?
     
     // required stuff.
-    required init(coder aDecoder: NSCoder){
-        fatalError("coder initializer not coded")
-    }
+//    required init(coder aDecoder: NSCoder){
+//        fatalError("coder initializer not coded")
+//    }
     
     init(point: CGPoint, id: Int){
         super.init(point: point, image: UIImage(named: "imagePip-image")!, id: id)
@@ -29,16 +36,36 @@ class ImagePipView: BasePipView{
         
         var addPhotoFrame = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
         addPhotoFrame.backgroundColor = UIColor.blueColor()
+        
         addPhotoFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "addPhotoTouched:"))
+        
         addSubview(addPhotoFrame)
+        
     }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
     
     func addPhotoTouched(recognizer: UITapGestureRecognizer){
         // call model.cameraViewController
         // pull up the camera screen
-        (getModel() as? ImagePip)?.cameraVC.viewToAppear(true)
+        println("PHOTO TOUCHED")
+        delegate?.openPhotoLibrary(self)
         
-        // (getModel() as? ColorPip)?.updateColor(UIColor.blueColor())
+//        ViewController.viewDidAppear_Camera()
+//        (getModel() as? ImagePip)?.cameraVC.takePhoto()
+//        cameraVC.viewDidAppear(true)
+//         (getModel() as? ImagePip)?.openPhotoLibrary()
+//        delegate!.openPhotoLibrary()
+        
+        
+//        var controller = CameraViewControllerTest()
+        println("after photo touched")
+        
     }
     
     // accessors

@@ -29,6 +29,7 @@
 		AE0195431AE7129800C869DA /* ImagePip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0195421AE7129800C869DA /* ImagePip.swift */; };
 		AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2479B61AD5F209009EC6AF /* ColorPip.swift */; };
 		AEA8323B1AE8D20300170412 /* cameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA8323A1AE8D20300170412 /* cameraViewController.swift */; };
+		AEF674741AE8EC660017EE0B /* cameraVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF674731AE8EC660017EE0B /* cameraVC2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		AE0195421AE7129800C869DA /* ImagePip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePip.swift; sourceTree = "<group>"; };
 		AE2479B61AD5F209009EC6AF /* ColorPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPip.swift; sourceTree = "<group>"; };
 		AEA8323A1AE8D20300170412 /* cameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cameraViewController.swift; sourceTree = "<group>"; };
+		AEF674731AE8EC660017EE0B /* cameraVC2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cameraVC2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				5E53545C1AD17E9800617B7C /* AppDelegate.swift */,
 				5E53545E1AD17E9800617B7C /* ViewController.swift */,
 				AEA8323A1AE8D20300170412 /* cameraViewController.swift */,
+				AEF674731AE8EC660017EE0B /* cameraVC2.swift */,
 				5E53990B1AD6261D00A2CAC7 /* PipDirectory.swift */,
 				5E5354601AD17E9800617B7C /* Main.storyboard */,
 				5E5354631AD17E9800617B7C /* Images.xcassets */,
@@ -294,6 +297,7 @@
 				5E5354821AD1805D00617B7C /* TextPip.swift in Sources */,
 				AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */,
 				5E53990C1AD6261D00A2CAC7 /* PipDirectory.swift in Sources */,
+				AEF674741AE8EC660017EE0B /* cameraVC2.swift in Sources */,
 				5E21A2981ADC508C001D82DD /* GridMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -19,6 +19,22 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 	@IBOutlet var scrollView: UIScrollView!
 	var containerView: UIView!
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
+    
+//    var photoImageView = UIImageView(frame: CGRectMake(40, 40, 200, 200))
+//    
+//    // access
+//    func openPhotoLibrary(){
+//        println("open photo library in view controller!")
+//        var photoPicker = UIImagePickerController()
+//        photoPicker.delegate = self
+//        
+//        // standards
+//        photoPicker.sourceType = .PhotoLibrary
+//        
+//        self.presentViewController(photoPicker, animated: true, completion: nil)
+//    }
+
+
 
     
     
@@ -139,6 +155,43 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 
 
 	var trashCanButton: UIView!
+    
+    var beenHereBefore = false
+    var controller: UIImagePickerController?
+    
+    func viewDidAppear_Camera(animated: Bool) {
+        println("inside viewToAppear")
+        super.viewDidAppear(animated)
+        
+        if beenHereBefore{
+            /* Only display the picker once as the viewDidAppear: method gets
+            called whenever the view of our view controller gets displayed */
+            return;
+        } else {
+            beenHereBefore = true
+        }
+        
+        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
+            
+            controller = UIImagePickerController()
+            
+            if let theController = controller{
+                theController.sourceType = .Camera
+                
+                theController.mediaTypes = [kUTTypeImage as! String]
+                
+                theController.allowsEditing = true
+                theController.delegate = self
+                
+                presentViewController(theController, animated: true, completion: nil)
+            }
+            
+        } else {
+            println("Camera is not available")
+        }
+        
+    }
+
 
 	
 	override func viewDidLoad() {
