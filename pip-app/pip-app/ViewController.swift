@@ -19,6 +19,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 	@IBOutlet var scrollView: UIScrollView!
 	var containerView: UIView!
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
+
     
     // camera stuff
     var beenHereBefore = false
@@ -94,6 +95,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
     }
     }
 
+
+	var trashCanButton: UIView!
+
 	
 	override func viewDidLoad() {
         println("hello")
@@ -135,6 +139,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 	
 		containerView = UIView(frame: CGRectMake(0, 0, 1440, 2880))
 		scrollView.addSubview(containerView)
+		containerView.setNeedsDisplay()
 		
 		var backgroundView = UIView(frame: CGRectMake(0, 0, 1440, 2880))
 		backgroundView.backgroundColor = UIColor.whiteColor()
@@ -162,12 +167,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		
 		// Add Menu Buttons
 		// second so that they are on top of menus
+		
+		// Pip Menu Button
+		
 		let pipMenuBtnPos = CGPoint(x: 0, y: 0)
 		var pipMenuButton = UIButton(frame: CGRectMake(pipMenuBtnPos.x, pipMenuBtnPos.y, 50, 50))
 		pipMenuButton.backgroundColor = UIColor.redColor()
 		pipMenuButton.addTarget(pipMenu, action: "toggleActive:", forControlEvents: .TouchUpInside)
 		let pipTuple: (view: UIView, pos: CGPoint) = (view: pipMenuButton, pos: pipMenuBtnPos)
 		staticScreenElements.append(pipTuple)
+		
+		// User Data Button
 		
 		let userDataBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 50, y: 0)
 		var userDataButton = UIButton(frame: CGRectMake(userDataBtnPos.x, userDataBtnPos.y, 50, 50))
@@ -176,12 +186,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		let userTuple: (view: UIView, pos: CGPoint) = (view: userDataButton, pos: userDataBtnPos)
 		staticScreenElements.append(userTuple)
 		
+		// Network Button
+		
 		let networkBtnPos = CGPoint(x: 0, y: UIScreen.mainScreen().bounds.height - 50)
 		var networkButton = UIButton(frame: CGRectMake(networkBtnPos.x, networkBtnPos.y, 50, 50))
 		networkButton.backgroundColor = UIColor.greenColor()
 		networkButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
 		let netTuple: (view: UIView, pos: CGPoint) = (view: networkButton, pos: networkBtnPos)
 		staticScreenElements.append(netTuple)
+		
+		// Settings Button
 		
 		let settingsBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 50,
 			y: UIScreen.mainScreen().bounds.height - 50)
@@ -191,10 +205,23 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		let settingsTuple: (view: UIView, pos: CGPoint) = (view: settingsButton, settingsBtnPos)
 		staticScreenElements.append(settingsTuple)
 		
+		// Trash Can
+		
+		let trashCanPos = CGPoint(x: UIScreen.mainScreen().bounds.width/2 - 50,
+			y: UIScreen.mainScreen().bounds.height - 110)
+		trashCanButton = UIView(frame: CGRectMake(settingsBtnPos.x, settingsBtnPos.y, 100, 100))
+		trashCanButton.backgroundColor = UIColor.blackColor()
+		trashCanButton.hidden = true
+		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
+		staticScreenElements.append(trashTuple)
+		
+		// Add Buttons to scrollView
+		
 		scrollView.addSubview(pipMenuButton)
 		scrollView.addSubview(userDataButton)
 		scrollView.addSubview(networkButton)
 		scrollView.addSubview(settingsButton)
+		scrollView.addSubview(trashCanButton)
 		
 		
 		/* ------------------------
@@ -209,6 +236,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		doubleTapRecognizer.numberOfTouchesRequired = 1
 		scrollView.addGestureRecognizer(doubleTapRecognizer)
 		
+		var tapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewTapped:")
+		tapRecognizer.numberOfTapsRequired = 1
+		tapRecognizer.numberOfTouchesRequired = 1
+		scrollView.addGestureRecognizer(tapRecognizer)
+		
 		let scrollViewFrame: CGRect = scrollView.frame
 		let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
 		let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
@@ -217,6 +249,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
 		scrollView.zoomScale = 0.5
+		
+		/* ------------------------
+			Tap Gesture Recognizer
+		   ------------------------ */
+
 	}
 
 	
@@ -226,6 +263,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		// Dispose of any resources that can be recreated.
 	}
 	
+
 	// touchesBegan: 
 	// I/O: used to exit/cancel any active screen elements
 	//		active buttons, open menus etc.
@@ -240,6 +278,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 //        return
 //	}
 	
+
 	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
 	// I/O: called when the background is double tapped
 	//		zooms the view in by 1.5%
@@ -260,13 +299,39 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		scrollView.zoomToRect(rectToZoomTo, animated: true)
 	}
 	
+	// scrollViewTapped: UITapGestureRecognizer -> nil
+	// I/O: resets the state of active Pips, and closes all menus
+	
+	func scrollViewTapped(recognizer: UITapGestureRecognizer) {
+		
+		_mainPipDirectory.clearActiveInOut()
+			
+		for ele in staticScreenElements {
+			if var menu = (ele.view as? CanvasMenuView) {
+				if menu.viewIsActive {
+					menu.toggleActive()
+				}
+			}
+		}
+		
+	}
+	
+	// viewForZoomingInScrollView: UIScrollView -> UIView
+	// I/O: returns containerView. Don't remember why.
+	
 	func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
 		return containerView
 	}
 	
+	// scrollViewDidZoom: UIScrollView -> ??
+	// I/O: ???
+	
 	func scrollViewDidZoom(scrollView: UIScrollView) {
 		return
 	}
+	
+	// scrollViewDidScoll: UIScrollView -> nil
+	// I/O: moves all static screen elements to stay relative to screen
 	
 	func scrollViewDidScroll(scrollView: UIScrollView) {
 		let offset: CGPoint = scrollView.contentOffset
@@ -288,12 +353,73 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		}
 	}
 	
-	func addPipView(pipView: BasePipView) {
-		containerView.addSubview(pipView)
+	// pipStartedBeingDragged: nil -> nil
+	// I/O: called by a pip when it first starts being dragged
+	//		makes the trash can visible
+	func pipStartedBeingDragged() {
+		trashCanButton.hidden = false
 	}
+	
+	// pipStoppedBeingDragged: nil -> nil
+	// I/O: called by a pip when touchesEnded
+	//		hides the trash can 
+	func pipStoppedBeingDragged(pip: BasePipView) {
+		trashCanButton.hidden = true
+		
+		let pipRect: CGRect = scrollView.convertRect(pip.frame, fromView: containerView)
+		
+		if CGRectIntersectsRect(pipRect, trashCanButton.frame) {
+			_mainPipDirectory.deletePip(pip.pipId)
+		}
+	}
+	
+	// menuButtonPressed: UIButton -> nil
+	// I/O: unused for now, will be used to implement other menus
 	
 	func menuButtonPressed(sender: UIButton!){
 		println("no menu to toggle yet")
+	}
+	
+	/* --------------------------------------------------------
+	 * THIS COMMENT IS UNDER NO CIRCUMSTANCES TO BE MODIFIED
+	 * MOVED, DELETED, OR IN ANY WAY ALTERED
+	 * FOR ALL TIME LET IT BE KNOWN THAT
+	 * PETER SLATTERY IS PROGRAMMING GOD
+	 * --------------------------------------------------------
+	*/
+	
+	// addPipView: BasePipView -> nil
+	// I/O: adds pipView to containerView
+	//		called by PipDirectory.createPipOfType()
+	
+	func addPipView(pipView: BasePipView) {
+		containerView.addSubview(pipView)
+		containerView.bringSubviewToFront(pipView)
+	}
+	
+	// addArmView: ArmView -> nil
+	// I/O: Adds armView to containerView and moves it all the way to the back
+	//		called by PipDirectory.makeConnection()
+	
+	func addArmView(armView: ArmView) {
+		containerView.addSubview(armView)
+		//scrollView.sendSubviewToBack(armView)
+		armView.setNeedsDisplay()
+	}
+	
+	// removeArmView: ArmView -> nil
+	// I/O: Removes armView from containerView
+	
+	func removeArmView(armView: ArmView) {
+		armView.removeFromSuperview()
+	}
+	
+	// ------------
+	//	Accessors
+	// ------------
+	
+	func getContainerView() -> UIView {
+		return containerView
 	}
 }
 

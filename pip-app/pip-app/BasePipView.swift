@@ -20,6 +20,12 @@ class BasePipView: UIImageView {
 	var pipInputView: UIView!
 	var pipOutputView: UIView!
 	
+	// Dictionaries to hold references to arm views
+	// Arm views are subviews of the containerView
+	// Dictionary is of form: toPipID : ArmView
+	var inArms: [Int : ArmView] = [:]
+	var outArms: [Int : ArmView] = [:]
+	
 	//Used for dragging
 	var lastLocation: CGPoint = CGPointMake(0, 0)
 	
@@ -83,8 +89,8 @@ class BasePipView: UIImageView {
 		pipInputView.backgroundColor = UIColor.blackColor()
 		pipOutputView.backgroundColor = UIColor.blackColor()
 		
-		pipInputView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "inputViewTapped:"))
-		pipOutputView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "outputViewTapped:"))
+		pipInputView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "inputViewTapped:"))
+		pipOutputView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "outputViewTapped:"))
 		pipInputView.userInteractionEnabled = true;
 		pipOutputView.userInteractionEnabled = true;
 		
@@ -106,6 +112,22 @@ class BasePipView: UIImageView {
 	func detectPan(recognizer: UIPanGestureRecognizer!){
 		var translation = recognizer.translationInView(self.superview!)
 		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+		
+		for (toPip, armV) in inArms {
+			armV.updateStart(getArmPosForInput(superview!))
+		}
+		
+		for (toPip, armV) in outArms {
+			armV.updateEnd(getArmPosForOutput(superview!))
+		}
+		
+		if recognizer.state == UIGestureRecognizerState.Ended {
+			_mainPipDirectory.viewController.pipStoppedBeingDragged(self)
+		}else{
+			_mainPipDirectory.viewController.pipStartedBeingDragged()
+		}
+		
+		
 	}
 	
 	
@@ -115,7 +137,6 @@ class BasePipView: UIImageView {
 	
 	func inputViewTapped(recognizer: UITapGestureRecognizer!){
 		_mainPipDirectory.setActiveInputPip(pipId)
-        changeInputViewColorOrange()
 	}
 	
 	
@@ -133,21 +154,35 @@ class BasePipView: UIImageView {
 	//		tells the superview to bring this view to the front, and update
 	//		lastLocation's value
 	
-//	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-//		self.superview?.bringSubviewToFront(self)
-//		lastLocation = self.center
-//	}
-//	
-//	// [] - could be used to tell which node a connection is being made to
-//	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-//		
-//	}
+
+    // [] - could be used to tell which node a connection is being made to
+    
+//    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
+        
+		self.superview?.bringSubviewToFront(self)
+		lastLocation = self.center
+	}
+	
+	// [] - could be used to tell which node a connection is being made to
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){
+    
+	}
+	
 	// ---------------
 	//  Accessors
 	// ---------------
 
 	func getModel() -> BasePip{
 		return _mainPipDirectory.getPipByID(pipId!).model
+	}
+	
+	func getArmPosForInput(inViewSpace: UIView) -> CGPoint{
+		return inViewSpace.convertPoint(frame.origin, fromView: inViewSpace)
+	}
+	
+	func getArmPosForOutput(inViewSpace: UIView) -> CGPoint{
+		return inViewSpace.convertPoint(frame.origin, fromView: inViewSpace)
 	}
 	
 	// ---------------
@@ -168,11 +203,37 @@ class BasePipView: UIImageView {
 	func updateView(){
 	}
 	
-	// drawConnection
-	// I/O
+	// addArm: Int, Bool -> ArmView
+	// I/O: takes an Int, toPipID, and a bool, isInputArm.
+	//		creates an ArmView from this pip to toPipID,
+	//		and appends it to the arm dictionary corresponding to
+	//		isInputArm's value, finally returning the ArmView
 	
-	func drawConnection() {
+	func addArm(newArm: ArmView, toPipID: Int, isInputArm: Bool){
 		
+		if isInputArm {
+			inArms[toPipID] = newArm
+		}else{
+			outArms[toPipID] = newArm
+		}
+	}
+	
+	// removeArm: Int, Bool -> ArmView
+	// I/O: takse an Int, toPipID, and a bool, isInputArm
+	//		removes an ArmView from this pip, and from the 
+	//		ArmView's superview
+	
+	func removeArm(toPip: Int, isInputArm: Bool) -> ArmView{
+		
+		if isInputArm {
+			let arm: ArmView = inArms[toPip]!
+			inArms[toPip] = nil
+			return arm
+		} else {
+			let arm: ArmView = outArms[toPip]!
+			outArms[toPip] = nil
+			return arm
+		}
 	}
 	
 }

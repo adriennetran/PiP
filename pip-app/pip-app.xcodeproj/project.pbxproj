@@ -20,6 +20,7 @@
 		5E5354821AD1805D00617B7C /* TextPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5354811AD1805D00617B7C /* TextPip.swift */; };
 		5E53990A1AD6082E00A2CAC7 /* SwitchPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5399091AD6082E00A2CAC7 /* SwitchPip.swift */; };
 		5E53990C1AD6261D00A2CAC7 /* PipDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E53990B1AD6261D00A2CAC7 /* PipDirectory.swift */; };
+		5E66EEEE1AE595AD0067BA33 /* ArmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E66EEED1AE595AD0067BA33 /* ArmView.swift */; };
 		5E879C761AD1881200DCAC47 /* BasePip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E879C751AD1881200DCAC47 /* BasePip.swift */; };
 		5E879C791AD18B8500DCAC47 /* BasePipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E879C781AD18B8500DCAC47 /* BasePipView.swift */; };
 		AE01953D1AE6FFDF00C869DA /* TextPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE01953C1AE6FFDF00C869DA /* TextPipView.swift */; };
@@ -57,6 +58,7 @@
 		5E5354811AD1805D00617B7C /* TextPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPip.swift; sourceTree = "<group>"; };
 		5E5399091AD6082E00A2CAC7 /* SwitchPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchPip.swift; sourceTree = "<group>"; };
 		5E53990B1AD6261D00A2CAC7 /* PipDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipDirectory.swift; sourceTree = "<group>"; };
+		5E66EEED1AE595AD0067BA33 /* ArmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArmView.swift; sourceTree = "<group>"; };
 		5E879C751AD1881200DCAC47 /* BasePip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePip.swift; sourceTree = "<group>"; };
 		5E879C781AD18B8500DCAC47 /* BasePipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePipView.swift; sourceTree = "<group>"; };
 		AE01953C1AE6FFDF00C869DA /* TextPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPipView.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				AE0195401AE7128600C869DA /* ImagePipView.swift */,
 				5E339B621AD238F400CC3E8A /* SwitchPipView.swift */,
 				5E21A2971ADC508C001D82DD /* GridMenuView.swift */,
+				5E66EEED1AE595AD0067BA33 /* ArmView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				5E53545F1AD17E9800617B7C /* ViewController.swift in Sources */,
 				5E53545D1AD17E9800617B7C /* AppDelegate.swift in Sources */,
 				AE0195411AE7128600C869DA /* ImagePipView.swift in Sources */,
+				5E66EEEE1AE595AD0067BA33 /* ArmView.swift in Sources */,
 				5E53990A1AD6082E00A2CAC7 /* SwitchPip.swift in Sources */,
 				5E5354821AD1805D00617B7C /* TextPip.swift in Sources */,
 				AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */,
