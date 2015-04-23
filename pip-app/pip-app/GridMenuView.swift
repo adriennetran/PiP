@@ -105,9 +105,17 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		return btn
 	}
 	
-	// Overridden
+	// toggleActive: nil -> nil
+	// I/O: toggles the value of viewIsActive, and slides the view In/Out as appropriate
+	
 	func toggleActive() {
+		viewIsActive = !viewIsActive
 		
+		if viewIsActive {
+			slideIn()
+		}else{
+			slideOut()
+		}
 	}
 	
 	// toggleActive: UIButton -> nil
@@ -151,7 +159,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 			offset = CGPoint.zeroPoint
 		}
 		
-		frame.origin = CGPoint(x: offset.x + baseLocation.x, y: offset.y + baseLocation.y)
+		frame.origin = CGPoint(x: offset.x + offsetLocation.x, y: offset.y + offsetLocation.y)
 	}
 	
 }

@@ -19,7 +19,7 @@ class PipDirectory{
 	
 	var lastPipID: Int = 0
 	
-	var viewController: ViewController?
+	var viewController: ViewController!
 	
 	var activeInputPipID, activeOutputPipID: Int!
 	
@@ -118,6 +118,10 @@ class PipDirectory{
 		return pipDirectory[id]!
 	}
 	
+	func getAllPips() -> [Int: (model: BasePip, view: BasePipView)] {
+		return pipDirectory
+	}
+	
 	
 	// ---------------
 	//  Mutators
@@ -133,19 +137,7 @@ class PipDirectory{
 		
 		if activeInputPipID != nil && activeInputPipID != activeOutputPipID{
 			
-			let out: (model: BasePip, view: BasePipView) = pipDirectory[activeOutputPipID!]!
-			let input: (model: BasePip, view: BasePipView) = pipDirectory[activeInputPipID!]!
-			
-			out.model.setOutput(activeInputPipID!)
-			input.model.setInput(activeOutputPipID!)
-			
-			pipDirectory[activeOutputPipID!]! = out
-			pipDirectory[activeInputPipID!]! = input
-			
-			activeOutputPipID = nil
-			activeInputPipID = nil
-			
-			input.view.updateView()
+			makeConnection(activeInputPipID!, outPipID: activeOutputPipID)
 		}
 	}
 	
@@ -160,28 +152,8 @@ class PipDirectory{
 		
 		if activeOutputPipID != nil && activeInputPipID != activeOutputPipID{
 			
-			makeConnection(activeInputPipID!, outPip: activeOutputPipID!)
+			makeConnection(activeInputPipID!, outPipID: activeOutputPipID!)
 		}
-	}
-	
-	// makeConnection: Int, Int -> nil
-	// I/P: makes a link from inPip to outPip
-	
-	func makeConnection(inPip: Int, outPip: Int) {
-		let inPipModel: (model: BasePip, view:BasePipView) = pipDirectory[inPip]!
-		let outPipModel: (model: BasePip, view:BasePipView) = pipDirectory[outPip]!
-		
-		inPipModel.model.setOutput(outPip)
-		outPipModel.model.setInput(inPip)
-		
-		pipDirectory[inPip]! = inPipModel
-		pipDirectory[outPip]! = outPipModel
-		
-		activeOutputPipID = nil
-		activeInputPipID = nil
-		
-		outPipModel.view.updateView()
-		
 	}
 	
 	// clearActiveInOut: nil -> nil
@@ -190,6 +162,37 @@ class PipDirectory{
 	func clearActiveInOut() {
 		activeInputPipID = nil
 		activeOutputPipID = nil
+	}
+	
+	// makeConnection: Int, Int -> nil
+	// I/P: makes a link from inPip to outPip
+	
+	func makeConnection(inPipID: Int, outPipID: Int) {
+		let inPip: (model: BasePip, view:BasePipView) = pipDirectory[inPipID]!
+		let outPip: (model: BasePip, view:BasePipView) = pipDirectory[outPipID]!
+		
+		inPip.model.setOutput(outPipID)
+		outPip.model.setInput(inPipID)
+		
+		pipDirectory[inPipID]! = inPip
+		pipDirectory[outPipID]! = outPip
+		
+		activeOutputPipID = nil
+		activeInputPipID = nil
+		
+		outPip.view.updateView()
+		
+		// Arm Construction
+		
+		var inPipArmLoc: CGPoint = inPip.view.getArmPosForInput(viewController.getContainerView())
+		var outPipArmLoc: CGPoint = outPip.view.getArmPosForOutput(viewController.getContainerView())
+		
+		var newArm: ArmView = ArmView(start: inPipArmLoc, end: outPipArmLoc)
+		
+		viewController.addArmView(newArm)
+		
+		inPip.view.addArm(newArm, toPipID: outPipID, isInputArm: true)
+		outPip.view.addArm(newArm, toPipID: inPipID, isInputArm: false)
 	}
 	
 	// updatePip: Int -> nil

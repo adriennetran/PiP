@@ -27,6 +27,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	
 		containerView = UIView(frame: CGRectMake(0, 0, 1440, 2880))
 		scrollView.addSubview(containerView)
+		containerView.setNeedsDisplay()
 		
 		var backgroundView = UIView(frame: CGRectMake(0, 0, 1440, 2880))
 		backgroundView.backgroundColor = UIColor.whiteColor()
@@ -101,6 +102,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		doubleTapRecognizer.numberOfTouchesRequired = 1
 		scrollView.addGestureRecognizer(doubleTapRecognizer)
 		
+		var tapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewTapped:")
+		tapRecognizer.numberOfTapsRequired = 1
+		tapRecognizer.numberOfTouchesRequired = 1
+		scrollView.addGestureRecognizer(tapRecognizer)
+		
 		let scrollViewFrame: CGRect = scrollView.frame
 		let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
 		let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
@@ -109,6 +115,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
 		scrollView.zoomScale = 0.5
+		
+		/* ------------------------
+			Tap Gesture Recognizer
+		   ------------------------ */
+
 	}
 
 	
@@ -116,19 +127,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
-	}
-	
-	// touchesBegan: 
-	// I/O: used to exit/cancel any active screen elements
-	//		active buttons, open menus etc.
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-		println("!")
-		for ele in staticScreenElements {
-			if var menu = (ele.view as? CanvasMenuView){
-				menu.toggleActive()
-				println("!")
-			}
-		}
 	}
 	
 	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
@@ -151,13 +149,39 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.zoomToRect(rectToZoomTo, animated: true)
 	}
 	
+	// scrollViewTapped: UITapGestureRecognizer -> nil
+	// I/O: resets the state of active Pips, and closes all menus
+	
+	func scrollViewTapped(recognizer: UITapGestureRecognizer) {
+		
+		_mainPipDirectory.clearActiveInOut()
+			
+		for ele in staticScreenElements {
+			if var menu = (ele.view as? CanvasMenuView) {
+				if menu.viewIsActive {
+					menu.toggleActive()
+				}
+			}
+		}
+		
+	}
+	
+	// viewForZoomingInScrollView: UIScrollView -> UIView
+	// I/O: returns containerView. Don't remember why.
+	
 	func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
 		return containerView
 	}
 	
+	// scrollViewDidZoom: UIScrollView -> ??
+	// I/O: ???
+	
 	func scrollViewDidZoom(scrollView: UIScrollView) {
 		return
 	}
+	
+	// scrollViewDidScoll: UIScrollView -> nil
+	// I/O: moves all static screen elements to stay relative to screen
 	
 	func scrollViewDidScroll(scrollView: UIScrollView) {
 		let offset: CGPoint = scrollView.contentOffset
@@ -179,12 +203,38 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		}
 	}
 	
-	func addPipView(pipView: BasePipView) {
-		containerView.addSubview(pipView)
-	}
+	// menuButtonPressed: UIButton -> nil
+	// I/O: unused for now, will be used to implement other menus
 	
 	func menuButtonPressed(sender: UIButton!){
 		println("no menu to toggle yet")
+	}
+	
+	// addPipView: BasePipView -> nil
+	// I/O: adds pipView to containerView
+	//		called by PipDirectory.createPipOfType()
+	
+	func addPipView(pipView: BasePipView) {
+		containerView.addSubview(pipView)
+		containerView.bringSubviewToFront(pipView)
+	}
+	
+	// addArmView: ArmView -> nil
+	// I/O: Adds armView to containerView and moves it all the way to the back
+	//		called by PipDirectory.makeConnection()
+	
+	func addArmView(armView: ArmView) {
+		containerView.addSubview(armView)
+		//scrollView.sendSubviewToBack(armView)
+		armView.setNeedsDisplay()
+	}
+	
+	// ------------
+	//	Accessors
+	// ------------
+	
+	func getContainerView() -> UIView {
+		return containerView
 	}
 }
 
