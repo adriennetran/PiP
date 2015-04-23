@@ -46,7 +46,11 @@ class SwitchPipView: BasePipView{
 	// onTouchesEnded: NSSet, UIEvent -> nil
 	// I/O: called when a touch ends over this view. Triggers a state change of the button
 	
-	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+
+//    override func touchesEnded(touches: NSSet, withEvent event: UIEvent){
+    
+        
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){
 		buttonPressed()
 	}
 	
