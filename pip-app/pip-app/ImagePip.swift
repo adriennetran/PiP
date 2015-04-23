@@ -12,6 +12,7 @@ import UIKit
 class ImageOutput{
     var image: UIImage!
     var text: String!
+
     
     init(){
         // image intializes as null until user adds something

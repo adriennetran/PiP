@@ -26,6 +26,17 @@ class ImagePipView: BasePipView{
         
         pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
         pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+        
+        var addPhotoFrame = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
+        addPhotoFrame.backgroundColor = UIColor.blueColor()
+        addPhotoFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "addPhotoTouched:"))
+        addSubview(addPhotoFrame)
+    }
+    
+    func addPhotoTouched(recognizer: UITapGestureRecognizer){
+        // load file
+        
+        // (getModel() as? ColorPip)?.updateColor(UIColor.blueColor())
     }
     
     // accessors

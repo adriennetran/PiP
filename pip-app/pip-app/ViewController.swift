@@ -8,23 +8,86 @@
 
 import UIKit
 import CoreMotion
+import MobileCoreServices
+import Photos
+
+//class PhotosCollectionViewController: UICollectionViewController, PHPhotoLibraryChangeObserver{
+//    
+//    var images: PHFetchResult! = nil
+//    
+//    // creates manager object so later we can go through all assets fetched and try to retrieve their data
+//    let imageManager = PHCachingImageManager()
+//    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        images = PHAsset.fetchAssetsWithMediaType(.Image, options: nil)
+////        PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
+//    }
+//    
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//        
+//        PHPhotoLibrary.requestAuthorization{
+//        [weak self](status: PHAuthorizationStatus) in
+//        
+//            dispatch_async(dispatch_get_main_queue(), {
+//                switch status{
+//                case .Authorized:
+//                self!.retrieveImage()
+//            default:
+//                self!.displayAlertWithTitle("Access",
+//                    message: "I could not access the photo library")
+//        }
+//            })
+//        }
+//    }
+//    
+//}
+
+
 
 class ViewController: UIViewController, UIScrollViewDelegate {
+    
     lazy var motionManager = CMMotionManager()
 	
 	@IBOutlet var scrollView: UIScrollView!
-	
 	var containerView: UIView!
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
+    
     
     func isCameraAvailable() -> Bool{
         return UIImagePickerController.isSourceTypeAvailable(.Camera)
     }
+
 	
 	override func viewDidLoad() {
+        println("hello")
+        var button: UIButton!
 		super.viewDidLoad()
+        
+        let normalImage = UIImage(named: "NormalBlueButton")
+        let highlightedImage = UIImage(named: "HighlightedBlueButton"); button = UIButton.buttonWithType(.Custom) as? UIButton
+        button.frame = CGRect(x: 110, y: 70, width: 100, height: 44)
+        button.setTitle("Normal", forState: .Normal)
+        button.setTitle("Pressed", forState: .Highlighted)
+        button.setBackgroundImage(normalImage, forState: .Normal)
+        button.setBackgroundImage(highlightedImage, forState: .Highlighted)
+        view.addSubview(button)
+        
 		// Do any additional setup after loading the view, typically from a nib.
 		
+        
+        // queries photo library
+//        let images = PHAsset.fetchAssetsWithMediaType(.Image, options: nil)
+        
+        // requests image
+//        self.imageManager?.requestImageForAsset(imageAsset!,
+//            targetSize: CGSize(width: 320, height: 320),
+//            contentMode: .AspectFill, options: nil) {
+//                image, info in
+//                self.photoImageView.image = image
+//        }
+        
         
         // get camera data
         print("Camera is ")
@@ -38,9 +101,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             let queue = NSOperationQueue()
             motionManager.startAccelerometerUpdatesToQueue(queue, withHandler:
                 {(data: CMAccelerometerData!, error: NSError!) in
-                    println("X = \(data.acceleration.x)")
-                    println("Y = \(data.acceleration.y)")
-                    println("Z = \(data.acceleration.z)")
+//                    println("X = \(data.acceleration.x)")
+//                    println("Y = \(data.acceleration.y)")
+//                    println("Z = \(data.acceleration.z)")
                 }
             )
         } else{

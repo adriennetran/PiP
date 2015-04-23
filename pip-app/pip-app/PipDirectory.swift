@@ -14,6 +14,8 @@ import UIKit
 var _mainPipDirectory: PipDirectory = PipDirectory()
 
 class PipDirectory{
+    
+    
 	
 	var pipDirectory: [Int: (model: BasePip, view: BasePipView)]!
 	
