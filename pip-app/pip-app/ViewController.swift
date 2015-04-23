@@ -14,6 +14,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	
 	var containerView: UIView!
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
+	var trashCanButton: UIView!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -55,12 +56,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		
 		// Add Menu Buttons
 		// second so that they are on top of menus
+		
+		// Pip Menu Button
+		
 		let pipMenuBtnPos = CGPoint(x: 0, y: 0)
 		var pipMenuButton = UIButton(frame: CGRectMake(pipMenuBtnPos.x, pipMenuBtnPos.y, 50, 50))
 		pipMenuButton.backgroundColor = UIColor.redColor()
 		pipMenuButton.addTarget(pipMenu, action: "toggleActive:", forControlEvents: .TouchUpInside)
 		let pipTuple: (view: UIView, pos: CGPoint) = (view: pipMenuButton, pos: pipMenuBtnPos)
 		staticScreenElements.append(pipTuple)
+		
+		// User Data Button
 		
 		let userDataBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 50, y: 0)
 		var userDataButton = UIButton(frame: CGRectMake(userDataBtnPos.x, userDataBtnPos.y, 50, 50))
@@ -69,12 +75,16 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		let userTuple: (view: UIView, pos: CGPoint) = (view: userDataButton, pos: userDataBtnPos)
 		staticScreenElements.append(userTuple)
 		
+		// Network Button
+		
 		let networkBtnPos = CGPoint(x: 0, y: UIScreen.mainScreen().bounds.height - 50)
 		var networkButton = UIButton(frame: CGRectMake(networkBtnPos.x, networkBtnPos.y, 50, 50))
 		networkButton.backgroundColor = UIColor.greenColor()
 		networkButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
 		let netTuple: (view: UIView, pos: CGPoint) = (view: networkButton, pos: networkBtnPos)
 		staticScreenElements.append(netTuple)
+		
+		// Settings Button
 		
 		let settingsBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 50,
 			y: UIScreen.mainScreen().bounds.height - 50)
@@ -84,10 +94,23 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		let settingsTuple: (view: UIView, pos: CGPoint) = (view: settingsButton, settingsBtnPos)
 		staticScreenElements.append(settingsTuple)
 		
+		// Trash Can
+		
+		let trashCanPos = CGPoint(x: UIScreen.mainScreen().bounds.width/2 - 50,
+			y: UIScreen.mainScreen().bounds.height - 110)
+		trashCanButton = UIView(frame: CGRectMake(settingsBtnPos.x, settingsBtnPos.y, 100, 100))
+		trashCanButton.backgroundColor = UIColor.blackColor()
+		trashCanButton.hidden = true
+		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
+		staticScreenElements.append(trashTuple)
+		
+		// Add Buttons to scrollView
+		
 		scrollView.addSubview(pipMenuButton)
 		scrollView.addSubview(userDataButton)
 		scrollView.addSubview(networkButton)
 		scrollView.addSubview(settingsButton)
+		scrollView.addSubview(trashCanButton)
 		
 		
 		/* ------------------------
@@ -203,12 +226,40 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		}
 	}
 	
+	// pipStartedBeingDragged: nil -> nil
+	// I/O: called by a pip when it first starts being dragged
+	//		makes the trash can visible
+	func pipStartedBeingDragged() {
+		trashCanButton.hidden = false
+	}
+	
+	// pipStoppedBeingDragged: nil -> nil
+	// I/O: called by a pip when touchesEnded
+	//		hides the trash can 
+	func pipStoppedBeingDragged(pip: BasePipView) {
+		trashCanButton.hidden = true
+		
+		let pipRect: CGRect = scrollView.convertRect(pip.frame, fromView: containerView)
+		
+		if CGRectIntersectsRect(pipRect, trashCanButton.frame) {
+			_mainPipDirectory.deletePip(pip.pipId)
+		}
+	}
+	
 	// menuButtonPressed: UIButton -> nil
 	// I/O: unused for now, will be used to implement other menus
 	
 	func menuButtonPressed(sender: UIButton!){
 		println("no menu to toggle yet")
 	}
+	
+	/* --------------------------------------------------------
+	 * THIS COMMENT IS UNDER NO CIRCUMSTANCES TO BE MODIFIED
+	 * MOVED, DELETED, OR IN ANY WAY ALTERED
+	 * FOR ALL TIME LET IT BE KNOWN THAT
+	 * PETER SLATTERY IS PROGRAMMING GOD
+	 * --------------------------------------------------------
+	*/
 	
 	// addPipView: BasePipView -> nil
 	// I/O: adds pipView to containerView
@@ -227,6 +278,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		containerView.addSubview(armView)
 		//scrollView.sendSubviewToBack(armView)
 		armView.setNeedsDisplay()
+	}
+	
+	// removeArmView: ArmView -> nil
+	// I/O: Removes armView from containerView
+	
+	func removeArmView(armView: ArmView) {
+		armView.removeFromSuperview()
 	}
 	
 	// ------------

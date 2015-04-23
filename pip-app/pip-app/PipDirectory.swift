@@ -108,6 +108,23 @@ class PipDirectory{
 	}
 	
 	// ---------------
+	//  Pip Deletion
+	// ---------------
+	
+	func deletePip(pipID: Int) {
+		var pip: (model: BasePip, view: BasePipView) = getPipByID(pipID)
+		
+		// remove all connections between pip and other pips
+		pip.model.pipToBeDestroyed()
+		
+		// remove pip from its superview
+		pip.view.removeFromSuperview()
+		
+		// remove pip from pipDirectory
+		pipDirectory[pipID] = nil
+	}
+	
+	// ---------------
 	//  Accessors
 	// ---------------
 	
@@ -165,7 +182,7 @@ class PipDirectory{
 	}
 	
 	// makeConnection: Int, Int -> nil
-	// I/P: makes a link from inPip to outPip
+	// I/O: makes a link from inPip to outPip
 	
 	func makeConnection(inPipID: Int, outPipID: Int) {
 		let inPip: (model: BasePip, view:BasePipView) = pipDirectory[inPipID]!
@@ -195,6 +212,25 @@ class PipDirectory{
 		outPip.view.addArm(newArm, toPipID: inPipID, isInputArm: false)
 	}
 	
+	// breakConnection: Int, Int -> nil
+	// I/O: breaks a link between two pips
+	
+	func breakConnection(inPipID: Int, outPipID: Int) {
+		let inPip: (model: BasePip, view:BasePipView) = pipDirectory[inPipID]!
+		let outPip: (model: BasePip, view:BasePipView) = pipDirectory[outPipID]!
+		
+		inPip.model.removeOutput(outPipID)
+		outPip.model.removeInput(inPipID)
+		
+		let inArm: ArmView = inPip.view.removeArm(outPipID, isInputArm: true)
+		let outArm: ArmView = outPip.view.removeArm(inPipID, isInputArm: false)
+		
+		viewController.removeArmView(inArm)
+		viewController.removeArmView(outArm)
+		
+		outPip.view.updateView()
+	}
+	
 	// updatePip: Int -> nil
 	// I/O: called by any Pip that changes on its inputs or outputs
 	//		forces a Pip to check its inputs and change accordingly
@@ -203,13 +239,18 @@ class PipDirectory{
 		let type = getPipByID(pID).model.getPipType()
 		switch type{
 			//case .Button:
-			
 		case .Color:
+			
 			(getPipByID(pID).model as? ColorPip)?.getOutput()
+			
 		case .Text:
+			
 			(getPipByID(pID).model as? TextPip)?.getOutput()
+			
 		default:	//defaults to switch
+			
 			(getPipByID(pID).model as? SwitchPip)?.getOutput()
+			
 		}
 		
 		getPipByID(pID).view.updateView()

@@ -55,7 +55,6 @@ class SwitchPipView: BasePipView{
 	// I/O: tells the model to change state. Updates image to reflect that state.
 	
 	func buttonPressed() {
-
 		if let v = (getModel() as? SwitchPip)?.switchStateChange(){
 			if v {
 				self.image? = stateImages[0]

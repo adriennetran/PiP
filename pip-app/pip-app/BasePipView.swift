@@ -120,6 +120,14 @@ class BasePipView: UIImageView {
 		for (toPip, armV) in outArms {
 			armV.updateEnd(getArmPosForOutput(superview!))
 		}
+		
+		if recognizer.state == UIGestureRecognizerState.Ended {
+			_mainPipDirectory.viewController.pipStoppedBeingDragged(self)
+		}else{
+			_mainPipDirectory.viewController.pipStartedBeingDragged()
+		}
+		
+		
 	}
 	
 	
@@ -129,7 +137,6 @@ class BasePipView: UIImageView {
 	
 	func inputViewTapped(recognizer: UITapGestureRecognizer!){
 		_mainPipDirectory.setActiveInputPip(pipId)
-        changeInputViewColorOrange()
 	}
 	
 	
@@ -154,7 +161,6 @@ class BasePipView: UIImageView {
 	
 	// [] - could be used to tell which node a connection is being made to
 	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-		
 	}
 	
 	// ---------------
@@ -203,6 +209,24 @@ class BasePipView: UIImageView {
 			inArms[toPipID] = newArm
 		}else{
 			outArms[toPipID] = newArm
+		}
+	}
+	
+	// removeArm: Int, Bool -> ArmView
+	// I/O: takse an Int, toPipID, and a bool, isInputArm
+	//		removes an ArmView from this pip, and from the 
+	//		ArmView's superview
+	
+	func removeArm(toPip: Int, isInputArm: Bool) -> ArmView{
+		
+		if isInputArm {
+			let arm: ArmView = inArms[toPip]!
+			inArms[toPip] = nil
+			return arm
+		} else {
+			let arm: ArmView = outArms[toPip]!
+			outArms[toPip] = nil
+			return arm
 		}
 	}
 	

@@ -21,18 +21,38 @@ class TextOutput{
 		color = UIColor.blackColor()
 	}
 	
+	// -------------
+	//   Accessors
+	// -------------
+	
+	// getText: -> String
+	// I/O: returns the text content of the object
+	
 	func getText() -> String{
 		return text
 	}
-    
+	
+	// getColor: -> UIColor
+	// I/O: returns the color of the object
+	
+	func getColor() -> UIColor{
+		return color
+	}
+	
+	// ------------
+	//   Mutators
+	// ------------
+	
+	// setText: String ->
+	// I/O: sets text to newText
+	
     func setText(newText: String){
         text = newText
     }
-    
-    func getColor() -> UIColor{
-        return color
-    }
-    
+	
+	// setColor: UIColor ->
+	// I/O: sets color to newColor
+	
     func setColor(newColor: UIColor){
         color = newColor
     }
