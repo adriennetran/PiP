@@ -14,7 +14,7 @@ import MobileCoreServices
 // Create a subview which is the "images directory"
 
 //let controller = CameraViewControllerTest(nibName: "ViewController", bundle: NSBundle.mainBundle())
-let controller = CameraViewControllerTest(nibName: nil, bundle: nil)
+let controller = CameraViewControllerTest()
 
 protocol PhotoLibraryDelegate {
     func openPhotoLibrary(sender: ImagePipView)
@@ -37,12 +37,18 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate{
         pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
         pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
         
-        var addPhotoFrame = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
-        addPhotoFrame.backgroundColor = UIColor.blueColor()
+        var addPhotoButton = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
+        addPhotoButton.backgroundColor = UIColor.blueColor()
         
-        addPhotoFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "addPhotoTouched:"))
+        addPhotoButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "addPhotoTouched:"))
         
-        addSubview(addPhotoFrame)
+//        var testButton = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 100, 200))
+//        testButton.backgroundColor = UIColor.greenColor()
+//        testButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "controller.buttonDidTap:"))
+//        addSubview(testButton)
+        
+        addSubview(addPhotoButton)
+       
         
     }
 
@@ -57,10 +63,12 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate{
         // call model.cameraViewController
         // pull up the camera screen
         println("PHOTO TOUCHED")
-        controller.openPhotoLibrary(self)
-        println("after photo touched")
 //        controller.viewDidAppear(true)
-        controller.presentViewController(controller.photoPicker, animated: true, completion: nil)
+//        controller.btnCamera(self)
+        controller.viewDidAppear(true)
+        println("after photo touched")
+        
+//        controller.presentViewController(controller.photoPicker, animated: true, completion: nil)
         
         
 

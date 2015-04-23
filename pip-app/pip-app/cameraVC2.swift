@@ -2,6 +2,7 @@ import UIKit
 import MobileCoreServices
 
 
+
 class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoLibraryDelegate{
     
     init() {
@@ -44,6 +45,8 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
         super.viewDidLoad()
         self.photoImageView.backgroundColor = UIColor.greenColor()
         self.view.addSubview(photoImageView)
+        
+        println ("view did load")
     }
     
     override func didReceiveMemoryWarning() {
@@ -64,6 +67,10 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
     // something happens when we click a picture
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
         
+    }
+    
+    @objc func buttonDidTap(){
+        println("button tapped")
     }
     
     override func viewDidAppear(animated: Bool) {
