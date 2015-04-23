@@ -40,13 +40,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
                 if type is String{
                     let stringType = type as! String
                     
-//                    if stringType == kUTTypeMovie as! String{
-//                        let urlOfVideo = info[UIImagePickerControllerMediaURL] as? NSURL
-//                        if let url = urlOfVideo{
-//                            println("Video URL = \(url)")
-//                        }
-//                    }
-                    
+                    // for videos
+                    /*
+                    if stringType == kUTTypeMovie as! String{
+                        let urlOfVideo = info[UIImagePickerControllerMediaURL] as? NSURL
+                        if let url = urlOfVideo{
+                            println("Video URL = \(url)")
+                        }
+                    }*/
+
                     if stringType == kUTTypeImage as! String{
                         /* Let's get the metadata. This is only for images. Not videos */
                         let metadata = info[UIImagePickerControllerMediaMetadata]
