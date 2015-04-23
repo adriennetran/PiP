@@ -39,6 +39,7 @@ class ImageOutput{
 class ImagePip: BasePip{
     
     var output: ImageOutput!
+    var cameraVC: cameraViewController!
     
     init(id: Int){
         super.init(pipType: PipType.Accel, id: id)

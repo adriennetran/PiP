@@ -3,7 +3,7 @@
 //  pip-app
 //
 //  Created by Adrienne Tran on 4/23/15.
-//  Copyright (c) 2015 Peter Slattery. All rights reserved.
+//  Copyright (c) 2015 Adrienne Tran. All rights reserved.
 //
 
 import UIKit
@@ -17,7 +17,7 @@ UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     /* We will use this variable to determine if the viewDidAppear:
     method of our view controller is already called or not. If not, we will
     display the camera view */
-    var beenHereBefore = false
+//    var beenHereBefore = false
     var controller: UIImagePickerController?
     
     func imagePickerController(picker: UIImagePickerController,
@@ -90,16 +90,16 @@ UINavigationControllerDelegate, UIImagePickerControllerDelegate {
         return cameraSupportsMedia(kUTTypeImage as! String, sourceType: .Camera)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    func viewToAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
         
-        if beenHereBefore{
-            /* Only display the picker once as the viewDidAppear: method gets
-            called whenever the view of our view controller gets displayed */
-            return;
-        } else {
-            beenHereBefore = true
-        }
+//        if beenHereBefore{
+//            /* Only display the picker once as the viewDidAppear: method gets
+//            called whenever the view of our view controller gets displayed */
+//            return;
+//        } else {
+//            beenHereBefore = true
+//        }
         
         if isCameraAvailable() && doesCameraSupportTakingPhotos(){
             

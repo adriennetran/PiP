@@ -35,6 +35,8 @@ class ImagePipView: BasePipView{
     
     func addPhotoTouched(recognizer: UITapGestureRecognizer){
         // call model.cameraViewController
+        // pull up the camera screen
+        (getModel() as? ImagePip)?.cameraVC.viewToAppear(true)
         
         // (getModel() as? ColorPip)?.updateColor(UIColor.blueColor())
     }
