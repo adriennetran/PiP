@@ -69,6 +69,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
             picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         println("Picker was cancelled")
         picker.dismissViewControllerAnimated(true, completion: nil)
@@ -97,38 +98,38 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
     }
     
     func doesCameraSupportTakingPhotos() -> Bool{
-        return cameraSupportsMedia(kUTTypeImage as! String, sourceType: .Camera)
+        return cameraSupportsMedia((kUTTypeImage as? String)!, sourceType: .Camera)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if beenHereBefore{
-            /* Only display the picker once as the viewDidAppear: method gets
-            called whenever the view of our view controller gets displayed */
-            return;
-        } else {
-            beenHereBefore = true
-        }
-        
-        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
-            
-            controller = UIImagePickerController()
-            
-            if let theController = controller{
-                theController.sourceType = .Camera
-                
-                theController.mediaTypes = [kUTTypeImage as! String]
-                
-                theController.allowsEditing = true
-                theController.delegate = self
-                
-                presentViewController(theController, animated: true, completion: nil)
-            }
-            
-        } else {
-            println("Camera is not available")
-        }
+//        if beenHereBefore{
+//            /* Only display the picker once as the viewDidAppear: method gets
+//            called whenever the view of our view controller gets displayed */
+//            return;
+//        } else {
+//            beenHereBefore = true
+//        }
+//        
+//        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
+//            
+//            controller = UIImagePickerController()
+//            
+//            if let theController = controller{
+//                theController.sourceType = .Camera
+//                
+//                theController.mediaTypes = [kUTTypeImage as! String]
+//                
+//                theController.allowsEditing = true
+//                theController.delegate = self
+//                
+//                presentViewController(theController, animated: true, completion: nil)
+//            }
+//            
+//        } else {
+//            println("Camera is not available")
+//        }
         
     }
     

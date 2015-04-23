@@ -28,6 +28,7 @@
 		AE0195411AE7128600C869DA /* ImagePipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0195401AE7128600C869DA /* ImagePipView.swift */; };
 		AE0195431AE7129800C869DA /* ImagePip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0195421AE7129800C869DA /* ImagePip.swift */; };
 		AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2479B61AD5F209009EC6AF /* ColorPip.swift */; };
+		AEA8323B1AE8D20300170412 /* cameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA8323A1AE8D20300170412 /* cameraViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		AE0195401AE7128600C869DA /* ImagePipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePipView.swift; sourceTree = "<group>"; };
 		AE0195421AE7129800C869DA /* ImagePip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePip.swift; sourceTree = "<group>"; };
 		AE2479B61AD5F209009EC6AF /* ColorPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPip.swift; sourceTree = "<group>"; };
+		AEA8323A1AE8D20300170412 /* cameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cameraViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				5E53547E1AD1801100617B7C /* Model */,
 				5E53545C1AD17E9800617B7C /* AppDelegate.swift */,
 				5E53545E1AD17E9800617B7C /* ViewController.swift */,
+				AEA8323A1AE8D20300170412 /* cameraViewController.swift */,
 				5E53990B1AD6261D00A2CAC7 /* PipDirectory.swift */,
 				5E5354601AD17E9800617B7C /* Main.storyboard */,
 				5E5354631AD17E9800617B7C /* Images.xcassets */,
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E879C761AD1881200DCAC47 /* BasePip.swift in Sources */,
+				AEA8323B1AE8D20300170412 /* cameraViewController.swift in Sources */,
 				AE01953D1AE6FFDF00C869DA /* TextPipView.swift in Sources */,
 				AE01953F1AE700FB00C869DA /* AccelPip.swift in Sources */,
 				5E339B631AD238F400CC3E8A /* SwitchPipView.swift in Sources */,

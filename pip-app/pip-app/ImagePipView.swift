@@ -34,7 +34,7 @@ class ImagePipView: BasePipView{
     }
     
     func addPhotoTouched(recognizer: UITapGestureRecognizer){
-        // load file
+        // call model.cameraViewController
         
         // (getModel() as? ColorPip)?.updateColor(UIColor.blueColor())
     }
