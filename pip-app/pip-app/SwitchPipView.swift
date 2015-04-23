@@ -43,6 +43,10 @@ class SwitchPipView: BasePipView{
 	override func getModel() -> BasePip {
 		return _mainPipDirectory.getPipByID(pipId).model
 	}
+        
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){
+		
+	}
 	
 	// buttonPressed: nil -> nil
 	// I/O: tells the model to change state. Updates image to reflect that state.

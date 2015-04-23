@@ -152,13 +152,19 @@ class BasePipView: UIImageView {
 	//		tells the superview to bring this view to the front, and update
 	//		lastLocation's value
 	
-	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+//	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    
+//    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
+        
 		self.superview?.bringSubviewToFront(self)
 		lastLocation = self.center
 	}
 	
 	// [] - could be used to tell which node a connection is being made to
-	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+//	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){
+    
 	}
 	
 	// ---------------

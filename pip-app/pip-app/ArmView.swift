@@ -82,8 +82,8 @@ class ArmView: UIView {
 		CGContextSetStrokeColorWithColor(context, color)
 		
 		// Convert start and end points to superview coordinate space
-		let startConv: CGPoint = self.convertPoint(start, fromView: superview?)
-		let endConv: CGPoint = self.convertPoint(end, fromView: superview?)
+		let startConv: CGPoint = self.convertPoint(start, fromView: superview)
+		let endConv: CGPoint = self.convertPoint(end, fromView: superview)
 		
 		// Set Line to Draw
 		CGContextMoveToPoint(context, startConv.x, startConv.y)
