@@ -44,6 +44,20 @@ class PipDirectory{
 	func createPipOfType(pType: PipType){
 		switch pType{
             
+        case .Image:
+            
+            // Create View and Model
+            var imageModel: ImagePip = ImagePip(id: lastPipID)
+            var imageView: ImagePipView = ImagePipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+            
+            // Link view and model
+            viewController?.addPipView(imageView)
+            
+            // Add tuple to array
+            var tuple: (model: BasePip, view: BasePipView) = (model: imageModel, view: imageView)
+            pipDirectory[lastPipID] = tuple
+            
+            
         case .Accel:
             
             // Create View and Model
