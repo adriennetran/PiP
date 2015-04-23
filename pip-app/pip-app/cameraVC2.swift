@@ -5,10 +5,13 @@ import MobileCoreServices
 class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoLibraryDelegate{
     
     init() {
-        super.init(nibName:"MyNib", bundle:nil)
-        var productRequest: ImagePipView?
-        productRequest?.delegate = self
+        super.init(nibName:nil, bundle:nil)
+        var imageView: ImagePipView = ImagePipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: 24)
+        
+        var productRequest: ImagePipView = imageView
+        productRequest.delegate = self
     }
+    
     override init(nibName: String?, bundle: NSBundle?) {
         super.init(nibName:nibName, bundle:bundle)
     }
@@ -47,12 +50,15 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
         super.didReceiveMemoryWarning()
     }
     
+    var photoPicker = UIImagePickerController()
+    
     func openPhotoLibrary(request: ImagePipView){
         println ("inside photo library")
         var photoPicker = UIImagePickerController()
         photoPicker.delegate = self
         photoPicker.sourceType = .PhotoLibrary // standards
-        self.presentViewController(photoPicker, animated: true, completion: nil)
+//        self.presentViewController(photoPicker, animated: true, completion: nil)
+//        presentViewController(photoPicker, animated: true, completion: nil)
     }
     
     // something happens when we click a picture
@@ -60,9 +66,14 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
         
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
         println("inside view will appear")
+        
+        var photoPicker = UIImagePickerController()
+        photoPicker.delegate = self
+        photoPicker.sourceType = .PhotoLibrary // standards
+        self.presentViewController(photoPicker, animated: true, completion: nil)
     }
     
 }

@@ -13,6 +13,9 @@ import MobileCoreServices
 
 // Create a subview which is the "images directory"
 
+//let controller = CameraViewControllerTest(nibName: "ViewController", bundle: NSBundle.mainBundle())
+let controller = CameraViewControllerTest(nibName: nil, bundle: nil)
+
 protocol PhotoLibraryDelegate {
     func openPhotoLibrary(sender: ImagePipView)
 }
@@ -54,8 +57,14 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate{
         // call model.cameraViewController
         // pull up the camera screen
         println("PHOTO TOUCHED")
-        delegate?.openPhotoLibrary(self)
+        controller.openPhotoLibrary(self)
+        println("after photo touched")
+//        controller.viewDidAppear(true)
+        controller.presentViewController(controller.photoPicker, animated: true, completion: nil)
         
+        
+
+        //        delegate?.openPhotoLibrary(self)
 //        ViewController.viewDidAppear_Camera()
 //        (getModel() as? ImagePip)?.cameraVC.takePhoto()
 //        cameraVC.viewDidAppear(true)
@@ -64,7 +73,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate{
         
         
 //        var controller = CameraViewControllerTest()
-        println("after photo touched")
+        
         
     }
     
