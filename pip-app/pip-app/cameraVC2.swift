@@ -7,6 +7,8 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
     
     init() {
         super.init(nibName:nil, bundle:nil)
+        
+        // instantiates an ImagePipView
         var imageView: ImagePipView = ImagePipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: 24)
         
         var productRequest: ImagePipView = imageView
@@ -25,6 +27,7 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
 //        fatalError("init(coder:) has not been implemented")
 //    }
 
+    // create box for user photo
     var photoImageView = UIImageView(frame: CGRectMake(40, 40, 200, 200))
     
 //    @IBAction func btnCamera(sender: AnyObject){
@@ -53,6 +56,7 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
         super.didReceiveMemoryWarning()
     }
     
+    // photopicker loads the photo gallery
     var photoPicker = UIImagePickerController()
     
     func openPhotoLibrary(request: ImagePipView){
@@ -61,7 +65,7 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
         photoPicker.delegate = self
         photoPicker.sourceType = .PhotoLibrary // standards
 //        self.presentViewController(photoPicker, animated: true, completion: nil)
-//        presentViewController(photoPicker, animated: true, completion: nil)
+        presentViewController(photoPicker, animated: true, completion: nil)
     }
     
     // something happens when we click a picture
@@ -69,6 +73,7 @@ class CameraViewControllerTest: UIViewController, UIImagePickerControllerDelegat
         
     }
     
+    // TODO: explore moving ImagePipView functions into here
     @objc func buttonDidTap(){
         println("button tapped")
     }

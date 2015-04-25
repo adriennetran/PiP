@@ -57,15 +57,17 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate{
     }
     
     
-    
+
     
     func addPhotoTouched(recognizer: UITapGestureRecognizer){
         // call model.cameraViewController
         // pull up the camera screen
         println("PHOTO TOUCHED")
+        
 //        controller.viewDidAppear(true)
 //        controller.btnCamera(self)
-        controller.viewDidAppear(true)
+//        controller.viewDidAppear(true)
+        controller.openPhotoLibrary(self)
         println("after photo touched")
         
 //        controller.presentViewController(controller.photoPicker, animated: true, completion: nil)
