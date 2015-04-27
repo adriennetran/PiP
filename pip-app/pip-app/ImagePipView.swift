@@ -25,7 +25,6 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // inherits photoImageView: UIImageView from BasePip
     
     
-    
     init(point: CGPoint, id: Int){
         super.init(point: point, image: UIImage(named: "imagePip-image")!, id: id)
         
@@ -33,11 +32,6 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
         pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
-        
-        
-        
-//        photoImageView.layer.addSublayer(blackLayer)
-
         
     }
     
@@ -54,11 +48,22 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     }
     
     // takes image data chosen by user
-    func getLocalImage(image: UIImage){
-        
-    }
+//    func getLocalImage(image: UIImage){
+//        
+//    }
     
     override func updateView(){
+        println ("updating imageView")
+        let output = (getModel() as? ImagePip)?.getOutput()
+        
+        // get switch signal
+        if (output?.getSwitch() != nil){
+            // update black
+            self.blackLayer.opacity = 0.9
+        } else{
+            self.blackLayer.opacity = 0.1
+        }
+        
         (getModel() as? ImagePip)?.updateReliantPips()
     }
     

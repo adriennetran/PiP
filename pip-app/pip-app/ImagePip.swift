@@ -11,11 +11,20 @@ import UIKit
 
 class ImageOutput{
     var image: UIImage!
-    var text: String!
+    var text: String?
+    var switchStatus: Bool?
 
     
     init(){
-        // image intializes as null until user adds something
+        // image initializes as null until user adds something
+    }
+    
+    func setSwitch(status: Bool){
+        switchStatus = status
+    }
+    
+    func getSwitch() -> Bool{
+        return switchStatus!
     }
     
     func getImage() -> UIImage{
@@ -27,12 +36,12 @@ class ImageOutput{
     }
     
     func getText() -> String{
-        return text
+        return text!
     }
     
     func setText(newText: String) -> String{
         text = newText
-        return text
+        return text!
     }
 }
 
@@ -71,12 +80,17 @@ class ImagePip: BasePip{
                 let castItem: SwitchPip! = inPip as? SwitchPip
                 if castItem != nil{
                     if castItem.getOutput() {
+                        output.setSwitch(true)
+                        
                         // set output image 50% opacity
+//                        self.blackLayer.opacity = 0.7
                         
                     }else{
-                        // set output image 100% opacity
+                        output.setSwitch(false)
                         
-//                        output.image = 
+                        // set output image 100% opacity
+//                        self.blackLayer.opacity = 0.2
+//                        output.image =
                     }
                 }
             }
