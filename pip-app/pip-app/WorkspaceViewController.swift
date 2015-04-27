@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  WorkspaceViewController.swift
 //  pip-app
 //
 //  Created by Peter Slattery on 4/5/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class WorkspaceViewController: UIViewController, UIScrollViewDelegate {
 	
 	@IBOutlet var scrollView: UIScrollView!
 	

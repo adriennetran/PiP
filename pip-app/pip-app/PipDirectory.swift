@@ -19,7 +19,7 @@ class PipDirectory{
 	
 	var lastPipID: Int = 0
 	
-	var viewController: ViewController!
+	var viewController: WorkspaceViewController!
 	
 	var activeInputPipID, activeOutputPipID: Int!
 	
@@ -27,7 +27,7 @@ class PipDirectory{
 		pipDirectory = [:]
 	}
 	
-	func registerViewController(vC: ViewController){
+	func registerViewController(vC: WorkspaceViewController){
 		viewController = vC
 	}
 	
