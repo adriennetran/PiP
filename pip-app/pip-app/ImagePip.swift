@@ -11,12 +11,17 @@ import UIKit
 
 class ImageOutput{
     var image: UIImage!
-    var text: String?
-    var switchStatus: Bool?
+    var color: UIColor!
+    var text: String!
+    var switchStatus: Bool!
 
     
     init(){
         // image initializes as null until user adds something
+        text = ""
+        color = UIColor.blackColor()
+        switchStatus = false
+        
     }
     
     func setSwitch(status: Bool){
@@ -36,12 +41,12 @@ class ImageOutput{
     }
     
     func getText() -> String{
-        return text!
+        return text
     }
     
     func setText(newText: String) -> String{
         text = newText
-        return text!
+        return text
     }
 }
 
@@ -70,7 +75,9 @@ class ImagePip: BasePip{
                 let castItem: TextPip! = inPip as? TextPip
                 
                 if castItem != nil{
+                    println("setting text")
                     let newString = castItem.getOutput().getText() + output.getText()
+                    println("setting text2")
                     output.setText(newString)
                 }
                 
