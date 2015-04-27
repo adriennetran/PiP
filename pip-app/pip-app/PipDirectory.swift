@@ -113,7 +113,7 @@ class PipDirectory{
 	}
 	
 	// ---------------
-	//  Pip Deletion
+	//  Deletion
 	// ---------------
 	
 	func deletePip(pipID: Int) {
@@ -127,6 +127,13 @@ class PipDirectory{
 		
 		// remove pip from pipDirectory
 		pipDirectory[pipID] = nil
+	}
+	
+	func deleteHand(hand: HandView) {
+		var inPip = hand.inPipID
+		var outPip = hand.outPipID
+		
+		breakConnection(inPip, outPipID: outPip)
 	}
 	
 	// ---------------
@@ -209,12 +216,24 @@ class PipDirectory{
 		var inPipArmLoc: CGPoint = inPip.view.getArmPosForInput(viewController.getContainerView())
 		var outPipArmLoc: CGPoint = outPip.view.getArmPosForOutput(viewController.getContainerView())
 		
-		var newArm: ArmView = ArmView(start: inPipArmLoc, end: outPipArmLoc)
+		var avgPos: CGPoint = CGPoint(x: (inPip.view.center.x + outPip.view.center.x) / 2, y: (inPip.view.center.y + outPip.view.center.y) / 2)
 		
-		viewController.addArmView(newArm)
+		var newHand: HandView = HandView(pos: avgPos, inPipID: inPipID, outPipID: outPipID)
 		
-		inPip.view.addArm(newArm, toPipID: outPipID, isInputArm: true)
-		outPip.view.addArm(newArm, toPipID: inPipID, isInputArm: false)
+		var inArm: ArmView = ArmView(start: inPipArmLoc, end: newHand.center, pipFromID: inPipID)
+		var outArm: ArmView = ArmView(start: outPipArmLoc, end: newHand.center, pipFromID: outPipID)
+		
+		inArm.setHand(newHand)
+		outArm.setHand(newHand)
+		
+		viewController.addHandView(newHand)
+		viewController.addArmView(inArm)
+		viewController.addArmView(outArm)
+		
+		inPip.view.addArm(inArm, toPipID: outPipID, isInputArm: true)
+		outPip.view.addArm(outArm, toPipID: inPipID, isInputArm: false)
+		
+		newHand.setArms(inArm, armB: outArm)
 	}
 	
 	// breakConnection: Int, Int -> nil
@@ -229,6 +248,10 @@ class PipDirectory{
 		
 		let inArm: ArmView = inPip.view.removeArm(outPipID, isInputArm: true)
 		let outArm: ArmView = outPip.view.removeArm(inPipID, isInputArm: false)
+		
+		inArm.handView.removeFromSuperview()
+		inArm.handView = nil
+		outArm.handView = nil
 		
 		viewController.removeArmView(inArm)
 		viewController.removeArmView(outArm)

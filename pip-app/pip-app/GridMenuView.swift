@@ -39,7 +39,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		menu.contentSize = CGSize(width: 700, height: 200)
 		menu.userInteractionEnabled = true
 		menu.layer.shadowColor = UIColor.blackColor().CGColor
-		menu.layer.shadowOffset = CGSizeMake(5, 5)
+		menu.layer.shadowOffset = CGSizeMake(0, 5)
 		menu.layer.shadowRadius = 5
 		menu.layer.shadowOpacity = 1.0
 		

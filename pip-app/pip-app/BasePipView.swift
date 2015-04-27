@@ -116,13 +116,15 @@ class BasePipView: UIImageView {
 		}
 		
 		for (toPip, armV) in outArms {
-			armV.updateEnd(getArmPosForOutput(superview!))
+			armV.updateStart(getArmPosForOutput(superview!))
 		}
 		
 		if recognizer.state == UIGestureRecognizerState.Ended {
-			_mainPipDirectory.viewController.pipStoppedBeingDragged(self)
+			if _mainPipDirectory.viewController.stoppedBeingDragged(self.frame) {
+				_mainPipDirectory.deletePip(self.pipId)
+			}
 		}else{
-			_mainPipDirectory.viewController.pipStartedBeingDragged()
+			_mainPipDirectory.viewController.startedBeingDragged()
 		}
 		
 		
@@ -151,10 +153,7 @@ class BasePipView: UIImageView {
 	// I/O: called when the user presses the UIView. This implementation
 	//		tells the superview to bring this view to the front, and update
 	//		lastLocation's value
-	
-//	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-    
-//    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
         
 		self.superview?.bringSubviewToFront(self)
@@ -162,7 +161,7 @@ class BasePipView: UIImageView {
 	}
 	
 	// [] - could be used to tell which node a connection is being made to
-//	override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+	
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){
     
 	}
@@ -176,11 +175,11 @@ class BasePipView: UIImageView {
 	}
 	
 	func getArmPosForInput(inViewSpace: UIView) -> CGPoint{
-		return inViewSpace.convertPoint(frame.origin, fromView: inViewSpace)
+		return inViewSpace.convertPoint(pipInputView.center, fromView: self)
 	}
 	
 	func getArmPosForOutput(inViewSpace: UIView) -> CGPoint{
-		return inViewSpace.convertPoint(frame.origin, fromView: inViewSpace)
+		return inViewSpace.convertPoint(pipOutputView.center, fromView: self)
 	}
 	
 	// ---------------

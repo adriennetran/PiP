@@ -229,21 +229,19 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate {
 	// pipStartedBeingDragged: nil -> nil
 	// I/O: called by a pip when it first starts being dragged
 	//		makes the trash can visible
-	func pipStartedBeingDragged() {
+	func startedBeingDragged() {
 		trashCanButton.hidden = false
 	}
 	
 	// pipStoppedBeingDragged: nil -> nil
 	// I/O: called by a pip when touchesEnded
 	//		hides the trash can 
-	func pipStoppedBeingDragged(pip: BasePipView) {
+	func stoppedBeingDragged(rect: CGRect) -> Bool{
 		trashCanButton.hidden = true
 		
-		let pipRect: CGRect = scrollView.convertRect(pip.frame, fromView: containerView)
+		let pipRect: CGRect = scrollView.convertRect(rect, fromView: containerView)
 		
-		if CGRectIntersectsRect(pipRect, trashCanButton.frame) {
-			_mainPipDirectory.deletePip(pip.pipId)
-		}
+		return CGRectIntersectsRect(pipRect, trashCanButton.frame)
 	}
 	
 	// menuButtonPressed: UIButton -> nil
@@ -285,6 +283,14 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate {
 	
 	func removeArmView(armView: ArmView) {
 		armView.removeFromSuperview()
+	}
+	
+	func addHandView(handView: HandView) {
+		containerView.addSubview(handView)
+	}
+	
+	func removeHandView(handView: HandView) {
+		handView.removeFromSuperview()
 	}
 	
 	// ------------

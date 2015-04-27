@@ -11,6 +11,9 @@ import UIKit
 
 class ArmView: UIView {
 	
+	var pipFromID: Int!
+	var handView: HandView!
+	
 	var start: CGPoint!
 	var end: CGPoint!
 	
@@ -30,9 +33,11 @@ class ArmView: UIView {
 	// init: CGPoint, CGPoint -> ArmView
 	// I/O: creates a frame to contain both CGPoints, start and end
 	
-	init(start: CGPoint, end: CGPoint) {
+	init(start: CGPoint, end: CGPoint, pipFromID: Int) {
 		let nFrame = CGRectMake(min(start.x, end.x), min(start.y, end.y), abs((start.x - end.x)), abs(start.y - end.y))
 		super.init(frame: nFrame)
+		
+		self.pipFromID = pipFromID
 		
 		backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
 		
@@ -40,6 +45,10 @@ class ArmView: UIView {
 		self.end = end
 		
 		userInteractionEnabled = false
+	}
+	
+	func setHand(hand: HandView) {
+		self.handView = hand
 	}
 	
 	// updateFrame: nil -> nil

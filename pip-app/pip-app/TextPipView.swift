@@ -61,6 +61,7 @@ class TextPipView: BasePipView {
 	func textFieldDidChange(field: UITextField) {
 		(getModel() as? TextPip)?.updateText(field.text)
 		(getModel() as? TextPip)?.updateReliantPips()
+		
 	}
 	
 	// updateView: nil -> nil
