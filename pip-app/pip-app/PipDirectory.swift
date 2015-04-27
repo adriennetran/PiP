@@ -64,17 +64,8 @@ class PipDirectory{
             var imageModel: ImagePip = ImagePip(id: lastPipID)
             var imageView: ImagePipView = ImagePipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
             
-            // Link view and model
-            viewController?.addPipView(imageView)
-//            viewController2?.addPipView(imageView)
-            
-            println("pipDirectory")
-            
-            
             // Add tuple to array
-            var tuple: (model: BasePip, view: BasePipView) = (model: imageModel, view: imageView)
-            pipDirectory[lastPipID] = tuple
-            
+            tuple = (model: imageModel, view: imageView)
             
         case .Accel:
             
@@ -82,12 +73,8 @@ class PipDirectory{
             var accelModel: AccelPip = AccelPip(id: lastPipID)
             var accelView: AccelPipView = AccelPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
             
-            // Link view and model
-            viewController?.addPipView(accelView)
-            
             // Add tuple to array
-            var tuple: (model: BasePip, view: BasePipView) = (model: accelModel, view: accelView)
-            pipDirectory[lastPipID] = tuple
+            tuple = (model: accelModel, view: accelView)
             
 			
 		case .Text:
@@ -95,9 +82,6 @@ class PipDirectory{
 			// Create View and Model
 			var textModel: TextPip = TextPip(id: lastPipID)
 			var textView: TextPipView = TextPipView(point: createPos, id: lastPipID)
-			
-			// Link view and Model
-			viewController?.addPipView(textView)
 			
 			tuple = (model: textModel, view: textView)
 			
@@ -107,9 +91,6 @@ class PipDirectory{
 			var colorModel = ColorPip(id: ++lastPipID)
 			var colorView = ColorPipView(point: createPos, id: lastPipID)
 			
-			// Link view and Model
-			viewController?.addPipView(colorView)
-			
 			tuple = (model: colorModel, view: colorView)
 			
 		default: // creates .Switch
@@ -118,14 +99,14 @@ class PipDirectory{
 			var switchModel = SwitchPip(id: lastPipID)
 			var switchView = SwitchPipView(point: createPos, id: lastPipID)
 			
-			// Link view and Model
-			viewController?.addPipView(switchView)
-			
 			tuple = (model: switchModel, view: switchView)
 		}
 		
 		tuple.view.frame.origin = CGPoint(x: tuple.view.frame.origin.x - (tuple.view.frame.width/2), y: tuple.view.frame.origin.y - (tuple.view.frame.height/2))
+		
 		pipDirectory[lastPipID] = tuple
+		
+		viewController?.addPipView(tuple.view)
 		
 		lastPipID++
 	}

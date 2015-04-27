@@ -454,7 +454,7 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
         var pipType: String = pipView.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
         
         // this returns fatal error: unexpectedly found nil while unwrapping an Optional value” errors in Swift error
-        // var curPipType = _mainPipDirectory.getPipByID(pipView.pipId).model.getPipType()
+        var curPipType = _mainPipDirectory.getPipByID(pipView.pipId).model.getPipType()
         
         // cast: to add in
        
