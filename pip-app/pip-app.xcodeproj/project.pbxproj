@@ -296,11 +296,8 @@
 				5E879C791AD18B8500DCAC47 /* BasePipView.swift in Sources */,
 				5E53545F1AD17E9800617B7C /* WorkspaceViewController.swift in Sources */,
 				5E53545D1AD17E9800617B7C /* AppDelegate.swift in Sources */,
-<<<<<<< HEAD
 				5E528B071AEDD95B0072EA10 /* TutorialViewController.swift in Sources */,
-=======
 				AE0195411AE7128600C869DA /* ImagePipView.swift in Sources */,
->>>>>>> camera
 				5E66EEEE1AE595AD0067BA33 /* ArmView.swift in Sources */,
 				5E528B051AEDC1280072EA10 /* LandingViewController.swift in Sources */,
 				5E53990A1AD6082E00A2CAC7 /* SwitchPip.swift in Sources */,
