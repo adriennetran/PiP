@@ -31,124 +31,45 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
         
         // Presents Camera View Controller
         
-        let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
-        presentViewController(captureDetails!, animated: true, completion: nil)
+//        let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
+//        presentViewController(captureDetails!, animated: true, completion: nil)
 
         
 //        let cameravc = CameraVC3()
+        capture(tap)
         
 
     }
     
     
-//    var photoImageView = UIImageView(frame: CGRectMake(40, 40, 200, 200))
-//    
-//    // access
-//    func openPhotoLibrary(){
-//        println("open photo library in view controller!")
-//        var photoPicker = UIImagePickerController()
-//        photoPicker.delegate = self
-//        
-//        // standards
-//        photoPicker.sourceType = .PhotoLibrary
-//        
-//        self.presentViewController(photoPicker, animated: true, completion: nil)
-//    }
-
-
-
     
     
-//    /* We will use this variable to determine if the viewDidAppear:
-//    method of our view controller is already called or not. If not, we will
-//    display the camera view */
-//    var beenHereBefore = false
-//    var controller: UIImagePickerController?
-//    
-//    func imagePickerController(picker: UIImagePickerController,
-//        didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
-//            
-//            println("Picker returned successfully")
-//            
-//            let mediaType:AnyObject? = info[UIImagePickerControllerMediaType]
-//            
-//            if let type:AnyObject = mediaType{
-//                
-//                if type is String{
-//                    let stringType = type as! String
-//                    
-//                    // for videos
-//                    /*
-//                    if stringType == kUTTypeMovie as! String{
-//                        let urlOfVideo = info[UIImagePickerControllerMediaURL] as? NSURL
-//                        if let url = urlOfVideo{
-//                            println("Video URL = \(url)")
-//                        }
-//                    }*/
-//
-//                    if stringType == kUTTypeImage as! String{
-//                        /* Let's get the metadata. This is only for images. Not videos */
-//                        let metadata = info[UIImagePickerControllerMediaMetadata]
-//                            as? NSDictionary
-//                        if let theMetaData = metadata{
-//                            let image = info[UIImagePickerControllerOriginalImage]
-//                                as? UIImage
-//                            if let theImage = image{
-//                                println("Image Metadata = \(theMetaData)")
-//                                println("Image = \(theImage)")
-//                            }
-//                        }
-//                    }
-//                    
-//                }
-//            }
-//            
-//            picker.dismissViewControllerAnimated(true, completion: nil)
-//    }
-//    
-//    
-//    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-//        println("Picker was cancelled")
-//        picker.dismissViewControllerAnimated(true, completion: nil)
-//    }
-//    
-
-//
-
-//    
-
-//
-//    override func viewDidAppear(animated: Bool) {
-//        super.viewDidAppear(animated)
-    
-//        if beenHereBefore{
-//            /* Only display the picker once as the viewDidAppear: method gets
-//            called whenever the view of our view controller gets displayed */
-//            return;
-//        } else {
-//            beenHereBefore = true
-//        }
-//        
-//        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
-//            
-//            controller = UIImagePickerController()
-//            
-//            if let theController = controller{
-//                theController.sourceType = .Camera
-//                
-//                theController.mediaTypes = [kUTTypeImage as! String]
-//                
-//                theController.allowsEditing = true
-//                theController.delegate = self
-//                
-//                presentViewController(theController, animated: true, completion: nil)
-//            }
-//            
-//        } else {
-//            println("Camera is not available")
-//        }
+    func capture(tap: UITapGestureRecognizer) {
         
-//    }
+        println("capture")
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+            println("Button capture")
+            
+            var imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera;
+            imagePicker.mediaTypes = [kUTTypeImage]
+            imagePicker.allowsEditing = false
+            
+            println("post button capture")
+            
+            self.presentViewController(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
+            println("curipview")
+            println(curPipView)
+            curPipView!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+            self.dismissViewControllerAnimated(false, completion: nil)
+    }
+
     
     func isCameraAvailable() -> Bool{
         return UIImagePickerController.isSourceTypeAvailable(.Camera)
@@ -519,6 +440,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 	// addPipView: BasePipView -> nil
 	// I/O: adds pipView to containerView
 	//		called by PipDirectory.createPipOfType()
+    
+    var curPipView : BasePipView? // TO DO: VERY MESSY.
+    func currPipView(pipView: BasePipView){
+        curPipView = pipView
+    }
 	
 	func addPipView(pipView: BasePipView) {
         println("Add pip view")
@@ -530,11 +456,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
         if (pipType == "ImagePipView"){
             println("yes, image pip view")
             
-//            let captureButton2 = UIView(frame: CGRectMake(pipView.frame.width/2 - 30, 60, 60, 60))
-//            captureButton2.backgroundColor = UIColor.magentaColor()
-//    
-//            captureButton2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
-//            containerView.addSubview(captureButton2)
+            pipView.photoImageView.backgroundColor = UIColor.greenColor()
+            self.view.addSubview(pipView.photoImageView)
+            
+            currPipView(pipView)
             
             pipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
             

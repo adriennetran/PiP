@@ -58,39 +58,6 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func capture1(recognizer: UITapGestureRecognizer){
-//        println("hello")
-////        delegate?.capture()
-//        println("hello2")
-//
-//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-//            println("Button capture")
-//            
-//            var imagePicker = UIImagePickerController()
-//            imagePicker.delegate = self
-//            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera;
-//            imagePicker.mediaTypes = [kUTTypeImage]
-//            imagePicker.allowsEditing = false
-//            
-//            println("post button capture")
-//        
-//        self.window?.rootViewController!.presentViewController(imagePicker, animated: true, completion: nil)
-//        }
-//
-//    }
-//    
-//    var photoImageView2 = UIImageView(frame: CGRectMake(40, 120, 200, 200))
-//    
-//    // handles output
-//    func ImagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
-//        println("i've got an image");
-//        
-//        photoImageView2.image = image
-//        addSubview(photoImageView2)
-//        
-//        picker.dismissViewControllerAnimated(true, completion: nil)
-//    }
-//    
 
     
     // accessors
