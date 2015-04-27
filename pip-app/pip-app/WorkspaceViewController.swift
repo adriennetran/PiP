@@ -60,36 +60,36 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate {
 		// Pip Menu Button
 		
 		let pipMenuBtnPos = CGPoint(x: 0, y: 0)
-		var pipMenuButton = UIButton(frame: CGRectMake(pipMenuBtnPos.x, pipMenuBtnPos.y, 50, 50))
-		pipMenuButton.backgroundColor = UIColor.redColor()
+		var pipMenuButton = UIButton(frame: CGRectMake(pipMenuBtnPos.x, pipMenuBtnPos.y, 120, 120))
+		pipMenuButton.setImage(UIImage(named: "pipMenuButton"), forState: UIControlState.Normal)
 		pipMenuButton.addTarget(pipMenu, action: "toggleActive:", forControlEvents: .TouchUpInside)
 		let pipTuple: (view: UIView, pos: CGPoint) = (view: pipMenuButton, pos: pipMenuBtnPos)
 		staticScreenElements.append(pipTuple)
 		
 		// User Data Button
 		
-		let userDataBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 50, y: 0)
-		var userDataButton = UIButton(frame: CGRectMake(userDataBtnPos.x, userDataBtnPos.y, 50, 50))
-		userDataButton.backgroundColor = UIColor.yellowColor()
+		let userDataBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 120, y: 0)
+		var userDataButton = UIButton(frame: CGRectMake(userDataBtnPos.x, userDataBtnPos.y, 120, 120))
+		userDataButton.setImage(UIImage(named: "dataButton"), forState: .Normal)
 		userDataButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
 		let userTuple: (view: UIView, pos: CGPoint) = (view: userDataButton, pos: userDataBtnPos)
 		staticScreenElements.append(userTuple)
 		
 		// Network Button
 		
-		let networkBtnPos = CGPoint(x: 0, y: UIScreen.mainScreen().bounds.height - 50)
-		var networkButton = UIButton(frame: CGRectMake(networkBtnPos.x, networkBtnPos.y, 50, 50))
-		networkButton.backgroundColor = UIColor.greenColor()
+		let networkBtnPos = CGPoint(x: 0, y: UIScreen.mainScreen().bounds.height - 120)
+		var networkButton = UIButton(frame: CGRectMake(networkBtnPos.x, networkBtnPos.y, 120, 120))
+		networkButton.setImage(UIImage(named: "networkButton"), forState: .Normal)
 		networkButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
 		let netTuple: (view: UIView, pos: CGPoint) = (view: networkButton, pos: networkBtnPos)
 		staticScreenElements.append(netTuple)
 		
 		// Settings Button
 		
-		let settingsBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 50,
-			y: UIScreen.mainScreen().bounds.height - 50)
-		var settingsButton = UIButton(frame: CGRectMake(settingsBtnPos.x, settingsBtnPos.y, 50, 50))
-		settingsButton.backgroundColor = UIColor.purpleColor()
+		let settingsBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 120,
+			y: UIScreen.mainScreen().bounds.height - 120)
+		var settingsButton = UIButton(frame: CGRectMake(settingsBtnPos.x, settingsBtnPos.y, 120, 120))
+		settingsButton.setImage(UIImage(named: "settingsButton"), forState: .Normal)
 		settingsButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
 		let settingsTuple: (view: UIView, pos: CGPoint) = (view: settingsButton, settingsBtnPos)
 		staticScreenElements.append(settingsTuple)
