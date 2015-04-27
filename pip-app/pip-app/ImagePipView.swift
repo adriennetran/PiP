@@ -14,15 +14,17 @@ import MobileCoreServices
 // Create a subview which is the "images directory"
 
 //let controller = CameraViewControllerTest(nibName: "ViewController", bundle: NSBundle.mainBundle())
-let controller = CameraViewControllerTest()
 
 protocol PhotoLibraryDelegate {
-    func openPhotoLibrary(sender: ImagePipView)
+    func capture()
 }
 
-class ImagePipView: BasePipView, NSURLConnectionDelegate{
+class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
+    
 
-    var delegate: PhotoLibraryDelegate?
+
+//    var delegate: PhotoLibraryDelegate?
+//    var addPhotoButton: UIView
     
     // required stuff.
 //    required init(coder aDecoder: NSCoder){
@@ -36,56 +38,60 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate{
         
         pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
         pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+
+        // acts as View controller
+        var captureButton = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
+        captureButton.backgroundColor = UIColor.blueColor()
         
-        var addPhotoButton = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
-        addPhotoButton.backgroundColor = UIColor.blueColor()
+        println("before capture button recognizer")
         
-        addPhotoButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "addPhotoTouched:"))
+//        captureButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapImageView:"))
         
-//        var testButton = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 100, 200))
-//        testButton.backgroundColor = UIColor.greenColor()
-//        testButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "controller.buttonDidTap:"))
-//        addSubview(testButton)
-        
-        addSubview(addPhotoButton)
+        addSubview(captureButton)
        
         
     }
+    
+    
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+//    func capture1(recognizer: UITapGestureRecognizer){
+//        println("hello")
+////        delegate?.capture()
+//        println("hello2")
+//
+//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+//            println("Button capture")
+//            
+//            var imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera;
+//            imagePicker.mediaTypes = [kUTTypeImage]
+//            imagePicker.allowsEditing = false
+//            
+//            println("post button capture")
+//        
+//        self.window?.rootViewController!.presentViewController(imagePicker, animated: true, completion: nil)
+//        }
+//
+//    }
+//    
+//    var photoImageView2 = UIImageView(frame: CGRectMake(40, 120, 200, 200))
+//    
+//    // handles output
+//    func ImagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
+//        println("i've got an image");
+//        
+//        photoImageView2.image = image
+//        addSubview(photoImageView2)
+//        
+//        picker.dismissViewControllerAnimated(true, completion: nil)
+//    }
+//    
 
-    
-    func addPhotoTouched(recognizer: UITapGestureRecognizer){
-        // call model.cameraViewController
-        // pull up the camera screen
-        println("PHOTO TOUCHED")
-        
-//        controller.viewDidAppear(true)
-//        controller.btnCamera(self)
-//        controller.viewDidAppear(true)
-        controller.openPhotoLibrary(self)
-        println("after photo touched")
-        
-//        controller.presentViewController(controller.photoPicker, animated: true, completion: nil)
-        
-        
-
-        //        delegate?.openPhotoLibrary(self)
-//        ViewController.viewDidAppear_Camera()
-//        (getModel() as? ImagePip)?.cameraVC.takePhoto()
-//        cameraVC.viewDidAppear(true)
-//         (getModel() as? ImagePip)?.openPhotoLibrary()
-//        delegate!.openPhotoLibrary()
-        
-        
-//        var controller = CameraViewControllerTest()
-        
-        
-    }
     
     // accessors
     override func getModel() -> BasePip {

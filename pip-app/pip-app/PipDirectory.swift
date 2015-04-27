@@ -32,6 +32,12 @@ class PipDirectory{
 	func registerViewController(vC: ViewController){
 		viewController = vC
 	}
+    
+    var viewController2: CameraVC3!
+    
+    func registerViewController2(vC: CameraVC3){
+        viewController2 = vC
+    }
 	
 	// -------
 	// PIP CREATION
@@ -52,6 +58,10 @@ class PipDirectory{
             
             // Link view and model
             viewController?.addPipView(imageView)
+//            viewController2?.addPipView(imageView)
+            
+            println("pipDirectory")
+            
             
             // Add tuple to array
             var tuple: (model: BasePip, view: BasePipView) = (model: imageModel, view: imageView)

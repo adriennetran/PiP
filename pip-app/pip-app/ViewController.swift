@@ -14,11 +14,32 @@ import MobileCoreServices
 
 class ViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
     
+
+    
     lazy var motionManager = CMMotionManager()
 	
 	@IBOutlet var scrollView: UIScrollView!
 	var containerView: UIView!
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
+
+    
+    func didTapImageView(tap: UITapGestureRecognizer){
+        println("inside didtapimageview")
+        
+        println(CameraVC3)
+        println(ViewController())
+        
+        // Presents Camera View Controller
+        
+        let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
+        presentViewController(captureDetails!, animated: true, completion: nil)
+
+        
+//        let cameravc = CameraVC3()
+        
+
+    }
+    
     
 //    var photoImageView = UIImageView(frame: CGRectMake(40, 40, 200, 200))
 //    
@@ -310,6 +331,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
 		staticScreenElements.append(trashTuple)
 		
+        
+        // imageView
+//    
+//        let rect1 = CGRectMake(100, 60, 40, 60)
+//        let captureButton2 = UIView(frame: rect1)
+//        captureButton2.backgroundColor = UIColor.blueColor()
+//        
+//        
+//        captureButton2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
+//        scrollView.addSubview(captureButton2)
+        
+        
 		// Add Buttons to scrollView
 		
 		scrollView.addSubview(pipMenuButton)
@@ -488,8 +521,32 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 	//		called by PipDirectory.createPipOfType()
 	
 	func addPipView(pipView: BasePipView) {
+        println("Add pip view")
+        
+//        pipView.frame = CGRectMake(pipView.frame.origin.x, pipView.frame.origin.y, pipView.frame.width + 120, pipView.frame.height)
+        
+        var pipType: String = pipView.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
+        
+        if (pipType == "ImagePipView"){
+            println("yes, image pip view")
+            
+//            let captureButton2 = UIView(frame: CGRectMake(pipView.frame.width/2 - 30, 60, 60, 60))
+//            captureButton2.backgroundColor = UIColor.magentaColor()
+//    
+//            captureButton2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
+//            containerView.addSubview(captureButton2)
+            
+            pipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
+            
+        }
+        
 		containerView.addSubview(pipView)
+        
+        
 		containerView.bringSubviewToFront(pipView)
+        
+
+        
 	}
 	
 	// addArmView: ArmView -> nil

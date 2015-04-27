@@ -28,8 +28,7 @@
 		AE0195411AE7128600C869DA /* ImagePipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0195401AE7128600C869DA /* ImagePipView.swift */; };
 		AE0195431AE7129800C869DA /* ImagePip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0195421AE7129800C869DA /* ImagePip.swift */; };
 		AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2479B61AD5F209009EC6AF /* ColorPip.swift */; };
-		AEA8323B1AE8D20300170412 /* cameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA8323A1AE8D20300170412 /* cameraViewController.swift */; };
-		AEF674741AE8EC660017EE0B /* cameraVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF674731AE8EC660017EE0B /* cameraVC2.swift */; };
+		AEDB54E61AED63720016D054 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB54E51AED63720016D054 /* CameraViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,8 +67,7 @@
 		AE0195401AE7128600C869DA /* ImagePipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePipView.swift; sourceTree = "<group>"; };
 		AE0195421AE7129800C869DA /* ImagePip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePip.swift; sourceTree = "<group>"; };
 		AE2479B61AD5F209009EC6AF /* ColorPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPip.swift; sourceTree = "<group>"; };
-		AEA8323A1AE8D20300170412 /* cameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cameraViewController.swift; sourceTree = "<group>"; };
-		AEF674731AE8EC660017EE0B /* cameraVC2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cameraVC2.swift; sourceTree = "<group>"; };
+		AEDB54E51AED63720016D054 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +113,7 @@
 				5E53547E1AD1801100617B7C /* Model */,
 				5E53545C1AD17E9800617B7C /* AppDelegate.swift */,
 				5E53545E1AD17E9800617B7C /* ViewController.swift */,
-				AEA8323A1AE8D20300170412 /* cameraViewController.swift */,
-				AEF674731AE8EC660017EE0B /* cameraVC2.swift */,
+				AEDB54E51AED63720016D054 /* CameraViewController.swift */,
 				5E53990B1AD6261D00A2CAC7 /* PipDirectory.swift */,
 				5E5354601AD17E9800617B7C /* Main.storyboard */,
 				5E5354631AD17E9800617B7C /* Images.xcassets */,
@@ -281,7 +278,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E879C761AD1881200DCAC47 /* BasePip.swift in Sources */,
-				AEA8323B1AE8D20300170412 /* cameraViewController.swift in Sources */,
 				AE01953D1AE6FFDF00C869DA /* TextPipView.swift in Sources */,
 				AE01953F1AE700FB00C869DA /* AccelPip.swift in Sources */,
 				5E339B631AD238F400CC3E8A /* SwitchPipView.swift in Sources */,
@@ -295,9 +291,9 @@
 				5E66EEEE1AE595AD0067BA33 /* ArmView.swift in Sources */,
 				5E53990A1AD6082E00A2CAC7 /* SwitchPip.swift in Sources */,
 				5E5354821AD1805D00617B7C /* TextPip.swift in Sources */,
+				AEDB54E61AED63720016D054 /* CameraViewController.swift in Sources */,
 				AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */,
 				5E53990C1AD6261D00A2CAC7 /* PipDirectory.swift in Sources */,
-				AEF674741AE8EC660017EE0B /* cameraVC2.swift in Sources */,
 				5E21A2981ADC508C001D82DD /* GridMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
