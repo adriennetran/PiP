@@ -26,16 +26,15 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
     // this gets called on ViewController.addPipView, if the pipType is an ImagePip
     
 // image pip view
-    func didTapImageView(tap: UITapGestureRecognizer){
-        println("inside didtapimageview")
-        capture(tap)
-        
-        // Presents Camera View Controller
-        // let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
-        // presentViewController(captureDetails!, animated: true, completion: nil)
-    }
-    
-// goes into imagepip model
+//    func didTapImageView(tap: UITapGestureRecognizer){
+//        println("inside didtapimageview")
+//        capture(tap)
+//        
+//        // Presents Camera View Controller
+//        // let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
+//        // presentViewController(captureDetails!, animated: true, completion: nil)
+//    }
+//    
     func capture(tap: UITapGestureRecognizer) {
         
         println("capture")
@@ -58,20 +57,19 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
         didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
             println("curipview")
             println(curPipView)
+            var curPipView2 = curPipView as? ImagePipView
             
             // todo: store photo in model
-            curPipView!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+            curPipView2!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
 
             println("black layer")
-
             
+            curPipView2!.blackLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
+            curPipView2!.blackLayer.bounds = curPipView2!.photoImageView.layer.bounds
+            curPipView2!.blackLayer.backgroundColor = UIColor.blackColor().CGColor
+            curPipView2!.blackLayer.opacity = 0.5
             
-            curPipView!.blackLayer.frame = CGRectMake(0, 0, curPipView!.photoImageView.bounds.width, curPipView!.photoImageView.bounds.height)
-            curPipView!.blackLayer.bounds = curPipView!.photoImageView.layer.bounds
-            curPipView!.blackLayer.backgroundColor = UIColor.blackColor().CGColor
-            curPipView!.blackLayer.opacity = 0.5
-            
-            curPipView!.photoImageView.layer.addSublayer(curPipView!.blackLayer)
+            curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
             
             println("changed pip view black")
             self.dismissViewControllerAnimated(false, completion: nil)
@@ -458,32 +456,30 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
         
         var pipType: String = pipView.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
         
-        // get pip type
-        //_mainViewController.getPipById(pipView.pipId).model.pipType
+        // this returns fatal error: unexpectedly found nil while unwrapping an Optional value” errors in Swift error
+        // var curPipType = _mainPipDirectory.getPipByID(pipView.pipId).model.getPipType()
         
+        // cast: to add in
+       
+        
+        // get pip type
         if (pipType == "ImagePipView"){
-            println("yes, image pip view")
-            
-            // pipView.pipType == piptype.imagepip
-            // cast
+            var pipView2 = pipView as? ImagePipView
             
 // needs to be changed once bldg view
-            pipView.photoImageView.backgroundColor = UIColor.greenColor()
-            self.view.addSubview(pipView.photoImageView)
+            pipView2!.photoImageView.backgroundColor = UIColor.greenColor()
+            self.view.addSubview(pipView2!.photoImageView)
             
             // [messy] so we can have a reference to the pipView instance. when we update photoImageView
-            currPipView(pipView)
+            currPipView(pipView2!)
             
             // opens camera
-            pipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
+            pipView2!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("capture:")))
             
         }
         
 		containerView.addSubview(pipView)
 		containerView.bringSubviewToFront(pipView)
-        
-
-        
 	}
 	
 	// addArmView: ArmView -> nil

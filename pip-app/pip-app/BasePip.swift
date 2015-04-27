@@ -13,8 +13,8 @@ enum PipType: Int{
 class BasePip {
 	
 	// Pip Type enum
-    private let pipType: PipType! // let so never changes
-	private let pipID: Int
+    let pipType: PipType! // let so never changes
+    let pipID: Int!
 	
     // Input Pips represented as an array of type pip
 	// These are the pips WHOSE OUTPUT IS BEING RECEIVED
@@ -56,14 +56,14 @@ class BasePip {
 	// I/O: accessor for pipType
 	
 	func getPipType() -> PipType{
-		return pipType
+		return pipType!
 	}
 	
 	// getPipID: nil -> Int
 	// I/O: accessor for pipID
 	
 	func getPipID() -> Int{
-		return pipID
+		return pipID!
 	}
     
 	// ---------------

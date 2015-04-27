@@ -10,12 +10,6 @@ import Foundation
 import UIKit
 
 class BasePipView: UIImageView {
-    
-    
-    // for image pip
-    var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
-    var blackLayer = CALayer()
-    
 	
 	var pipId: Int!
 	

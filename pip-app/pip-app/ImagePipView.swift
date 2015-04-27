@@ -24,6 +24,10 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // main changer
     // inherits photoImageView: UIImageView from BasePip
     
+    // for image pip
+    var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
+    var blackLayer = CALayer()
+    
     
     init(point: CGPoint, id: Int){
         super.init(point: point, image: UIImage(named: "imagePip-image")!, id: id)
