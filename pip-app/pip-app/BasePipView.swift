@@ -11,7 +11,11 @@ import UIKit
 
 class BasePipView: UIImageView {
     
+    
+    // for image pip
     var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
+    var blackLayer = CALayer()
+    
 	
 	var pipId: Int!
 	
@@ -60,6 +64,13 @@ class BasePipView: UIImageView {
 		pipInputView.backgroundColor = UIColor.blackColor()
 		pipOutputView.backgroundColor = UIColor.blackColor()
 		
+        //    blackLayer.frame = CGRectMake(40, 120, 200, 200)
+//        var blackLayer = CALayer()
+//        blackLayer.frame = CGRectMake(0, 0, self.photoImageView.bounds.width, self.photoImageView.bounds.height)
+//        blackLayer.bounds = photoImageView.layer.bounds
+//        blackLayer.backgroundColor = UIColor.blackColor().CGColor
+//        blackLayer.opacity = 0.9
+//        
 		addSubview(pipOutputView)
 		addSubview(pipInputView)
 	}
@@ -159,7 +170,6 @@ class BasePipView: UIImageView {
 
     // [] - could be used to tell which node a connection is being made to
     
-//    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
         
 		self.superview?.bringSubviewToFront(self)

@@ -39,8 +39,6 @@ class ImageOutput{
 class ImagePip: BasePip{
     
     var output: ImageOutput!
-//    var cameraVC: cameraViewController!
-    var cameraVC: ViewController!
     
     init(id: Int){
         super.init(pipType: PipType.Accel, id: id)
@@ -58,6 +56,7 @@ class ImagePip: BasePip{
             let inPip = _mainPipDirectory.getPipByID(item).model
             
             switch inPip.getPipType(){
+                
             case .Text:
                 let castItem: TextPip! = inPip as? TextPip
                 
@@ -66,10 +65,19 @@ class ImagePip: BasePip{
                     output.setText(newString)
                 }
                 
+            // case .Color
+                
             default: // switch pip
                 let castItem: SwitchPip! = inPip as? SwitchPip
                 if castItem != nil{
-                    output.setText("\(castItem.getOutput())")
+                    if castItem.getOutput() {
+                        // set output image 50% opacity
+                        
+                    }else{
+                        // set output image 100% opacity
+                        
+//                        output.image = 
+                    }
                 }
             }
         }

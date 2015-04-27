@@ -21,15 +21,10 @@ protocol PhotoLibraryDelegate {
 
 class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
     
-
-
-//    var delegate: PhotoLibraryDelegate?
-//    var addPhotoButton: UIView
+    // main changer
+    // inherits photoImageView: UIImageView from BasePip
     
-    // required stuff.
-//    required init(coder aDecoder: NSCoder){
-//        fatalError("coder initializer not coded")
-//    }
+    
     
     init(point: CGPoint, id: Int){
         super.init(point: point, image: UIImage(named: "imagePip-image")!, id: id)
@@ -38,22 +33,15 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
         pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+        
+        
+        
+//        photoImageView.layer.addSublayer(blackLayer)
 
-        // acts as View controller
-        var captureButton = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
-        captureButton.backgroundColor = UIColor.blueColor()
-        
-        println("before capture button recognizer")
-        
-//        captureButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapImageView:"))
-        
-        addSubview(captureButton)
-       
         
     }
     
     
-
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

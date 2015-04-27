@@ -26,16 +26,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
     func didTapImageView(tap: UITapGestureRecognizer){
         println("inside didtapimageview")
         
-        println(CameraVC3)
-        println(ViewController())
-        
         // Presents Camera View Controller
         
 //        let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
 //        presentViewController(captureDetails!, animated: true, completion: nil)
 
-        
-//        let cameravc = CameraVC3()
+
         capture(tap)
         
 
@@ -67,6 +63,19 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
             println("curipview")
             println(curPipView)
             curPipView!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+
+            println("black layer")
+
+            
+            
+            curPipView!.blackLayer.frame = CGRectMake(0, 0, curPipView!.photoImageView.bounds.width, curPipView!.photoImageView.bounds.height)
+            curPipView!.blackLayer.bounds = curPipView!.photoImageView.layer.bounds
+            curPipView!.blackLayer.backgroundColor = UIColor.blackColor().CGColor
+            curPipView!.blackLayer.opacity = 0.5
+            
+            curPipView!.photoImageView.layer.addSublayer(curPipView!.blackLayer)
+            
+            println("changed pip view black")
             self.dismissViewControllerAnimated(false, completion: nil)
     }
 
@@ -316,16 +325,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 	// touchesBegan: 
 	// I/O: used to exit/cancel any active screen elements
 	//		active buttons, open menus etc.
-//	override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-//		println("!")
-//		for ele in staticScreenElements {
-//			if var menu = (ele.view as? CanvasMenuView){
-//				menu.toggleActive()
-//				println("!")
-//			}
-//		}
-//        return
-//	}
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
+		println("!")
+		for ele in staticScreenElements {
+			if var menu = (ele.view as? CanvasMenuView){
+				menu.toggleActive()
+				println("!")
+			}
+		}
+        return
+	}
 	
 
 	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
