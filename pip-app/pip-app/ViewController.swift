@@ -23,23 +23,19 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
 
     
+    // this gets called on ViewController.addPipView, if the pipType is an ImagePip
+    
+// image pip view
     func didTapImageView(tap: UITapGestureRecognizer){
         println("inside didtapimageview")
-        
-        // Presents Camera View Controller
-        
-//        let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
-//        presentViewController(captureDetails!, animated: true, completion: nil)
-
-
         capture(tap)
         
-
+        // Presents Camera View Controller
+        // let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
+        // presentViewController(captureDetails!, animated: true, completion: nil)
     }
     
-    
-    
-    
+// goes into imagepip model
     func capture(tap: UITapGestureRecognizer) {
         
         println("capture")
@@ -62,6 +58,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
         didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
             println("curipview")
             println(curPipView)
+            
+            // todo: store photo in model
             curPipView!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
 
             println("black layer")
@@ -458,25 +456,30 @@ class ViewController: UIViewController, UIScrollViewDelegate, UINavigationContro
 	func addPipView(pipView: BasePipView) {
         println("Add pip view")
         
-//        pipView.frame = CGRectMake(pipView.frame.origin.x, pipView.frame.origin.y, pipView.frame.width + 120, pipView.frame.height)
-        
         var pipType: String = pipView.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
+        
+        // get pip type
+        //_mainViewController.getPipById(pipView.pipId).model.pipType
         
         if (pipType == "ImagePipView"){
             println("yes, image pip view")
             
+            // pipView.pipType == piptype.imagepip
+            // cast
+            
+// needs to be changed once bldg view
             pipView.photoImageView.backgroundColor = UIColor.greenColor()
             self.view.addSubview(pipView.photoImageView)
             
+            // [messy] so we can have a reference to the pipView instance. when we update photoImageView
             currPipView(pipView)
             
+            // opens camera
             pipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
             
         }
         
 		containerView.addSubview(pipView)
-        
-        
 		containerView.bringSubviewToFront(pipView)
         
 

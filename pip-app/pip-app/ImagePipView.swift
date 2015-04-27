@@ -56,6 +56,9 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         println ("updating imageView")
         let output = (getModel() as? ImagePip)?.getOutput()
         
+        // text
+        output?.text
+        
         // get switch signal
         if (output?.getSwitch() != nil){
             // update black
