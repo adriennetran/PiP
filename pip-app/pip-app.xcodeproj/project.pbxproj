@@ -117,14 +117,10 @@
 				5E879C771AD18B7200DCAC47 /* View */,
 				5E53547E1AD1801100617B7C /* Model */,
 				5E53545C1AD17E9800617B7C /* AppDelegate.swift */,
-<<<<<<< HEAD
 				5E53545E1AD17E9800617B7C /* WorkspaceViewController.swift */,
 				5E528B041AEDC1280072EA10 /* LandingViewController.swift */,
 				5E528B061AEDD95B0072EA10 /* TutorialViewController.swift */,
-=======
-				5E53545E1AD17E9800617B7C /* ViewController.swift */,
 				AEDB54E51AED63720016D054 /* CameraViewController.swift */,
->>>>>>> camera
 				5E53990B1AD6261D00A2CAC7 /* PipDirectory.swift */,
 				5E5354601AD17E9800617B7C /* Main.storyboard */,
 				5E5354631AD17E9800617B7C /* Images.xcassets */,
