@@ -311,6 +311,9 @@ class PipDirectory{
 		let type = getPipByID(pID).model.getPipType()
 		switch type{
 			//case .Button:
+        case .Image:
+            (getPipByID(pID).model as? ImagePip)?.getOutput()
+            
 		case .Color:
 			
 			(getPipByID(pID).model as? ColorPip)?.getOutput()
