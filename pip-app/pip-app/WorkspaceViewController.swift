@@ -7,19 +7,171 @@
 //
 
 import UIKit
+import CoreMotion
+import MobileCoreServices
+//import Photos
 
-class WorkspaceViewController: UIViewController, UIScrollViewDelegate {
+
+class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    lazy var motionManager = CMMotionManager()
+
 	
 	@IBOutlet var scrollView: UIScrollView!
-	
 	var containerView: UIView!
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
+
+    
+    // this gets called on ViewController.addPipView, if the pipType is an ImagePip
+    
+// image pip view
+//    func didTapImageView(tap: UITapGestureRecognizer){
+//        println("inside didtapimageview")
+//        capture(tap)
+//        
+//        // Presents Camera View Controller
+//        // let captureDetails = storyboard!.instantiateViewControllerWithIdentifier("CameraVC")! as? CameraVC3
+//        // presentViewController(captureDetails!, animated: true, completion: nil)
+//    }
+//    
+    func capture(tap: UITapGestureRecognizer) {
+        
+        println("capture")
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+            println("Button capture")
+            
+            var imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera;
+            imagePicker.mediaTypes = [kUTTypeImage]
+            imagePicker.allowsEditing = false
+            
+            println("post button capture")
+            
+            self.presentViewController(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
+            println("curipview")
+            println(curPipView)
+            var curPipView2 = curPipView as? ImagePipView
+            
+            // todo: store photo in model
+            curPipView2!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+
+            println("black layer")
+            
+            curPipView2!.blackLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
+            curPipView2!.blackLayer.bounds = curPipView2!.photoImageView.layer.bounds
+            curPipView2!.blackLayer.backgroundColor = UIColor.blackColor().CGColor
+            curPipView2!.blackLayer.opacity = 0.5
+            
+            curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
+            
+            println("changed pip view black")
+            self.dismissViewControllerAnimated(false, completion: nil)
+    }
+
+    
+    func isCameraAvailable() -> Bool{
+        return UIImagePickerController.isSourceTypeAvailable(.Camera)
+    }
+    func doesCameraSupportTakingPhotos() -> Bool{
+        return cameraSupportsMedia((kUTTypeImage as? String)!, sourceType: .Camera)
+    }
+    func cameraSupportsMedia(mediaType: String,
+        sourceType: UIImagePickerControllerSourceType) -> Bool{
+
+            let availableMediaTypes =
+            UIImagePickerController.availableMediaTypesForSourceType(sourceType) as!
+                [String]?
+    
+            if let types = availableMediaTypes{
+                for type in types{
+                    if type == mediaType{
+                        return true
+                    }
+                }
+            }
+        
+            return false
+    }
+
+
 	var trashCanButton: UIView!
+    
+    var beenHereBefore = false
+    var controller: UIImagePickerController?
+    
+    func viewDidAppear_Camera(animated: Bool) {
+        println("inside viewToAppear")
+        super.viewDidAppear(animated)
+        
+        if beenHereBefore{
+            /* Only display the picker once as the viewDidAppear: method gets
+            called whenever the view of our view controller gets displayed */
+            return;
+        } else {
+            beenHereBefore = true
+        }
+        
+        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
+            
+            controller = UIImagePickerController()
+            
+            if let theController = controller{
+                theController.sourceType = .Camera
+                
+                theController.mediaTypes = [kUTTypeImage as! String]
+                
+                theController.allowsEditing = true
+                theController.delegate = self
+                
+                presentViewController(theController, animated: true, completion: nil)
+            }
+            
+        } else {
+            println("Camera is not available")
+        }
+        
+    }
+
+
 	
 	override func viewDidLoad() {
+        println("hello")
 		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
-		
+
+        
+        // get camera data
+        print("Camera is ")
+        if isCameraAvailable() == false{
+            print ("not ")
+        }
+        println("available")
+    
+        if doesCameraSupportTakingPhotos(){
+            println("The camera supports taking photos")
+        } else{
+            println("The camera does not support taking photos")
+        }
+        
+        //Get accelerometer data
+        if motionManager.accelerometerAvailable{
+            let queue = NSOperationQueue()
+            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler:
+                {(data: CMAccelerometerData!, error: NSError!) in
+                    //println("X = \(data.acceleration.x)")
+                    //println("Y = \(data.acceleration.y)")
+                    //println("Z = \(data.acceleration.z)")
+                })
+        } else{
+            println("accelerometer is not available.")
+        }
+        
+        
 		_mainPipDirectory.registerViewController(self)
 		
 		/* -------------------
@@ -104,6 +256,18 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate {
 		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
 		staticScreenElements.append(trashTuple)
 		
+        
+        // imageView
+//    
+//        let rect1 = CGRectMake(100, 60, 40, 60)
+//        let captureButton2 = UIView(frame: rect1)
+//        captureButton2.backgroundColor = UIColor.blueColor()
+//        
+//        
+//        captureButton2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
+//        scrollView.addSubview(captureButton2)
+        
+        
 		// Add Buttons to scrollView
 		
 		scrollView.addSubview(pipMenuButton)
@@ -152,6 +316,22 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate {
 		// Dispose of any resources that can be recreated.
 	}
 	
+
+	// touchesBegan: 
+	// I/O: used to exit/cancel any active screen elements
+	//		active buttons, open menus etc.
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
+		println("!")
+		for ele in staticScreenElements {
+			if var menu = (ele.view as? CanvasMenuView){
+				menu.toggleActive()
+				println("!")
+			}
+		}
+        return
+	}
+	
+
 	// scrollViewDoubleTapped: UITapGestureRecognizer -> nil
 	// I/O: called when the background is double tapped
 	//		zooms the view in by 1.5%
@@ -262,8 +442,39 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate {
 	// addPipView: BasePipView -> nil
 	// I/O: adds pipView to containerView
 	//		called by PipDirectory.createPipOfType()
+    
+    var curPipView : BasePipView? // TO DO: VERY MESSY.
+    func currPipView(pipView: BasePipView){
+        curPipView = pipView
+    }
 	
 	func addPipView(pipView: BasePipView) {
+        println("Add pip view")
+        
+        var pipType: String = pipView.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
+        
+        // this returns fatal error: unexpectedly found nil while unwrapping an Optional value” errors in Swift error
+        // var curPipType = _mainPipDirectory.getPipByID(pipView.pipId).model.getPipType()
+        
+        // cast: to add in
+       
+        
+        // get pip type
+        if (pipType == "ImagePipView"){
+            var pipView2 = pipView as? ImagePipView
+            
+// needs to be changed once bldg view
+            pipView2!.photoImageView.backgroundColor = UIColor.greenColor()
+            self.view.addSubview(pipView2!.photoImageView)
+            
+            // [messy] so we can have a reference to the pipView instance. when we update photoImageView
+            currPipView(pipView2!)
+            
+            // opens camera
+            pipView2!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("capture:")))
+            
+        }
+        
 		containerView.addSubview(pipView)
 		containerView.bringSubviewToFront(pipView)
 	}

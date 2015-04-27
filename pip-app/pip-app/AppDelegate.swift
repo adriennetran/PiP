@@ -7,14 +7,55 @@
 //
 
 import UIKit
+import CoreMotion
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 
+    
+    
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+//        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        // Override point for customization after application launch
+//        self.window!.backgroundColor = UIColor.redColor()
+        
+//        var cameraController: CameraViewControllerTest=CameraViewControllerTest()
+//        self.window!.rootViewController = cameraController
+        
+        // hide controller
+
+        
+        // Detect accelerometer
+        let motionManager = CMMotionManager()
+        if motionManager.accelerometerAvailable{
+            println("Accelerometer is available")
+        } else{
+            println("Accelerometer is not available")
+        }
+        
+        if motionManager.accelerometerActive{
+            println("Accelerometer is active")
+        } else{
+            println("Accelerometer is not active")
+        }
+        
+        // detect gyroscope
+        if motionManager.gyroAvailable{
+            println("gyro is available")
+        } else{
+            println("gyro is not available")
+        }
+        
+        if motionManager.gyroActive{
+            println("gyro is active")
+        } else{
+            println("gyro is not active")
+        }
+        
 		// Override point for customization after application launch.
 		return true
 	}

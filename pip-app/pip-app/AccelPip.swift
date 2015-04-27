@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import CoreMotion
 
-class TextOutput{
+class AccelTextOutput{
 //    saves information from past Pips
 
     // if there aren't data types that combine the two
@@ -21,53 +22,33 @@ class TextOutput{
 		color = UIColor.blackColor()
 	}
 	
-	// -------------
-	//   Accessors
-	// -------------
-	
-	// getText: -> String
-	// I/O: returns the text content of the object
-	
 	func getText() -> String{
 		return text
 	}
-	
-	// getColor: -> UIColor
-	// I/O: returns the color of the object
-	
-	func getColor() -> UIColor{
-		return color
-	}
-	
-	// ------------
-	//   Mutators
-	// ------------
-	
-	// setText: String ->
-	// I/O: sets text to newText
-	
+    
     func setText(newText: String){
         text = newText
     }
-	
-	// setColor: UIColor ->
-	// I/O: sets color to newColor
-	
+    
+    func getColor() -> UIColor{
+        return color
+    }
+    
     func setColor(newColor: UIColor){
         color = newColor
     }
 }
 
-class TextPip: BasePip {
+class AccelPip: BasePip {
     
     // of type text
-    var output: TextOutput!
+    var output: AccelTextOutput!
     
     // TextPip's constructor
 	init(id: Int){
 		super.init(pipType: PipType.Text, id: id)
 		
-		output = TextOutput()
+		output = AccelTextOutput()
     }
 
     
@@ -79,7 +60,7 @@ class TextPip: BasePip {
 	// getOutput: nil -> TextOutput
 	// I/O: updates the output field of the object
 	
-    func getOutput() -> TextOutput{
+    func getOutput() -> AccelTextOutput{
         
         for item in inputPipIDs{
 			
@@ -87,7 +68,7 @@ class TextPip: BasePip {
 			
             switch inPip.getPipType(){
 
-            case .Text:
+			case .Text:
 				let castItem: TextPip! = inPip as? TextPip
 				
 				if castItem != nil {

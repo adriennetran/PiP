@@ -14,6 +14,8 @@ import UIKit
 var _mainPipDirectory: PipDirectory = PipDirectory()
 
 class PipDirectory{
+    
+    
 	
 	var pipDirectory: [Int: (model: BasePip, view: BasePipView)]!
 	
@@ -30,6 +32,12 @@ class PipDirectory{
 	func registerViewController(vC: WorkspaceViewController){
 		viewController = vC
 	}
+    
+    var viewController2: CameraVC3!
+    
+    func registerViewController2(vC: CameraVC3){
+        viewController2 = vC
+    }
 	
 	// -------
 	// PIP CREATION
@@ -49,6 +57,38 @@ class PipDirectory{
 		var tuple: (model: BasePip, view: BasePipView)!
 		
 		switch pType{
+            
+        case .Image:
+            
+            // Create View and Model
+            var imageModel: ImagePip = ImagePip(id: lastPipID)
+            var imageView: ImagePipView = ImagePipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+            
+            // Link view and model
+            viewController?.addPipView(imageView)
+//            viewController2?.addPipView(imageView)
+            
+            println("pipDirectory")
+            
+            
+            // Add tuple to array
+            var tuple: (model: BasePip, view: BasePipView) = (model: imageModel, view: imageView)
+            pipDirectory[lastPipID] = tuple
+            
+            
+        case .Accel:
+            
+            // Create View and Model
+            var accelModel: AccelPip = AccelPip(id: lastPipID)
+            var accelView: AccelPipView = AccelPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+            
+            // Link view and model
+            viewController?.addPipView(accelView)
+            
+            // Add tuple to array
+            var tuple: (model: BasePip, view: BasePipView) = (model: accelModel, view: accelView)
+            pipDirectory[lastPipID] = tuple
+            
 			
 		case .Text:
 			
@@ -103,6 +143,10 @@ class PipDirectory{
 	//		READ: extra function = shorter code
 	func getImageForPipType(type: PipType) -> UIImage{
 		switch type{
+        case .Accel:
+            return UIImage(named: "mathPip-image")!
+        case .Image:
+            return UIImage(named: "imagePip-image")!
 		case .Color:
 			return UIImage(named: "colorPip-image")!
 		case .Text:
