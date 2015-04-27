@@ -33,24 +33,34 @@ class CanvasMenuView: UIScrollView, SlideInView {
 	// Does all the initialization for PipMenu
 	class func makePipMenu(pos: CGPoint) -> CanvasMenuView{
 		var menu = CanvasMenuView(offsetLocation: CGPoint(x: -UIScreen.mainScreen().bounds.width, y: 0),
-			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, 500))
+			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, 200))
 		
 		menu.backgroundColor = UIColor.grayColor()
-		menu.contentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: 700)
+		menu.contentSize = CGSize(width: 700, height: 200)
 		menu.userInteractionEnabled = true
+		menu.layer.shadowColor = UIColor.blackColor().CGColor
+		menu.layer.shadowOffset = CGSizeMake(5, 5)
+		menu.layer.shadowRadius = 5
+		menu.layer.shadowOpacity = 1.0
+		
+		menu.layer.masksToBounds = false
 		
 		// Add Buttons here
 		var typeInt: Int = 0
+		
+		var lastPipRightPos: Float = 0
+		
 		while let type = PipType(rawValue: typeInt) {
 			let img = _mainPipDirectory.getImageForPipType(type)
 			
-			let col = typeInt % 2
-			let row = typeInt / 2
-			
-			let posX: Int = 20 + (200 * col)
-			let posY: Int = 50 + (170 * row)
 			let sizeX = img.size.width * 0.5
 			let sizeY = img.size.height * 0.5
+			
+			let posX: Float = 50 + lastPipRightPos
+			let posY: Float = Float(menu.frame.height) - Float(sizeY) - 30
+			
+			
+			lastPipRightPos = posX + Float(sizeX)
 			
 			let bFrame = CGRectMake(CGFloat(posX), CGFloat(posY), sizeX, sizeY)
 			
@@ -62,6 +72,8 @@ class CanvasMenuView: UIScrollView, SlideInView {
 			menu.addSubview(btn)
 			++typeInt
 		}
+		
+		menu.hidden = true
 		
 		return menu
 	}
@@ -144,6 +156,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		}
 		
 		frame.origin = CGPoint(x: offset.x + baseLocation.x, y: offset.y + baseLocation.y)
+		self.hidden = false
 	}
 	
 	// slideOut: nil -> nil
@@ -160,6 +173,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		}
 		
 		frame.origin = CGPoint(x: offset.x + offsetLocation.x, y: offset.y + offsetLocation.y)
+		self.hidden = true
 	}
 	
 }

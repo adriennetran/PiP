@@ -40,47 +40,52 @@ class PipDirectory{
 	//		and links them together
 	
 	func createPipOfType(pType: PipType){
+		
+		let screenCenter = viewController.scrollView.center
+		let offset = viewController.scrollView.contentOffset
+		var createPos = CGPoint(x: screenCenter.x + offset.x, y: screenCenter.y + offset.y)
+		createPos = viewController.containerView.convertPoint(createPos, fromCoordinateSpace: viewController.scrollView)
+		
+		var tuple: (model: BasePip, view: BasePipView)!
+		
 		switch pType{
 			
 		case .Text:
 			
 			// Create View and Model
 			var textModel: TextPip = TextPip(id: lastPipID)
-			var textView: TextPipView = TextPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+			var textView: TextPipView = TextPipView(point: createPos, id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(textView)
 			
-			// Add Tuple to array
-			var tuple: (model: BasePip, view: BasePipView) = (model: textModel, view: textView)
-			pipDirectory[lastPipID] = tuple
+			tuple = (model: textModel, view: textView)
 			
 		case .Color:
 			
 			// Create View and Model
 			var colorModel = ColorPip(id: ++lastPipID)
-			var colorView = ColorPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+			var colorView = ColorPipView(point: createPos, id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(colorView)
 			
-			// Add Tuple to array
-			var tuple: (model: BasePip, view: BasePipView) = (model: colorModel, view: colorView)
-			pipDirectory[lastPipID] = tuple
+			tuple = (model: colorModel, view: colorView)
 			
 		default: // creates .Switch
 			
 			// Create View and Model
 			var switchModel = SwitchPip(id: lastPipID)
-			var switchView = SwitchPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+			var switchView = SwitchPipView(point: createPos, id: lastPipID)
 			
 			// Link view and Model
 			viewController?.addPipView(switchView)
 			
-			// Add Tuple to Array
-			var tuple: (model: BasePip, view: BasePipView) = (model: switchModel, view: switchView)
-			pipDirectory[lastPipID] = tuple
+			tuple = (model: switchModel, view: switchView)
 		}
+		
+		tuple.view.frame.origin = CGPoint(x: tuple.view.frame.origin.x - (tuple.view.frame.width/2), y: tuple.view.frame.origin.y - (tuple.view.frame.height/2))
+		pipDirectory[lastPipID] = tuple
 		
 		lastPipID++
 	}
