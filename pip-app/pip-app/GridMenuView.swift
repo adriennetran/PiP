@@ -73,6 +73,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 			++typeInt
 		}
 		
+		menu.contentSize = CGSize(width: CGFloat(lastPipRightPos + 50), height: menu.contentSize.height)
 		menu.hidden = true
 		
 		return menu
