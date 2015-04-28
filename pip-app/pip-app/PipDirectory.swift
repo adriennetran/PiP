@@ -59,7 +59,7 @@ class PipDirectory{
 		switch pType{
             
         case .Image:
-            
+            println("creating image pip")
             // Create View and Model
             var imageModel: ImagePip = ImagePip(id: lastPipID)
             var imageView: ImagePipView = ImagePipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)

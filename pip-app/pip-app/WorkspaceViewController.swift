@@ -66,7 +66,7 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             curPipView2!.blackLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
             curPipView2!.blackLayer.bounds = curPipView2!.photoImageView.layer.bounds
             curPipView2!.blackLayer.backgroundColor = UIColor.blackColor().CGColor
-            curPipView2!.blackLayer.opacity = 0.5
+            curPipView2!.blackLayer.opacity = 0.0
             
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
             

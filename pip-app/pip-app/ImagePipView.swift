@@ -65,10 +65,14 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         // get switch signal
         if (output?.getSwitch() != nil){
-            // update black
-            self.blackLayer.opacity = 0.9
-        } else{
-            self.blackLayer.opacity = 0.1
+            if (output?.getSwitch() == true){
+                // update black
+                println("switch > image: true")
+                self.blackLayer.opacity = 0.5
+            } else{
+                println("switch > image: false")
+                self.blackLayer.opacity = 0.1
+            }
         }
         
         (getModel() as? ImagePip)?.updateReliantPips()

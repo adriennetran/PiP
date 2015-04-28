@@ -84,6 +84,7 @@ class ImagePip: BasePip{
             // case .Color
                 
             default: // switch pip
+                println("switch pip > image pip")
                 let castItem: SwitchPip! = inPip as? SwitchPip
                 if castItem != nil{
                     if castItem.getOutput() {
