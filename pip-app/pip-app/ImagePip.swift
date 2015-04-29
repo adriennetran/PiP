@@ -14,6 +14,7 @@ class ImageOutput{
     var color: UIColor!
     var text: String!
     var switchStatus: Bool!
+    var accelStatus: Bool!
 
     
     init(){
@@ -21,7 +22,16 @@ class ImageOutput{
         text = ""
         color = UIColor.blackColor()
         switchStatus = false
+        accelStatus = false
         
+    }
+    
+    func setAccel(status: Bool){
+        accelStatus = status
+    }
+    
+    func getAccel() -> Bool{
+        return accelStatus!
     }
     
     func setSwitch(status: Bool){
@@ -62,6 +72,7 @@ class ImageOutput{
     func setColor(newColor: UIColor){
         color = newColor
     }
+
 }
 
 class ImagePip: BasePip{
@@ -84,6 +95,23 @@ class ImagePip: BasePip{
             let inPip = _mainPipDirectory.getPipByID(item).model
             
             switch inPip.getPipType(){
+                
+            case .Image:
+                let castItem: ImagePip! = inPip as? ImagePip
+                let castItemView = _mainPipDirectory.getPipByID(castItem.pipID).view as? ImagePipView
+                if castItem != nil{
+                    println("changing alpha of new image")
+                    castItemView!.photoImageView.alpha = 0.5
+                }
+                
+            case .Accel:
+                let castItem: AccelPip! = inPip as? AccelPip
+                
+                if castItem != nil{
+                    output.setAccel(true)
+                    }else{
+                        output.setAccel(false)
+                    }
                 
             case .Color:
                 let castItem: ColorPip! = inPip as? ColorPip

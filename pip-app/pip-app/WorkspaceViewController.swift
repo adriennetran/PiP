@@ -526,7 +526,7 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             var pipView2 = pipView as? ImagePipView
             
 // needs to be changed once bldg view
-            pipView2!.photoImageView.backgroundColor = UIColor.greenColor()
+            pipView2!.photoImageView.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 1, alpha: 0.1)
             self.view.addSubview(pipView2!.photoImageView)
             
             // [messy] so we can have a reference to the pipView instance. when we update photoImageView
@@ -541,15 +541,15 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
         
         if (pipType == "AccelPipView"){
             var pipViewAccel = pipView as? AccelPipView
-            
-            if motionManager.accelerometerAvailable{
-                let motionQueue = NSOperationQueue.mainQueue()
-                motionManager.deviceMotionUpdateInterval = 0.01
-                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
-                withHandler: gravityUpdated)
-            } else{
-                println("accelerometer not available")
-            }
+//            
+//            if motionManager.accelerometerAvailable{
+//                let motionQueue = NSOperationQueue.mainQueue()
+//                motionManager.deviceMotionUpdateInterval = 0.01
+//                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
+//                withHandler: gravityUpdated)
+//            } else{
+//                println("accelerometer not available")
+//            }
             
             currPipView(pipViewAccel!)
             
