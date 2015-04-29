@@ -493,9 +493,21 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
         
 //        accelPip!.textLayer.string = "\(accelPip!.x)"
         accelPip!.textLayer.string = sx! + " " + sy! + " " + sz!
+        var r = accelPip!.x!*10
+        var g = accelPip!.y!*10
+        var b = accelPip!.z!*10
         
+//        println(r)
+        
+        accelPip!.colorBlock.backgroundColor = UIColor(red:r, green:g,blue:b,alpha:1.0)
+        
+//        accelPip!.x.save(CGFloat(grav.x))
         println(accelPip!.x)
+        println(accelPip!.y)
+        println(accelPip!.z)
 //        println(x)
+        
+        
     }
 	
 	func addPipView(pipView: BasePipView) {
@@ -552,7 +564,12 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             pipViewAccel!.textLayer.alignmentMode = kCAAlignmentCenter
             pipViewAccel!.textLayer.contentsScale = UIScreen.mainScreen().scale
             
+            
+            pipViewAccel!.colorBlock.backgroundColor = UIColor.brownColor()
+            
             self.view.addSubview(pipViewAccel!.photoImageView)
+            self.view.addSubview(pipViewAccel!.colorBlock)
+            
             pipViewAccel!.photoImageView.layer.addSublayer(pipViewAccel!.textLayer)
             
         }

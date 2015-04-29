@@ -24,6 +24,8 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
     var textLayer = CATextLayer()
     
+    var colorBlock = UIImageView(frame: CGRectMake(10, 220, 100, 100))
+    
     // move to model
     var x: CGFloat?
     var y: CGFloat?
