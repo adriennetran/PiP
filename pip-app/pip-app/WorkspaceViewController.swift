@@ -12,7 +12,7 @@ import MobileCoreServices
 //import Photos
 
 
-class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
     
     lazy var motionManager = CMMotionManager()
 
@@ -52,6 +52,12 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
         }
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        textField.resignFirstResponder()
+        return true
+    }
+    
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
             println("curipview")
@@ -71,7 +77,8 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             
             curPipView2!.colorLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
             curPipView2!.colorLayer.bounds = curPipView2!.photoImageView.layer.bounds
-
+//            curPipView2!.colorLayer.backgroundColor = UIColor.blackColor().CGColor
+//            curPipView2!.colorLayer.opacity = 0.0
             
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.colorLayer)
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
@@ -166,6 +173,8 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 	override func viewDidLoad() {
         println("hello")
 		super.viewDidLoad()
+//        self.myTextField.delegate = self
+//         self.input.delegate = self
 
         
         // get camera data

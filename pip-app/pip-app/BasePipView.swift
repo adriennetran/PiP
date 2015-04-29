@@ -162,6 +162,7 @@ class BasePipView: UIImageView {
         
 		self.superview?.bringSubviewToFront(self)
 		lastLocation = self.center
+        self.endEditing(true) // hide keyboard on touching any part of screen
 	}
 
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){

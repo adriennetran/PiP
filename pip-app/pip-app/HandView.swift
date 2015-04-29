@@ -92,7 +92,8 @@ class HandView: UIView {
 	
 	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
 		lastLocation = self.center
-	}
+        self.endEditing(true) // dismiss keyboard
+    }
 	
 	func handToBeDeleted() {
 		
