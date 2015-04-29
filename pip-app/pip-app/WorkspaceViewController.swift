@@ -493,9 +493,9 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
         
 //        accelPip!.textLayer.string = "\(accelPip!.x)"
         accelPip!.textLayer.string = sx! + " " + sy! + " " + sz!
-        var r = accelPip!.x!*10
-        var g = accelPip!.y!*10
-        var b = accelPip!.z!*10
+        var r = accelPip!.x!*2
+        var g = accelPip!.y!*2
+        var b = accelPip!.z!*2
         
 //        println(r)
         
