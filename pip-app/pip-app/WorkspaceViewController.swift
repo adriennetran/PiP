@@ -273,17 +273,6 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		trashCanButton.hidden = true
 		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
 		staticScreenElements.append(trashTuple)
-		
-        
-        // imageView
-//    
-//        let rect1 = CGRectMake(100, 60, 40, 60)
-//        let captureButton2 = UIView(frame: rect1)
-//        captureButton2.backgroundColor = UIColor.blueColor()
-//        
-//        
-//        captureButton2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
-//        scrollView.addSubview(captureButton2)
         
         
 		// Add Buttons to scrollView
@@ -465,6 +454,35 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
     func currPipView(pipView: BasePipView){
         curPipView = pipView
     }
+    
+    func gravityUpdated(motion: CMDeviceMotion!, error: NSError!) {
+        
+        let grav : CMAcceleration = motion.gravity;
+        
+        let x = CGFloat(grav.x);
+        let y = CGFloat(grav.y);
+        
+        var v = CGVectorMake(x, y);
+        
+        var accelPip = curPipView as? AccelPipView
+        accelPip!.x = CGFloat(grav.x)
+        accelPip!.y = CGFloat(grav.y)
+        accelPip!.z = CGFloat(grav.z)
+        
+        let numberFormatter = NSNumberFormatter()
+        numberFormatter.numberStyle = .DecimalStyle
+        numberFormatter.minimumFractionDigits = 3
+        numberFormatter.maximumFractionDigits = 3
+        let sx = numberFormatter.stringFromNumber(accelPip!.x!)
+        let sy = numberFormatter.stringFromNumber(accelPip!.y!)
+        let sz = numberFormatter.stringFromNumber(accelPip!.z!)
+        
+//        accelPip!.textLayer.string = "\(accelPip!.x)"
+        accelPip!.textLayer.string = sx! + " " + sy! + " " + sz!
+        
+        println(accelPip!.x)
+//        println(x)
+    }
 	
 	func addPipView(pipView: BasePipView) {
         println("Add pip view")
@@ -490,6 +508,38 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             
             // opens camera
             pipView2!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("capture:")))
+            
+        }
+        
+        var monkey = 1.0
+        
+        if (pipType == "AccelPipView"){
+            var pipViewAccel = pipView as? AccelPipView
+            
+            if motionManager.accelerometerAvailable{
+                let motionQueue = NSOperationQueue.mainQueue()
+                motionManager.deviceMotionUpdateInterval = 0.01
+                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
+                withHandler: gravityUpdated)
+            } else{
+                println("accelerometer not available")
+            }
+            
+            currPipView(pipViewAccel!)
+            
+            // text layer
+            pipViewAccel!.textLayer.frame = CGRectMake(0, 0, pipViewAccel!.photoImageView.bounds.width, pipViewAccel!.photoImageView.bounds.height)
+            
+            let fontName: CFStringRef = "Helvetica"
+            pipViewAccel!.textLayer.font = CTFontCreateWithName(fontName, 4, nil)
+            
+            pipViewAccel!.textLayer.foregroundColor = UIColor.blackColor().CGColor
+            pipViewAccel!.textLayer.wrapped = true
+            pipViewAccel!.textLayer.alignmentMode = kCAAlignmentCenter
+            pipViewAccel!.textLayer.contentsScale = UIScreen.mainScreen().scale
+            
+            self.view.addSubview(pipViewAccel!.photoImageView)
+            pipViewAccel!.photoImageView.layer.addSublayer(pipViewAccel!.textLayer)
             
         }
         
