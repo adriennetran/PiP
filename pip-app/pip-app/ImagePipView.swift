@@ -27,6 +27,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // for image pip
     var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
     var blackLayer = CALayer()
+    var colorLayer = CALayer()
     var textLayer = CATextLayer()
     
     
@@ -60,6 +61,13 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     override func updateView(){
         println ("updating imageView")
         let output = (getModel() as? ImagePip)?.getOutput()
+        
+        // color
+        if (output?.getColor() != nil){
+            println(output?.getColor())
+            self.colorLayer.backgroundColor = (output?.getColor())!.CGColor
+            self.colorLayer.opacity = 0.5
+        }
         
         // text
         if (output?.getText() != nil){

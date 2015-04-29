@@ -48,6 +48,20 @@ class ImageOutput{
         text = newText
         return text
     }
+    
+    // getColor: -> UIColor
+    // I/O: returns the color of the object
+    
+    func getColor() -> UIColor{
+        return color
+    }
+
+    // setColor: UIColor ->
+    // I/O: sets color to newColor
+    
+    func setColor(newColor: UIColor){
+        color = newColor
+    }
 }
 
 class ImagePip: BasePip{
@@ -70,6 +84,14 @@ class ImagePip: BasePip{
             let inPip = _mainPipDirectory.getPipByID(item).model
             
             switch inPip.getPipType(){
+                
+            case .Color:
+                let castItem: ColorPip! = inPip as? ColorPip
+                
+                if castItem != nil {
+                    let setColor = castItem.getOutput().color
+                    output.setColor(setColor)
+                }
                 
             case .Text:
                 let castItem: TextPip! = inPip as? TextPip
