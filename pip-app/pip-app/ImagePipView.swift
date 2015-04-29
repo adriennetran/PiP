@@ -27,6 +27,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // for image pip
     var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
     var blackLayer = CALayer()
+    var textLayer = CATextLayer()
     
     
     init(point: CGPoint, id: Int){
@@ -61,7 +62,10 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         let output = (getModel() as? ImagePip)?.getOutput()
         
         // text
-        output?.text
+        if (output?.getText() != nil){
+            self.textLayer.string = output?.getText()
+        }
+        
         
         // get switch signal
         if (output?.getSwitch() != nil){

@@ -58,17 +58,35 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             println(curPipView)
             var curPipView2 = curPipView as? ImagePipView
             
-            // todo: store photo in model
+            // to do: align photo with image pip
             curPipView2!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
 
             println("black layer")
             
+            // black layer
             curPipView2!.blackLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
             curPipView2!.blackLayer.bounds = curPipView2!.photoImageView.layer.bounds
             curPipView2!.blackLayer.backgroundColor = UIColor.blackColor().CGColor
             curPipView2!.blackLayer.opacity = 0.0
             
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
+            
+            // text layer
+            curPipView2!.textLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
+//            curPipView2!.textLayer.string = "hello how are you"
+            
+//            println(curPipView2!.textLayer.string)
+            
+            let fontName: CFStringRef = "Helvetica"
+            curPipView2!.textLayer.font = CTFontCreateWithName(fontName, 45, nil)
+            
+            curPipView2!.textLayer.foregroundColor = UIColor.blackColor().CGColor
+            curPipView2!.textLayer.wrapped = true
+            curPipView2!.textLayer.alignmentMode = kCAAlignmentCenter
+            curPipView2!.textLayer.contentsScale = UIScreen.mainScreen().scale
+            
+            curPipView2!.photoImageView.layer.addSublayer(curPipView2!.textLayer)
+            
             
             println("changed pip view black")
             self.dismissViewControllerAnimated(false, completion: nil)

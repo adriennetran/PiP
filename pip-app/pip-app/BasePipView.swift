@@ -57,14 +57,7 @@ class BasePipView: UIImageView {
 		
 		pipInputView.backgroundColor = UIColor.blackColor()
 		pipOutputView.backgroundColor = UIColor.blackColor()
-		
-        //    blackLayer.frame = CGRectMake(40, 120, 200, 200)
-//        var blackLayer = CALayer()
-//        blackLayer.frame = CGRectMake(0, 0, self.photoImageView.bounds.width, self.photoImageView.bounds.height)
-//        blackLayer.bounds = photoImageView.layer.bounds
-//        blackLayer.backgroundColor = UIColor.blackColor().CGColor
-//        blackLayer.opacity = 0.9
-//        
+		      
 		addSubview(pipOutputView)
 		addSubview(pipInputView)
 	}

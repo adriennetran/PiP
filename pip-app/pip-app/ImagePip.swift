@@ -76,9 +76,11 @@ class ImagePip: BasePip{
                 
                 if castItem != nil{
                     println("setting text")
-                    let newString = castItem.getOutput().getText() + output.getText()
+                    let newString = castItem.getOutput().getText()
                     println("setting text2")
                     output.setText(newString)
+                    println("the text should be")
+                    println(newString)
                 }
                 
             // case .Color
