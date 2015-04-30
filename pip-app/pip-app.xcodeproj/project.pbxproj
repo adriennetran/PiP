@@ -31,6 +31,7 @@
 		AE0195411AE7128600C869DA /* ImagePipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0195401AE7128600C869DA /* ImagePipView.swift */; };
 		AE0195431AE7129800C869DA /* ImagePip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0195421AE7129800C869DA /* ImagePip.swift */; };
 		AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2479B61AD5F209009EC6AF /* ColorPip.swift */; };
+		AE3AF6B21AF1F7FB00C96F59 /* AccelPhotoOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3AF6B11AF1F7FB00C96F59 /* AccelPhotoOperations.swift */; };
 		AEDB54E61AED63720016D054 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB54E51AED63720016D054 /* CameraViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 		AE0195401AE7128600C869DA /* ImagePipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePipView.swift; sourceTree = "<group>"; };
 		AE0195421AE7129800C869DA /* ImagePip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePip.swift; sourceTree = "<group>"; };
 		AE2479B61AD5F209009EC6AF /* ColorPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPip.swift; sourceTree = "<group>"; };
+		AE3AF6B11AF1F7FB00C96F59 /* AccelPhotoOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelPhotoOperations.swift; sourceTree = "<group>"; };
 		AEDB54E51AED63720016D054 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +119,7 @@
 				5E879C771AD18B7200DCAC47 /* View */,
 				5E53547E1AD1801100617B7C /* Model */,
 				5E53545C1AD17E9800617B7C /* AppDelegate.swift */,
+				AE3AF6B11AF1F7FB00C96F59 /* AccelPhotoOperations.swift */,
 				5E53545E1AD17E9800617B7C /* WorkspaceViewController.swift */,
 				5E528B041AEDC1280072EA10 /* LandingViewController.swift */,
 				5E528B061AEDD95B0072EA10 /* TutorialViewController.swift */,
@@ -287,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E879C761AD1881200DCAC47 /* BasePip.swift in Sources */,
+				AE3AF6B21AF1F7FB00C96F59 /* AccelPhotoOperations.swift in Sources */,
 				AE01953D1AE6FFDF00C869DA /* TextPipView.swift in Sources */,
 				AE01953F1AE700FB00C869DA /* AccelPip.swift in Sources */,
 				5E339B631AD238F400CC3E8A /* SwitchPipView.swift in Sources */,

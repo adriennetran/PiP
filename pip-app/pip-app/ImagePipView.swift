@@ -28,6 +28,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // TO DO: FIGURE OUT A WAY TO SAVE UNBLURRED+ BLURRED IMAGE
     var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
     
+    
     var blurImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
     
     var blackLayer = CALayer()
@@ -43,6 +44,8 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
         pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+        
+        self.photoImageView.alpha = 0.8
         
     }
     
