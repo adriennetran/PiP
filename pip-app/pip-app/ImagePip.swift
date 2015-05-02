@@ -101,7 +101,7 @@ class ImagePip: BasePip{
                 let castItemView = _mainPipDirectory.getPipByID(castItem.pipID).view as? ImagePipView
                 if castItem != nil{
                     println("changing alpha of new image")
-                    castItemView!.photoImageView.alpha = 0.5
+                    castItemView!.photoImageView.alpha = 0.7
                 }
                 
             case .Accel:

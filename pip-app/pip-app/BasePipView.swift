@@ -111,6 +111,7 @@ class BasePipView: UIImageView {
 		var translation = recognizer.translationInView(self.superview!)
 		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
 		
+        // updates placement of arms
 		for (toPip, armV) in inArms {
 			armV.updateStart(getArmPosForInput(superview!))
 		}
@@ -119,11 +120,13 @@ class BasePipView: UIImageView {
 			armV.updateStart(getArmPosForOutput(superview!))
 		}
 		
+        // if finger lifts up (ie gesture ends) > let viewcontroller know > check if pip over trash can
 		if recognizer.state == UIGestureRecognizerState.Ended {
 			if _mainPipDirectory.viewController.stoppedBeingDragged(self.frame) {
 				_mainPipDirectory.deletePip(self.pipId)
 			}
 		}else{
+            // make trashcan appears
 			_mainPipDirectory.viewController.startedBeingDragged()
 		}
 		

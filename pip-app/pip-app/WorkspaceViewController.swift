@@ -52,11 +52,12 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        textField.resignFirstResponder()
-        return true
-    }
+    
+//    func textFieldShouldReturn(userText: UITextField!) -> Bool {
+//        self.view.endEditing(true)
+//        userText.resignFirstResponder()
+//        return true;
+//    }
     
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
@@ -135,46 +136,46 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
     var beenHereBefore = false
     var controller: UIImagePickerController?
     
-    func viewDidAppear_Camera(animated: Bool) {
-        println("inside viewToAppear")
-        super.viewDidAppear(animated)
-        
-        if beenHereBefore{
-            /* Only display the picker once as the viewDidAppear: method gets
-            called whenever the view of our view controller gets displayed */
-            return;
-        } else {
-            beenHereBefore = true
-        }
-        
-        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
-            
-            controller = UIImagePickerController()
-            
-            if let theController = controller{
-                theController.sourceType = .Camera
-                
-                theController.mediaTypes = [kUTTypeImage as! String]
-                
-                theController.allowsEditing = true
-                theController.delegate = self
-                
-                presentViewController(theController, animated: true, completion: nil)
-            }
-            
-        } else {
-            println("Camera is not available")
-        }
-        
-    }
+//    func viewDidAppear_Camera(animated: Bool) {
+//        println("inside viewToAppear")
+//        super.viewDidAppear(animated)
+//        
+//        if beenHereBefore{
+//            /* Only display the picker once as the viewDidAppear: method gets
+//            called whenever the view of our view controller gets displayed */
+//            return;
+//        } else {
+//            beenHereBefore = true
+//        }
+//        
+//        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
+//            
+//            controller = UIImagePickerController()
+//            
+//            if let theController = controller{
+//                theController.sourceType = .Camera
+//                
+//                theController.mediaTypes = [kUTTypeImage as! String]
+//                
+//                theController.allowsEditing = true
+//                theController.delegate = self
+//                
+//                presentViewController(theController, animated: true, completion: nil)
+//            }
+//            
+//        } else {
+//            println("Camera is not available")
+//        }
+//        
+//    }
 
 
-	
+//	@IBOutlet weak var userText: UITextField!
+    
 	override func viewDidLoad() {
         println("hello")
 		super.viewDidLoad()
-//        self.myTextField.delegate = self
-//         self.input.delegate = self
+//        self.userText.delegate = self
 
         
         // get camera data
@@ -526,7 +527,7 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             var pipView2 = pipView as? ImagePipView
             
 // needs to be changed once bldg view
-            pipView2!.photoImageView.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 1, alpha: 0.1)
+            pipView2!.photoImageView.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 1, alpha: 1.0)
             self.view.addSubview(pipView2!.photoImageView)
             
             // [messy] so we can have a reference to the pipView instance. when we update photoImageView
@@ -537,19 +538,32 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             
         }
         
-        var monkey = 1.0
+//        var monkey = 1.0
+        
+//        if (pipType == "TextPipView"){
+//            var pipViewText = pipView as? TextPipView
+//            
+//            self.userText = UITextField(frame: CGRectMake(75, 75, 315, 45))
+//            self.userText.borderStyle = UITextBorderStyle.RoundedRect
+//            self.userText.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+////            self.userText.font = UIFont(name: self.userText!.font!.fontName, size: 24)
+//            self.userText.backgroundColor = UIColor.whiteColor()
+//            self.userText.textColor = UIColor.blackColor()
+//            
+//            self.view.addSubview(userText)
+//        }
         
         if (pipType == "AccelPipView"){
             var pipViewAccel = pipView as? AccelPipView
-//            
-//            if motionManager.accelerometerAvailable{
-//                let motionQueue = NSOperationQueue.mainQueue()
-//                motionManager.deviceMotionUpdateInterval = 0.01
-//                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
-//                withHandler: gravityUpdated)
-//            } else{
-//                println("accelerometer not available")
-//            }
+            
+            if motionManager.accelerometerAvailable{
+                let motionQueue = NSOperationQueue.mainQueue()
+                motionManager.deviceMotionUpdateInterval = 0.01
+                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
+                withHandler: gravityUpdated)
+            } else{
+                println("accelerometer not available")
+            }
             
             currPipView(pipViewAccel!)
             

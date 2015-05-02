@@ -45,7 +45,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
         pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
         
-        self.photoImageView.alpha = 0.8
+//        self.photoImageView.alpha = 1.0
         
     }
     
