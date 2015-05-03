@@ -9,14 +9,15 @@
 import Foundation
 import UIKit
 
-class TextPipView: BasePipView {
-	
-	var textField: UITextField!
+class TextPipView: BasePipView, UITextFieldDelegate {
+    
+	var textField: UITextField?
 	
 	//Required
 	required init(coder aDecoder: NSCoder) {
 		fatalError("coder initializer not coded")
 	}
+    
 	
 	
 	// init: CGPoint -> ?
@@ -28,18 +29,28 @@ class TextPipView: BasePipView {
 		super.init(point: point, image: UIImage(named: "textPip-image")!, id: id)
 		
 		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
+        
+        
 		
 		textField = UITextField(frame: CGRectMake(75, 75, 315, 45))
-		textField.borderStyle = UITextBorderStyle.RoundedRect
-		textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-		textField.font = UIFont(name: textField.font!.fontName, size: 24)
-		textField.backgroundColor = UIColor.whiteColor()
-		textField.textColor = UIColor.blackColor()
-		self.addSubview(textField)
+		textField!.borderStyle = UITextBorderStyle.RoundedRect
+		textField!.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+		textField!.font = UIFont(name: textField!.font!.fontName, size: 24)
+		textField!.backgroundColor = UIColor.whiteColor()
+		textField!.textColor = UIColor.blackColor()
+		self.addSubview(textField!)
+        
+        textField!.delegate = self
 		
 		pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
 		pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+        
 	}
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.endEditing(true)
+        return false
+    }
 	
 	// ---------------
 	//  Accessors
@@ -69,8 +80,8 @@ class TextPipView: BasePipView {
 	
 	override func updateView() {
 		let output = (getModel() as? TextPip)?.getOutput()
-		textField.text = output?.text
-		textField.textColor = output?.color
+		textField!.text = output?.text
+		textField!.textColor = output?.color
 		(getModel() as? TextPip)?.updateReliantPips()
 	}
 }

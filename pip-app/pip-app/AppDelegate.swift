@@ -42,6 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else{
             println("Accelerometer is not active")
         }
+    
+        
         
         // detect gyroscope
         if motionManager.gyroAvailable{

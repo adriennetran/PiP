@@ -59,7 +59,7 @@ class PipDirectory{
 		switch pType{
             
         case .Image:
-            
+            println("creating image pip")
             // Create View and Model
             var imageModel: ImagePip = ImagePip(id: lastPipID)
             var imageView: ImagePipView = ImagePipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
@@ -146,6 +146,8 @@ class PipDirectory{
 		
 		// remove all connections between pip and other pips
 		pip.model.pipToBeDestroyed()
+        // ^ TO DO: if image pip, add view.photoImageView to delete
+        // ^ TO DO: override in ImagePip- call super.pipToBeDestroyed
 		
 		// remove pip from its superview
 		pip.view.removeFromSuperview()
@@ -292,6 +294,9 @@ class PipDirectory{
 		let type = getPipByID(pID).model.getPipType()
 		switch type{
 			//case .Button:
+        case .Image:
+            (getPipByID(pID).model as? ImagePip)?.getOutput()
+            
 		case .Color:
 			
 			(getPipByID(pID).model as? ColorPip)?.getOutput()

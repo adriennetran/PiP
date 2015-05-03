@@ -57,14 +57,7 @@ class BasePipView: UIImageView {
 		
 		pipInputView.backgroundColor = UIColor.blackColor()
 		pipOutputView.backgroundColor = UIColor.blackColor()
-		
-        //    blackLayer.frame = CGRectMake(40, 120, 200, 200)
-//        var blackLayer = CALayer()
-//        blackLayer.frame = CGRectMake(0, 0, self.photoImageView.bounds.width, self.photoImageView.bounds.height)
-//        blackLayer.bounds = photoImageView.layer.bounds
-//        blackLayer.backgroundColor = UIColor.blackColor().CGColor
-//        blackLayer.opacity = 0.9
-//        
+		      
 		addSubview(pipOutputView)
 		addSubview(pipInputView)
 	}
@@ -117,7 +110,19 @@ class BasePipView: UIImageView {
 	func detectPan(recognizer: UIPanGestureRecognizer!){
 		var translation = recognizer.translationInView(self.superview!)
 		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+        
+        // TODO: stop calculation of certain pips.
+        // TO DO: check if type accelpip instead of autocasting
+        var pipType: String = self.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
+        
+        if (pipType == "AccelPipView"){
+            println("IT'S AN ACCEL PIP!")
+            var castItem = self as? AccelPipView
+            castItem?.accelValue = false
+            castItem?.startAccelerometer(false)
+        }
 		
+        // updates placement of arms
 		for (toPip, armV) in inArms {
 			armV.updateStart(getArmPosForInput(superview!))
 		}
@@ -126,11 +131,23 @@ class BasePipView: UIImageView {
 			armV.updateStart(getArmPosForOutput(superview!))
 		}
 		
+        // if finger lifts up (ie gesture ends) > let viewcontroller know > check if pip over trash can
 		if recognizer.state == UIGestureRecognizerState.Ended {
+            println("finger lifted")
+            
+            if (pipType == "AccelPipView"){
+                var castItem = self as? AccelPipView
+                castItem?.accelValue = true
+                castItem?.startAccelerometer(true)
+            }
+
 			if _mainPipDirectory.viewController.stoppedBeingDragged(self.frame) {
 				_mainPipDirectory.deletePip(self.pipId)
+
+                // delete photoImageView
 			}
 		}else{
+            // make trashcan appears
 			_mainPipDirectory.viewController.startedBeingDragged()
 		}
 		
@@ -169,10 +186,11 @@ class BasePipView: UIImageView {
         
 		self.superview?.bringSubviewToFront(self)
 		lastLocation = self.center
+        self.endEditing(true) // hide keyboard on touching any part of screen
 	}
 
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){
-    
+        println("touches ended")
 	}
 	
 	// ---------------

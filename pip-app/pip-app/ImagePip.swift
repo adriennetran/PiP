@@ -14,6 +14,7 @@ class ImageOutput{
     var color: UIColor!
     var text: String!
     var switchStatus: Bool!
+    var accelStatus: Bool!
 
     
     init(){
@@ -21,7 +22,17 @@ class ImageOutput{
         text = ""
         color = UIColor.blackColor()
         switchStatus = false
+        accelStatus = false
+        image = nil
         
+    }
+    
+    func setAccel(status: Bool){
+        accelStatus = status
+    }
+    
+    func getAccel() -> Bool{
+        return accelStatus!
     }
     
     func setSwitch(status: Bool){
@@ -48,6 +59,21 @@ class ImageOutput{
         text = newText
         return text
     }
+    
+    // getColor: -> UIColor
+    // I/O: returns the color of the object
+    
+    func getColor() -> UIColor{
+        return color
+    }
+
+    // setColor: UIColor ->
+    // I/O: sets color to newColor
+    
+    func setColor(newColor: UIColor){
+        color = newColor
+    }
+
 }
 
 class ImagePip: BasePip{
@@ -57,6 +83,16 @@ class ImagePip: BasePip{
     init(id: Int){
         super.init(pipType: PipType.Accel, id: id)
         output = ImageOutput()
+    }
+    
+    override func pipToBeDestroyed() {
+        super.pipToBeDestroyed()
+
+        var curView = _mainPipDirectory.getPipByID(self.pipID).view as? ImagePipView
+        curView!.photoImageView.removeFromSuperview()
+        curView!.textView.removeFromSuperview()
+        
+        println("deleting image pip!")
     }
     
     func updateImage(newVal: UIImage){
@@ -71,19 +107,47 @@ class ImagePip: BasePip{
             
             switch inPip.getPipType(){
                 
+            case .Image:
+                let castItem: ImagePip! = inPip as? ImagePip
+                let castItemView = _mainPipDirectory.getPipByID(castItem.pipID).view as? ImagePipView
+                if castItem != nil{
+                    println("changing alpha of new image")
+                    castItemView!.photoImageView.alpha = 0.7
+                }
+                
+            case .Accel:
+                let castItem: AccelPip! = inPip as? AccelPip
+                
+                if castItem != nil{
+                    output.setAccel(true)
+                    }else{
+                        output.setAccel(false)
+                    }
+                
+            case .Color:
+                let castItem: ColorPip! = inPip as? ColorPip
+                
+                if castItem != nil {
+                    let setColor = castItem.getOutput().color
+                    output.setColor(setColor)
+                }
+                
             case .Text:
                 let castItem: TextPip! = inPip as? TextPip
                 
                 if castItem != nil{
                     println("setting text")
-                    let newString = castItem.getOutput().getText() + output.getText()
+                    let newString = castItem.getOutput().getText()
                     println("setting text2")
                     output.setText(newString)
+                    println("the text should be")
+                    println(newString)
                 }
                 
             // case .Color
                 
             default: // switch pip
+                println("switch pip > image pip")
                 let castItem: SwitchPip! = inPip as? SwitchPip
                 if castItem != nil{
                     if castItem.getOutput() {

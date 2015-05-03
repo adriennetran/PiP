@@ -12,7 +12,7 @@ import MobileCoreServices
 //import Photos
 
 
-class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
     
     lazy var motionManager = CMMotionManager()
 
@@ -52,23 +52,46 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
         }
     }
     
+    
+//    func textFieldShouldReturn(userText: UITextField!) -> Bool {
+//        self.view.endEditing(true)
+//        userText.resignFirstResponder()
+//        return true;
+//    }
+    
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
             println("curipview")
             println(curPipView)
             var curPipView2 = curPipView as? ImagePipView
             
-            // todo: store photo in model
+            // to do: align photo with image pip
             curPipView2!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
 
             println("black layer")
             
+            // black layer
             curPipView2!.blackLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
             curPipView2!.blackLayer.bounds = curPipView2!.photoImageView.layer.bounds
             curPipView2!.blackLayer.backgroundColor = UIColor.blackColor().CGColor
-            curPipView2!.blackLayer.opacity = 0.5
+            curPipView2!.blackLayer.opacity = 0.0
             
+            curPipView2!.colorLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
+            curPipView2!.colorLayer.bounds = curPipView2!.photoImageView.layer.bounds
+//            curPipView2!.colorLayer.backgroundColor = UIColor.blackColor().CGColor
+//            curPipView2!.colorLayer.opacity = 0.0
+            
+            curPipView2!.photoImageView.layer.addSublayer(curPipView2!.colorLayer)
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
+            
+            var curModel = curPipView2!.getModel() as? ImagePip
+            
+            
+            if (curModel?.output.accelStatus == true){
+                println("GET ACCEL IS TRUE")
+                var blurredImage = curPipView2!.applyBlurEffect(curPipView2!.photoImageView.image!)
+                curPipView2!.photoImageView.image = blurredImage
+            }
             
             println("changed pip view black")
             self.dismissViewControllerAnimated(false, completion: nil)
@@ -105,44 +128,46 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
     var beenHereBefore = false
     var controller: UIImagePickerController?
     
-    func viewDidAppear_Camera(animated: Bool) {
-        println("inside viewToAppear")
-        super.viewDidAppear(animated)
-        
-        if beenHereBefore{
-            /* Only display the picker once as the viewDidAppear: method gets
-            called whenever the view of our view controller gets displayed */
-            return;
-        } else {
-            beenHereBefore = true
-        }
-        
-        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
-            
-            controller = UIImagePickerController()
-            
-            if let theController = controller{
-                theController.sourceType = .Camera
-                
-                theController.mediaTypes = [kUTTypeImage as! String]
-                
-                theController.allowsEditing = true
-                theController.delegate = self
-                
-                presentViewController(theController, animated: true, completion: nil)
-            }
-            
-        } else {
-            println("Camera is not available")
-        }
-        
-    }
+//    func viewDidAppear_Camera(animated: Bool) {
+//        println("inside viewToAppear")
+//        super.viewDidAppear(animated)
+//        
+//        if beenHereBefore{
+//            /* Only display the picker once as the viewDidAppear: method gets
+//            called whenever the view of our view controller gets displayed */
+//            return;
+//        } else {
+//            beenHereBefore = true
+//        }
+//        
+//        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
+//            
+//            controller = UIImagePickerController()
+//            
+//            if let theController = controller{
+//                theController.sourceType = .Camera
+//                
+//                theController.mediaTypes = [kUTTypeImage as! String]
+//                
+//                theController.allowsEditing = true
+//                theController.delegate = self
+//                
+//                presentViewController(theController, animated: true, completion: nil)
+//            }
+//            
+//        } else {
+//            println("Camera is not available")
+//        }
+//        
+//    }
 
 
-	
+//	@IBOutlet weak var userText: UITextField!
+    
 	override func viewDidLoad() {
         println("hello")
 		super.viewDidLoad()
+//        self.userText.delegate = self
 
         
         // get camera data
@@ -255,17 +280,6 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		trashCanButton.hidden = true
 		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
 		staticScreenElements.append(trashTuple)
-		
-        
-        // imageView
-//    
-//        let rect1 = CGRectMake(100, 60, 40, 60)
-//        let captureButton2 = UIView(frame: rect1)
-//        captureButton2.backgroundColor = UIColor.blueColor()
-//        
-//        
-//        captureButton2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapImageView:")))
-//        scrollView.addSubview(captureButton2)
         
         
 		// Add Buttons to scrollView
@@ -447,6 +461,47 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
     func currPipView(pipView: BasePipView){
         curPipView = pipView
     }
+    
+//    func gravityUpdated(motion: CMDeviceMotion!, error: NSError!) {
+//        
+//        let grav : CMAcceleration = motion.gravity;
+//        
+//        let x = CGFloat(grav.x);
+//        let y = CGFloat(grav.y);
+//        
+//        var v = CGVectorMake(x, y);
+//        
+//        var accelPip = curPipView as? AccelPipView
+//        accelPip!.x = CGFloat(grav.x)
+//        accelPip!.y = CGFloat(grav.y)
+//        accelPip!.z = CGFloat(grav.z)
+//        
+//        let numberFormatter = NSNumberFormatter()
+//        numberFormatter.numberStyle = .DecimalStyle
+//        numberFormatter.minimumFractionDigits = 3
+//        numberFormatter.maximumFractionDigits = 3
+//        let sx = numberFormatter.stringFromNumber(accelPip!.x!)
+//        let sy = numberFormatter.stringFromNumber(accelPip!.y!)
+//        let sz = numberFormatter.stringFromNumber(accelPip!.z!)
+//        
+////        accelPip!.textLayer.string = "\(accelPip!.x)"
+//        accelPip!.textLayer.string = sx! + " " + sy! + " " + sz!
+//        var r = accelPip!.x!*2
+//        var g = accelPip!.y!*2
+//        var b = accelPip!.z!*2
+//        
+////        println(r)
+//        
+//        accelPip!.colorBlock.backgroundColor = UIColor(red:r, green:g,blue:b,alpha:1.0)
+//        
+////        accelPip!.x.save(CGFloat(grav.x))
+//        println(accelPip!.x)
+//        println(accelPip!.y)
+//        println(accelPip!.z)
+////        println(x)
+//        
+//        
+//    }
 	
 	func addPipView(pipView: BasePipView) {
         println("Add pip view")
@@ -464,14 +519,85 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             var pipView2 = pipView as? ImagePipView
             
 // needs to be changed once bldg view
-            pipView2!.photoImageView.backgroundColor = UIColor.greenColor()
+            pipView2!.photoImageView.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 1, alpha: 1.0)
             self.view.addSubview(pipView2!.photoImageView)
+            self.view.addSubview(pipView2!.textView)
+            
+            // text layer
+            pipView2!.textLayer.frame = CGRectMake(0, 0, pipView2!.photoImageView.bounds.width, pipView2!.photoImageView.bounds.height)
+            //            curPipView2!.textLayer.string = "hello how are you"
+            
+            //            println(curPipView2!.textLayer.string)
+            
+            let fontName: CFStringRef = "Helvetica"
+            pipView2!.textLayer.font = CTFontCreateWithName(fontName, 45, nil)
+            
+            //            curPipView2!.textLayer.foregroundColor = UIColor.blackColor().CGColor
+            pipView2!.textLayer.wrapped = true
+            pipView2!.textLayer.alignmentMode = kCAAlignmentCenter
+            pipView2!.textLayer.contentsScale = UIScreen.mainScreen().scale
+            
+            //            curPipView2!.layer.addSublayer(curPipView2!.textLayer)
+            pipView2!.textView.layer.addSublayer(pipView2!.textLayer)
+            
             
             // [messy] so we can have a reference to the pipView instance. when we update photoImageView
             currPipView(pipView2!)
             
             // opens camera
             pipView2!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("capture:")))
+            
+        }
+        
+//        var monkey = 1.0
+        
+//        if (pipType == "TextPipView"){
+//            var pipViewText = pipView as? TextPipView
+//            
+//            self.userText = UITextField(frame: CGRectMake(75, 75, 315, 45))
+//            self.userText.borderStyle = UITextBorderStyle.RoundedRect
+//            self.userText.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+////            self.userText.font = UIFont(name: self.userText!.font!.fontName, size: 24)
+//            self.userText.backgroundColor = UIColor.whiteColor()
+//            self.userText.textColor = UIColor.blackColor()
+//            
+//            self.view.addSubview(userText)
+//        }
+        
+        if (pipType == "AccelPipView"){
+//            var pipViewAccel = pipView as? AccelPipView
+//            
+//            if motionManager.accelerometerAvailable{
+//                let motionQueue = NSOperationQueue.mainQueue()
+//                motionManager.deviceMotionUpdateInterval = 0.01
+//                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
+//                withHandler: gravityUpdated)
+//            } else{
+//                println("accelerometer not available")
+//            }
+//            
+//            currPipView(pipViewAccel!)
+//            
+//            // text layer
+//            pipViewAccel!.textLayer.frame = CGRectMake(0, 0, pipViewAccel!.photoImageView.bounds.width, pipViewAccel!.photoImageView.bounds.height)
+//            
+//            let fontName: CFStringRef = "Helvetica"
+//            pipViewAccel!.textLayer.font = CTFontCreateWithName(fontName, 4, nil)
+//            
+//            pipViewAccel!.textLayer.foregroundColor = UIColor.blackColor().CGColor
+//            pipViewAccel!.textLayer.wrapped = true
+//            pipViewAccel!.textLayer.alignmentMode = kCAAlignmentCenter
+//            pipViewAccel!.textLayer.contentsScale = UIScreen.mainScreen().scale
+//            
+//            
+//            
+//            
+//            pipViewAccel!.colorBlock.backgroundColor = UIColor.brownColor()
+//            
+//            self.view.addSubview(pipViewAccel!.photoImageView)
+//            self.view.addSubview(pipViewAccel!.colorBlock)
+//            
+//            pipViewAccel!.photoImageView.layer.addSublayer(pipViewAccel!.textLayer)
             
         }
         
