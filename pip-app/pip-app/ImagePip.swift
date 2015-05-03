@@ -23,6 +23,7 @@ class ImageOutput{
         color = UIColor.blackColor()
         switchStatus = false
         accelStatus = false
+        image = nil
         
     }
     

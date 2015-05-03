@@ -84,6 +84,14 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.colorLayer)
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
             
+            var curModel = curPipView2!.getModel() as? ImagePip
+            
+            
+            if (curModel?.output.accelStatus == true){
+                println("GET ACCEL IS TRUE")
+                var blurredImage = curPipView2!.applyBlurEffect(curPipView2!.photoImageView.image!)
+                curPipView2!.photoImageView.image = blurredImage
+            }
             
             println("changed pip view black")
             self.dismissViewControllerAnimated(false, completion: nil)

@@ -35,8 +35,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     var blackLayer = CALayer()
     var colorLayer = CALayer()
     var textLayer = CATextLayer()
-    
-    
+
     
     init(point: CGPoint, id: Int){
         super.init(point: point, image: UIImage(named: "imagePip-image")!, id: id)
@@ -111,8 +110,10 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         // accel
         if (output?.getAccel() == true){
             println("accel > image: true")
-            var blurredImage = self.applyBlurEffect(photoImageView.image!)
-            self.photoImageView.image = blurredImage
+//            if (output?.getImage() != nil){
+//                var blurredImage = self.applyBlurEffect(photoImageView.image!)
+//                self.photoImageView.image = blurredImage
+//            }
         }
         
         (getModel() as? ImagePip)?.updateReliantPips()
