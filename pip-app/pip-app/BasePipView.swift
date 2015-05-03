@@ -124,6 +124,8 @@ class BasePipView: UIImageView {
 		if recognizer.state == UIGestureRecognizerState.Ended {
 			if _mainPipDirectory.viewController.stoppedBeingDragged(self.frame) {
 				_mainPipDirectory.deletePip(self.pipId)
+
+                // delete photoImageView
 			}
 		}else{
             // make trashcan appears

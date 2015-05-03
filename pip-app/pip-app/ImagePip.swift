@@ -84,6 +84,16 @@ class ImagePip: BasePip{
         output = ImageOutput()
     }
     
+    override func pipToBeDestroyed() {
+        super.pipToBeDestroyed()
+
+        var curView = _mainPipDirectory.getPipByID(self.pipID).view as? ImagePipView
+        curView!.photoImageView.removeFromSuperview()
+        curView!.textView.removeFromSuperview()
+        
+        println("deleting image pip!")
+    }
+    
     func updateImage(newVal: UIImage){
         output.setImage(newVal)
         updateReliantPips()
