@@ -59,7 +59,6 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         self.colorBlock.backgroundColor = UIColor.brownColor()
         
         self.addSubview(self.photoImageView)
-        self.addSubview(self.colorBlock)
         
         self.photoImageView.layer.addSublayer(self.textLayer)
         
@@ -112,6 +111,7 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         var g = self.x!*2
         var b = self.y!*2
         
+            // make it so that this is only being updated when the view is present
         self.colorBlock.backgroundColor = UIColor(red:r, green:g,blue:b,alpha:1.0)
         
 //        println(self.x)
@@ -144,6 +144,11 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         // text
         if (output?.getText() != nil){
             println("text > accel: N/A")
+        }
+        
+        // color- if present
+        if (output?.getColor() != nil){
+            self.addSubview(self.colorBlock)
         }
         
         

@@ -49,6 +49,17 @@ class AccelOutput{
         text = newText
         return text
     }
+    
+    // setColor: UIColor ->
+    // I/O: sets color to newColor
+    
+    func setColor(newColor: UIColor){
+        color = newColor
+    }
+    
+    func getColor() -> UIColor{
+        return color
+    }
 }
 
 class AccelPip: BasePip{
@@ -81,7 +92,13 @@ class AccelPip: BasePip{
                     output.setText(newString)
                 }
                 
-                // case .Color
+            case .Color:
+                let castItem: ColorPip! = inPip as? ColorPip
+                
+                if castItem != nil {
+                    let setColor = castItem.getOutput().color
+                    output.setColor(setColor)
+                }
                 
             default: // switch pip
                 let castItem: SwitchPip! = inPip as? SwitchPip

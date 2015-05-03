@@ -454,46 +454,46 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
         curPipView = pipView
     }
     
-    func gravityUpdated(motion: CMDeviceMotion!, error: NSError!) {
-        
-        let grav : CMAcceleration = motion.gravity;
-        
-        let x = CGFloat(grav.x);
-        let y = CGFloat(grav.y);
-        
-        var v = CGVectorMake(x, y);
-        
-        var accelPip = curPipView as? AccelPipView
-        accelPip!.x = CGFloat(grav.x)
-        accelPip!.y = CGFloat(grav.y)
-        accelPip!.z = CGFloat(grav.z)
-        
-        let numberFormatter = NSNumberFormatter()
-        numberFormatter.numberStyle = .DecimalStyle
-        numberFormatter.minimumFractionDigits = 3
-        numberFormatter.maximumFractionDigits = 3
-        let sx = numberFormatter.stringFromNumber(accelPip!.x!)
-        let sy = numberFormatter.stringFromNumber(accelPip!.y!)
-        let sz = numberFormatter.stringFromNumber(accelPip!.z!)
-        
-//        accelPip!.textLayer.string = "\(accelPip!.x)"
-        accelPip!.textLayer.string = sx! + " " + sy! + " " + sz!
-        var r = accelPip!.x!*2
-        var g = accelPip!.y!*2
-        var b = accelPip!.z!*2
-        
-//        println(r)
-        
-        accelPip!.colorBlock.backgroundColor = UIColor(red:r, green:g,blue:b,alpha:1.0)
-        
-//        accelPip!.x.save(CGFloat(grav.x))
-        println(accelPip!.x)
-        println(accelPip!.y)
-        println(accelPip!.z)
-//        println(x)
-        
-        
-    }
+//    func gravityUpdated(motion: CMDeviceMotion!, error: NSError!) {
+//        
+//        let grav : CMAcceleration = motion.gravity;
+//        
+//        let x = CGFloat(grav.x);
+//        let y = CGFloat(grav.y);
+//        
+//        var v = CGVectorMake(x, y);
+//        
+//        var accelPip = curPipView as? AccelPipView
+//        accelPip!.x = CGFloat(grav.x)
+//        accelPip!.y = CGFloat(grav.y)
+//        accelPip!.z = CGFloat(grav.z)
+//        
+//        let numberFormatter = NSNumberFormatter()
+//        numberFormatter.numberStyle = .DecimalStyle
+//        numberFormatter.minimumFractionDigits = 3
+//        numberFormatter.maximumFractionDigits = 3
+//        let sx = numberFormatter.stringFromNumber(accelPip!.x!)
+//        let sy = numberFormatter.stringFromNumber(accelPip!.y!)
+//        let sz = numberFormatter.stringFromNumber(accelPip!.z!)
+//        
+////        accelPip!.textLayer.string = "\(accelPip!.x)"
+//        accelPip!.textLayer.string = sx! + " " + sy! + " " + sz!
+//        var r = accelPip!.x!*2
+//        var g = accelPip!.y!*2
+//        var b = accelPip!.z!*2
+//        
+////        println(r)
+//        
+//        accelPip!.colorBlock.backgroundColor = UIColor(red:r, green:g,blue:b,alpha:1.0)
+//        
+////        accelPip!.x.save(CGFloat(grav.x))
+//        println(accelPip!.x)
+//        println(accelPip!.y)
+//        println(accelPip!.z)
+////        println(x)
+//        
+//        
+//    }
 	
 	func addPipView(pipView: BasePipView) {
         println("Add pip view")
