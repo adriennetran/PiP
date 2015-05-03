@@ -557,39 +557,39 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 //        }
         
         if (pipType == "AccelPipView"){
-            var pipViewAccel = pipView as? AccelPipView
-            
-            if motionManager.accelerometerAvailable{
-                let motionQueue = NSOperationQueue.mainQueue()
-                motionManager.deviceMotionUpdateInterval = 0.01
-                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
-                withHandler: gravityUpdated)
-            } else{
-                println("accelerometer not available")
-            }
-            
-            currPipView(pipViewAccel!)
-            
-            // text layer
-            pipViewAccel!.textLayer.frame = CGRectMake(0, 0, pipViewAccel!.photoImageView.bounds.width, pipViewAccel!.photoImageView.bounds.height)
-            
-            let fontName: CFStringRef = "Helvetica"
-            pipViewAccel!.textLayer.font = CTFontCreateWithName(fontName, 4, nil)
-            
-            pipViewAccel!.textLayer.foregroundColor = UIColor.blackColor().CGColor
-            pipViewAccel!.textLayer.wrapped = true
-            pipViewAccel!.textLayer.alignmentMode = kCAAlignmentCenter
-            pipViewAccel!.textLayer.contentsScale = UIScreen.mainScreen().scale
-            
-            
-            
-            
-            pipViewAccel!.colorBlock.backgroundColor = UIColor.brownColor()
-            
-            self.view.addSubview(pipViewAccel!.photoImageView)
-            self.view.addSubview(pipViewAccel!.colorBlock)
-            
-            pipViewAccel!.photoImageView.layer.addSublayer(pipViewAccel!.textLayer)
+//            var pipViewAccel = pipView as? AccelPipView
+//            
+//            if motionManager.accelerometerAvailable{
+//                let motionQueue = NSOperationQueue.mainQueue()
+//                motionManager.deviceMotionUpdateInterval = 0.01
+//                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
+//                withHandler: gravityUpdated)
+//            } else{
+//                println("accelerometer not available")
+//            }
+//            
+//            currPipView(pipViewAccel!)
+//            
+//            // text layer
+//            pipViewAccel!.textLayer.frame = CGRectMake(0, 0, pipViewAccel!.photoImageView.bounds.width, pipViewAccel!.photoImageView.bounds.height)
+//            
+//            let fontName: CFStringRef = "Helvetica"
+//            pipViewAccel!.textLayer.font = CTFontCreateWithName(fontName, 4, nil)
+//            
+//            pipViewAccel!.textLayer.foregroundColor = UIColor.blackColor().CGColor
+//            pipViewAccel!.textLayer.wrapped = true
+//            pipViewAccel!.textLayer.alignmentMode = kCAAlignmentCenter
+//            pipViewAccel!.textLayer.contentsScale = UIScreen.mainScreen().scale
+//            
+//            
+//            
+//            
+//            pipViewAccel!.colorBlock.backgroundColor = UIColor.brownColor()
+//            
+//            self.view.addSubview(pipViewAccel!.photoImageView)
+//            self.view.addSubview(pipViewAccel!.colorBlock)
+//            
+//            pipViewAccel!.photoImageView.layer.addSublayer(pipViewAccel!.textLayer)
             
         }
         

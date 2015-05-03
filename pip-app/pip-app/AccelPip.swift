@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 class AccelOutput{
     var image: UIImage!
     var color: UIColor!
@@ -57,6 +58,7 @@ class AccelPip: BasePip{
     init(id: Int){
         super.init(pipType: PipType.Accel, id: id)
         output = AccelOutput()
+        
     }
     
     func updateImage(newVal: UIImage){

@@ -110,6 +110,17 @@ class BasePipView: UIImageView {
 	func detectPan(recognizer: UIPanGestureRecognizer!){
 		var translation = recognizer.translationInView(self.superview!)
 		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+        
+        // TODO: stop calculation of certain pips.
+        // TO DO: check if type accelpip instead of autocasting
+        var pipType: String = self.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
+        
+        if (pipType == "AccelPipView"){
+            println("IT'S AN ACCEL PIP!")
+            var castItem = self as? AccelPipView
+            castItem?.accelValue = false
+            castItem?.startAccelerometer(false)
+        }
 		
         // updates placement of arms
 		for (toPip, armV) in inArms {
@@ -122,6 +133,14 @@ class BasePipView: UIImageView {
 		
         // if finger lifts up (ie gesture ends) > let viewcontroller know > check if pip over trash can
 		if recognizer.state == UIGestureRecognizerState.Ended {
+            println("finger lifted")
+            
+            if (pipType == "AccelPipView"){
+                var castItem = self as? AccelPipView
+                castItem?.accelValue = true
+                castItem?.startAccelerometer(true)
+            }
+
 			if _mainPipDirectory.viewController.stoppedBeingDragged(self.frame) {
 				_mainPipDirectory.deletePip(self.pipId)
 
@@ -171,7 +190,7 @@ class BasePipView: UIImageView {
 	}
 
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){
-    
+        println("touches ended")
 	}
 	
 	// ---------------
