@@ -28,6 +28,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // TO DO: FIGURE OUT A WAY TO SAVE UNBLURRED+ BLURRED IMAGE
     var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
     
+    var textView = UIView(frame: CGRectMake(40, 120, 200, 200))
     
     var blurImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
     
