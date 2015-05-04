@@ -213,6 +213,8 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		
 		scrollView.contentSize = containerView.bounds.size
 		
+		scrollView.backgroundColor = UIColor.whiteColor()
+		
 		/*  -------------------
 			 Menu's Setup
 			------------------- */
@@ -240,6 +242,7 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		var pipMenuButton = UIButton(frame: CGRectMake(pipMenuBtnPos.x, pipMenuBtnPos.y, 120, 120))
 		pipMenuButton.setImage(UIImage(named: "pipMenuButton"), forState: UIControlState.Normal)
 		pipMenuButton.addTarget(pipMenu, action: "toggleActive:", forControlEvents: .TouchUpInside)
+		pipMenuButton.addTarget(self, action: "setMenuButtonsInactive:", forControlEvents: .TouchUpInside)
 		let pipTuple: (view: UIView, pos: CGPoint) = (view: pipMenuButton, pos: pipMenuBtnPos)
 		staticScreenElements.append(pipTuple)
 		
@@ -377,6 +380,7 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 			if var menu = (ele.view as? CanvasMenuView) {
 				if menu.viewIsActive {
 					menu.toggleActive()
+					self.setMenuButtonsActive()
 				}
 			}
 		}
@@ -443,6 +447,37 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 	
 	func menuButtonPressed(sender: UIButton!){
 		println("no menu to toggle yet")
+	}
+	
+	// setMenuButtonsInactive: nil -> nil
+	// I/O: delegate method of all menu buttons
+	//		used to make them invisible and untouchable while a menu is open
+	
+	func setMenuButtonsInactive(sender: UIButton) {
+		
+		scrollView.scrollEnabled = false
+		
+		for ele in staticScreenElements {
+			if var buttonView = (ele.view as? UIButton) {
+				buttonView.enabled = false
+			}
+		}
+	}
+	
+	// setMenuButtonsActive: nil -> nil
+	// I/O: called when menu's are deactivated
+	//		used to make all menu buttons visible and active
+	
+	func setMenuButtonsActive(){
+		
+		scrollView.scrollEnabled = true
+		
+		for ele in staticScreenElements {
+			if var buttonView = (ele.view as? UIButton) {
+				buttonView.enabled = true;
+				buttonView.hidden = false;
+			}
+		}
 	}
 	
 	/* --------------------------------------------------------

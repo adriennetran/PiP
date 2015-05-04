@@ -10,20 +10,24 @@ import Foundation
 import UIKit
 
 
-class AccelOutput{
+class AccelOutput: BasePipOutput{
     var image: UIImage!
     var color: UIColor!
     var text: String!
     var switchStatus: Bool!
     
     
-    init(){
+    override init(){
         // image initializes as null until user adds something
         text = ""
         color = UIColor.blackColor()
         switchStatus = false
         
     }
+	
+	override var description: String {
+		return "AccelOutput"
+	}
     
     func setSwitch(status: Bool){
         switchStatus = status
@@ -79,30 +83,35 @@ class AccelPip: BasePip{
     
     // updates output of Image Pip
     func getOutput() -> AccelOutput{
-        for item in inputPipIDs{
+		
+		// ----------------------------------
+		//	I thought we decided that the accelerometer pip shouldnt take any inputs. 
+		//	The way this function is being used in the block comment below is wrong.
+		//	It is finding the pips that should be inputs to this pip, and changing their outputs.
+		//	Its not a two way stream. They should only affect THIS pip.
+		// ----------------------------------
+		
+        /*for item in inputPipIDs{
             let inPip = _mainPipDirectory.getPipByID(item).model
             
             switch inPip.getPipType(){
                 
             case .Text:
-                let castItem: TextPip! = inPip as? TextPip
                 
-                if castItem != nil{
+				if let castItem = inPip as? TextPip{
                     let newString = castItem.getOutput().getText()
                     output.setText(newString)
                 }
                 
             case .Color:
-                let castItem: ColorPip! = inPip as? ColorPip
-                
-                if castItem != nil {
+				
+                if let castItem = inPip as? ColorPip {
                     let setColor = castItem.getOutput().color
                     output.setColor(setColor)
                 }
                 
             default: // switch pip
-                let castItem: SwitchPip! = inPip as? SwitchPip
-                if castItem != nil{
+                if let castItem = inPip as? SwitchPip{
                     if castItem.getOutput() {
                         output.setSwitch(true)
                         // turn on
@@ -113,7 +122,7 @@ class AccelPip: BasePip{
                     }
                 }
             }
-        }
+        }*/
         return output
     }
 }

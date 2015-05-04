@@ -10,6 +10,12 @@ enum PipType: Int{
 	case Text, Color, Button, Switch, Accel, Image
 }
 
+class BasePipOutput: Printable {
+	var description: String {
+		return "BasePipOutput. NOTE: description not overridden."
+	}
+}
+
 class BasePip {
 	
 	// Pip Type enum

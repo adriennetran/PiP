@@ -33,15 +33,15 @@ class CanvasMenuView: UIScrollView, SlideInView {
 	// Does all the initialization for PipMenu
 	class func makePipMenu(pos: CGPoint) -> CanvasMenuView{
 		var menu = CanvasMenuView(offsetLocation: CGPoint(x: -UIScreen.mainScreen().bounds.width, y: 0),
-			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, 200))
+			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, 500))
 		
-		menu.backgroundColor = UIColor.grayColor()
+		menu.backgroundColor = UIColor.whiteColor()
 		menu.contentSize = CGSize(width: 700, height: 200)
 		menu.userInteractionEnabled = true
 		menu.layer.shadowColor = UIColor.blackColor().CGColor
 		menu.layer.shadowOffset = CGSizeMake(0, 5)
 		menu.layer.shadowRadius = 5
-		menu.layer.shadowOpacity = 1.0
+		menu.layer.shadowOpacity = 0.70
 		
 		menu.layer.masksToBounds = false
 		
@@ -50,7 +50,55 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		
 		var lastPipRightPos: Float = 0
 		
-		while let type = PipType(rawValue: typeInt) {
+		// HARDCODING MENU BUTTONS
+		let imgScale: CGFloat = 0.7
+		
+		let switchImg = _mainPipDirectory.getImageForPipType(.Switch);
+		let textImg = _mainPipDirectory.getImageForPipType(.Text);
+		let colorImg = _mainPipDirectory.getImageForPipType(.Color);
+		let accelImg = _mainPipDirectory.getImageForPipType(.Accel);
+		let imageImg = _mainPipDirectory.getImageForPipType(.Image);
+		
+		let switchFrame = CGRectMake(45, 60, switchImg.size.width * imgScale, switchImg.size.height * imgScale)
+		let textFrame = CGRectMake(130, 80, textImg.size.width * imgScale, textImg.size.height * imgScale)
+		let colorFrame = CGRectMake(275, 60, colorImg.size.width * imgScale, colorImg.size.height * imgScale)
+		let accelFrame = CGRectMake(20, 180, accelImg.size.width * imgScale, accelImg.size.height * imgScale)
+		let imageFrame = CGRectMake(155, 170, imageImg.size.width * imgScale, imageImg.size.height * imgScale)
+		
+		let switchBtn = UIButton(frame: switchFrame)
+		switchBtn.setImage(switchImg, forState: .Normal)
+		switchBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		switchBtn.tag = PipType.Switch.rawValue
+		
+		let textBtn = UIButton(frame: textFrame)
+		textBtn.setImage(textImg, forState: .Normal)
+		textBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		textBtn.tag = PipType.Text.rawValue
+		
+		let colorBtn = UIButton(frame: colorFrame)
+		colorBtn.setImage(colorImg, forState: .Normal)
+		colorBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		colorBtn.tag = PipType.Color.rawValue
+		
+		let accelBtn = UIButton(frame: accelFrame)
+		accelBtn.setImage(accelImg, forState: .Normal)
+		accelBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		accelBtn.tag = PipType.Accel.rawValue
+		
+		let imageBtn = UIButton(frame: imageFrame)
+		imageBtn.setImage(imageImg, forState: .Normal)
+		imageBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		imageBtn.tag = PipType.Image.rawValue
+		
+		menu.addSubview(switchBtn)
+		menu.addSubview(textBtn)
+		menu.addSubview(colorBtn)
+		menu.addSubview(accelBtn)
+		menu.addSubview(imageBtn)
+		
+		
+		menu.contentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: CGFloat(300));
+		/*while let type = PipType(rawValue: typeInt) {
 			let img = _mainPipDirectory.getImageForPipType(type)
 			
 			let sizeX = img.size.width * 0.5
@@ -71,9 +119,9 @@ class CanvasMenuView: UIScrollView, SlideInView {
 			
 			menu.addSubview(btn)
 			++typeInt
-		}
+		}*/
 		
-		menu.contentSize = CGSize(width: CGFloat(lastPipRightPos + 50), height: menu.contentSize.height)
+		//menu.contentSize = CGSize(width: CGFloat(lastPipRightPos + 50), height: menu.contentSize.height)
 		menu.hidden = true
 		
 		return menu
@@ -175,6 +223,21 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		
 		frame.origin = CGPoint(x: offset.x + offsetLocation.x, y: offset.y + offsetLocation.y)
 		self.hidden = true
+	}
+	
+	// Input Functions
+	// all are implemented to prevent the view from passing touches to the scroll view
+	
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+		
+	}
+	
+	override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+		
+	}
+	
+	override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+		
 	}
 	
 }

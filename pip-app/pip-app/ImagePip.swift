@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ImageOutput{
+class ImageOutput: BasePipOutput{
     var image: UIImage!
     var color: UIColor!
     var text: String!
@@ -17,7 +17,7 @@ class ImageOutput{
     var accelStatus: Bool!
 
     
-    init(){
+    override init(){
         // image initializes as null until user adds something
         text = ""
         color = UIColor.blackColor()
@@ -26,6 +26,10 @@ class ImageOutput{
         image = nil
         
     }
+	
+	override var description: String {
+		return "ImageOutput: \n with Text: \(text)"
+	}
     
     func setAccel(status: Bool){
         accelStatus = status
@@ -150,7 +154,7 @@ class ImagePip: BasePip{
                 println("switch pip > image pip")
                 let castItem: SwitchPip! = inPip as? SwitchPip
                 if castItem != nil{
-                    if castItem.getOutput() {
+                    if castItem.getOutput().getState() {
                         output.setSwitch(true)
                         
                         // set output image 50% opacity

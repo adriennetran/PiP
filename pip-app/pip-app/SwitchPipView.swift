@@ -59,7 +59,7 @@ class SwitchPipView: BasePipView{
 	func buttonPressed(sender: UITapGestureRecognizer) {
         println("button pressed! switch pip")
 		if let v = (getModel() as? SwitchPip)?.switchStateChange(){
-			if v {
+			if v.getState() {
 				self.image? = stateImages[0]
 			}else{
 				self.image? = stateImages[1]
@@ -73,7 +73,7 @@ class SwitchPipView: BasePipView{
 	
 	override func updateView() {
 		if var model = (_mainPipDirectory.getPipByID(pipId).model as? SwitchPip){
-			if model.getOutput(){
+			if model.getOutput().getState(){
 				self.image? = stateImages[0]
 			}else{
 				self.image? = stateImages[1]

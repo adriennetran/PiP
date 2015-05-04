@@ -9,16 +9,20 @@
 import Foundation
 import UIKit
 
-class TextOutput{
+class TextOutput: BasePipOutput{
 //    saves information from past Pips
 
     // if there aren't data types that combine the two
     var text: String!
     var color: UIColor!
 	
-	init(){
+	override init(){
 		text = ""
 		color = UIColor.blackColor()
+	}
+	
+	override var description: String {
+		return text
 	}
 	
 	// -------------

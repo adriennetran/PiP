@@ -9,22 +9,37 @@
 import Foundation
 import UIKit
 
+class SwitchOutput: BasePipOutput{
+	var state: Bool = true;
+	
+	override var description: String{
+		return state.description
+	}
+	
+	func setTrue(){ state = true; }
+	func setFalse(){ state = false; }
+	func setState(newState : Bool){
+		state = newState;
+	}
+	func getState() -> Bool { return state; }
+}
+
 class SwitchPip: BasePip {
 	
-	private var output = true
+	private var output: SwitchOutput = SwitchOutput();
 	
 	init(id: Int){
 		super.init(pipType: .Switch, id: id)
 	}
 	
-	func switchStateChange() -> Bool{
-		output = !output
+	func switchStateChange() -> SwitchOutput{
+		output.setState(!output.getState());
 		getOutput()
 		updateReliantPips()
 		return output
 	}
 	
-	func getOutput() -> Bool{
+	func getOutput() -> SwitchOutput{
 		
 		for item in inputPipIDs {
 			let inPip = _mainPipDirectory.getPipByID(item).model
@@ -35,9 +50,9 @@ class SwitchPip: BasePip {
 				
 				if castItem != nil{
 					if castItem.getOutput().getText() != "" {
-						output = true
+						output.setTrue()
 					}else{
-						output = false
+						output.setFalse()
 					}
 				}
 			case .Color:
@@ -51,9 +66,9 @@ class SwitchPip: BasePip {
 					castItem.getOutput().getColor().getHue(&a, saturation: &b, brightness: &value, alpha: &d)
 					
 					if a >= 0.5 {
-						output = true
+						output.setTrue()
 					}else{
-						output = false
+						output.setFalse()
 					}
 					
 				}
@@ -62,7 +77,7 @@ class SwitchPip: BasePip {
 				let castItem: SwitchPip! = inPip as? SwitchPip
 				
 				if castItem != nil{
-					output = output && castItem.getOutput()
+					output.setState(output.getState() && castItem.getOutput().getState())
 				}
 			}
 		}

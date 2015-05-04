@@ -9,13 +9,17 @@
 import Foundation
 import UIKit
 
-class ColorOutput{
+class ColorOutput: BasePipOutput{
 	
 	var color: UIColor!
 	
-    init(){
+    override init(){
         color = UIColor.blackColor()
     }
+	
+	override var description: String {
+		return color.description
+	}
     
     func getColor() -> UIColor{
         return color
@@ -93,7 +97,7 @@ class ColorPip: BasePip{
 				let castItem: SwitchPip! = inPip as? SwitchPip
 				
 				if castItem != nil{
-					if castItem.getOutput() {
+					if castItem.getOutput().getState() {
 						output.color = UIColor.whiteColor()
 					}else{
 						output.color = UIColor.blackColor()

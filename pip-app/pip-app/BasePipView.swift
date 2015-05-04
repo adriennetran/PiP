@@ -108,6 +108,11 @@ class BasePipView: UIImageView {
 	//		moving the view.
 	
 	func detectPan(recognizer: UIPanGestureRecognizer!){
+		
+		if recognizer.state == UIGestureRecognizerState.Began {
+			lastLocation = self.center
+		}
+		
 		var translation = recognizer.translationInView(self.superview!)
 		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
         
@@ -185,7 +190,7 @@ class BasePipView: UIImageView {
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
         
 		self.superview?.bringSubviewToFront(self)
-		lastLocation = self.center
+//		lastLocation = self.center
         self.endEditing(true) // hide keyboard on touching any part of screen
 	}
 
