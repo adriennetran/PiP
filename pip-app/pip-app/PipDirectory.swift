@@ -59,10 +59,9 @@ class PipDirectory{
 		switch pType{
             
         case .Image:
-            println("creating image pip")
             // Create View and Model
             var imageModel: ImagePip = ImagePip(id: lastPipID)
-            var imageView: ImagePipView = ImagePipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+            var imageView: ImagePipView = ImagePipView(point: createPos, id: lastPipID)
             
             // Add tuple to array
             tuple = (model: imageModel, view: imageView)
@@ -71,7 +70,7 @@ class PipDirectory{
             
             // Create View and Model
             var accelModel: AccelPip = AccelPip(id: lastPipID)
-            var accelView: AccelPipView = AccelPipView(point: CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2), id: lastPipID)
+            var accelView: AccelPipView = AccelPipView(point: createPos, id: lastPipID)
             
             // Add tuple to array
             tuple = (model: accelModel, view: accelView)

@@ -26,7 +26,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     // for image pip
     // TO DO: FIGURE OUT A WAY TO SAVE UNBLURRED+ BLURRED IMAGE
-    var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
+    var photoImageView = UIImageView(frame: CGRectMake(12, 32, 75, 68))
     
     var textView = UIView(frame: CGRectMake(40, 120, 200, 200))
     
@@ -41,11 +41,31 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         super.init(point: point, image: UIImage(named: "imagePip-image")!, id: id)
         
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
+		
+		photoImageView.frame = CGRectMake((self.frame.width / 2) - 35, 32, 70, 68)
+		photoImageView.layer.cornerRadius = 15
+		photoImageView.layer.masksToBounds = true
         
         pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
         pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+		
+		textView.frame = photoImageView.frame
         
 //        self.photoImageView.alpha = 1.0
+		
+		photoImageView.backgroundColor = UIColor.whiteColor()
+		addSubview(photoImageView)
+		addSubview(textView)
+		photoImageView.contentMode = UIViewContentMode.ScaleAspectFill
+		
+		textLayer.frame = CGRectMake(0, 0, photoImageView.bounds.width, photoImageView.bounds.height)
+		textLayer.font = CTFontCreateWithName("Helvetica", 12, nil)
+		textLayer.wrapped = true
+		textLayer.alignmentMode = kCAAlignmentCenter
+		textLayer.contentsScale = UIScreen.mainScreen().scale
+		textView.layer.addSublayer(textLayer)
+		
+		addGestureRecognizer(UITapGestureRecognizer(target: _mainPipDirectory.viewController, action: "capture:"))
         
     }
     

@@ -318,7 +318,7 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
-		scrollView.zoomScale = 0.5
+		scrollView.zoomScale = 1.0
 		
 		/* ------------------------
 			Tap Gesture Recognizer
@@ -550,38 +550,15 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
        
         
         // get pip type
-        if (pipType == "ImagePipView"){
-            var pipView2 = pipView as? ImagePipView
-            
-// needs to be changed once bldg view
-            pipView2!.photoImageView.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 1, alpha: 1.0)
-            self.view.addSubview(pipView2!.photoImageView)
-            self.view.addSubview(pipView2!.textView)
-            
-            // text layer
-            pipView2!.textLayer.frame = CGRectMake(0, 0, pipView2!.photoImageView.bounds.width, pipView2!.photoImageView.bounds.height)
-            //            curPipView2!.textLayer.string = "hello how are you"
-            
-            //            println(curPipView2!.textLayer.string)
-            
-            let fontName: CFStringRef = "Helvetica"
-            pipView2!.textLayer.font = CTFontCreateWithName(fontName, 45, nil)
-            
-            //            curPipView2!.textLayer.foregroundColor = UIColor.blackColor().CGColor
-            pipView2!.textLayer.wrapped = true
-            pipView2!.textLayer.alignmentMode = kCAAlignmentCenter
-            pipView2!.textLayer.contentsScale = UIScreen.mainScreen().scale
-            
-            //            curPipView2!.layer.addSublayer(curPipView2!.textLayer)
-            pipView2!.textView.layer.addSublayer(pipView2!.textLayer)
-            
-            
+        if var castPipView = (pipView as? ImagePipView){
+			
             // [messy] so we can have a reference to the pipView instance. when we update photoImageView
-            currPipView(pipView2!)
-            
+            currPipView(castPipView)
+			
+			/*
             // opens camera
             pipView2!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("capture:")))
-            
+            */
         }
         
 //        var monkey = 1.0

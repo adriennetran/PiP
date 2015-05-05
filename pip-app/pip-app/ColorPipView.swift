@@ -32,17 +32,17 @@ class ColorPipView: BasePipView{
 		pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
 		pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
 		
-		var blueFrame = UIView(frame: CGRectMake(frame.width/2 - 30, 60, 60, 60))
+		var blueFrame = UIView(frame: CGRectMake(frame.width/2 - 30, 0, 60, 60))
 		blueFrame.backgroundColor = UIColor.blueColor()
 		blueFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "blueTouched:"))
 		addSubview(blueFrame)
 		
-		var greenFrame = UIView(frame: CGRectMake(frame.width/2 + 30, 120, 60, 60))
+		var greenFrame = UIView(frame: CGRectMake(frame.width/2 + 30, 60, 60, 60))
 		greenFrame.backgroundColor = UIColor.greenColor()
 		greenFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "greenTouched:"))
 		addSubview(greenFrame)
 		
-		var redFrame = UIView(frame: CGRectMake(frame.width/2 - 90, 120, 60, 60))
+		var redFrame = UIView(frame: CGRectMake(frame.width/2 - 90, 60, 60, 60))
 		redFrame.backgroundColor = UIColor.redColor()
 		redFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "redTouched:"))
 		addSubview(redFrame)

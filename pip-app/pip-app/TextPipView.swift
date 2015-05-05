@@ -32,11 +32,11 @@ class TextPipView: BasePipView, UITextFieldDelegate {
         
         
 		
-		textField = UITextField(frame: CGRectMake(75, 75, 315, 45))
+		textField = UITextField(frame: CGRectMake(70, 27, 150, 15))
 		textField!.borderStyle = UITextBorderStyle.RoundedRect
 		textField!.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-		textField!.font = UIFont(name: textField!.font!.fontName, size: 24)
-		textField!.backgroundColor = UIColor.whiteColor()
+		textField!.font = UIFont(name: textField!.font!.fontName, size: 12)
+		textField!.backgroundColor = UIColor(red: 0.48, green: 0.76, blue: 0.43, alpha: 1.0)
 		textField!.textColor = UIColor.blackColor()
 		self.addSubview(textField!)
         
