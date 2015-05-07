@@ -36,12 +36,7 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     init(point: CGPoint, id: Int){
         super.init(point: point, image: UIImage(named: "mathPip-image")!, id: id)
-        
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
-        
-        pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
-        pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
-        
+
         startAccelerometer(accelValue)
         
         // text layer

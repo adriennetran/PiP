@@ -9,16 +9,13 @@
 import Foundation
 import UIKit
 
-class BasePipView: UIImageView {
+class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 	
 	var pipId: Int!
 	
 	var pipImage: UIImage!
 	
 	var longTouchdetected = false
-	
-	var pipInputView: UIView!
-	var pipOutputView: UIView!
 	
 	// Dictionaries to hold references to arm views
 	// Arm views are subviews of the containerView
@@ -44,22 +41,16 @@ class BasePipView: UIImageView {
 		pipId = id
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
+		var longTouchRecognizer = UILongPressGestureRecognizer(target: self, action: "prepPan:")
+		
 		
 		addGestureRecognizer(panRecognizer)
+		addGestureRecognizer(longTouchRecognizer)
 		
 		pipImage = UIImage(named: "pip-logo")
 		self.image = pipImage
 		
 		self.userInteractionEnabled = true;
-		
-		pipInputView = UIView(frame: CGRectMake(pipImage.size.width - 20, 0, 20, pipImage.size.height))
-		pipOutputView = UIView(frame: CGRectMake(0, 0, 20, pipImage.size.height))
-		
-		pipInputView.backgroundColor = UIColor.blackColor()
-		pipOutputView.backgroundColor = UIColor.blackColor()
-		      
-		addSubview(pipOutputView)
-		addSubview(pipInputView)
 	}
 	
 	// init: CGPoint, UIImage -> ?
@@ -72,8 +63,14 @@ class BasePipView: UIImageView {
 		pipId = id
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
+		var longTouchRecognizer = UILongPressGestureRecognizer(target: self, action: "prepPan:")
+		longTouchRecognizer.minimumPressDuration = 0.25
+		
+		panRecognizer.delegate = self
+		longTouchRecognizer.delegate = self
 		
 		addGestureRecognizer(panRecognizer)
+		addGestureRecognizer(longTouchRecognizer)
 		
 		pipImage = image
 		self.contentMode = UIViewContentMode.ScaleAspectFit
@@ -81,101 +78,99 @@ class BasePipView: UIImageView {
 		
 		self.userInteractionEnabled = true;
 		
-		pipInputView = UIView(frame: CGRectMake(pipImage.size.width - 20, 0, 20, pipImage.size.height))
-		pipOutputView = UIView(frame: CGRectMake(0, 0, 20, pipImage.size.height))
-		
-		pipInputView.backgroundColor = UIColor.blackColor()
-		pipOutputView.backgroundColor = UIColor.blackColor()
-		
-		pipInputView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "inputViewTapped:"))
-		pipOutputView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "outputViewTapped:"))
-		pipInputView.userInteractionEnabled = true;
-		pipOutputView.userInteractionEnabled = true;
-		
-		addSubview(pipInputView)
-		addSubview(pipOutputView)
-		
 	}
-    
+	
+	
     func changeInputViewColorOrange(){
-        self.pipInputView.backgroundColor = UIColor(red: (253.0/255.0), green: (159.0/255.0), blue: (47.0/255.0), alpha: 1.0);
+		// self.pipInputView.backgroundColor = UIColor(red: (253.0/255.0), green: (159.0/255.0), blue: (47.0/255.0), alpha: 1.0);
     }
+
+	
+	func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return true
+	}
+	
+	
+	// prepPan: UILongPressGestureRecognizer -> nil
+	// I/O: tells the viewController to start dragging this pip
+	//		updates view to show its being dragged
+	
+	func prepPan(recognizer: UILongPressGestureRecognizer) {
+		if recognizer.state == .Began {
+			_mainPipDirectory.viewController.setPipBeingDragged(self)
+		
+			showShadow()
+		}else if recognizer.state == .Ended {
+			
+			hideShadow()
+		}
+	}
+	
+	
+	// showShadow: nil -> nil
+	// I/O: shows drop shadow. Called at beginning of drag
+	
+	func showShadow() {
+		layer.shadowOffset = CGSizeMake(5,5)
+		layer.shadowOpacity = 0.5
+	}
+	
+	
+	// showShadow: nil -> nil
+	// I/O: hides drop shadow. Called at end of drag
+	
+	func hideShadow() {
+		layer.shadowOpacity = 0.0
+		layer.shadowOffset = CGSizeMake(0, 0)
+	}
+	
+	
+	// updateLastLocation: nil -> nil
+	// I/O: called by viewController on pipViewBeingDragged at beginning
+	//		of drag.
+	
+	func updateLastLocation() {
+		lastLocation = self.center
+	}
+	
+	
+	// updateArms: nil -> nil
+	// I/O: updates all arms. Called when pip is dragged
+	
+	func updateArms() {
+		for (inPip, armView) in inArms {
+			armView.updateEnd(self.center)
+		}
+		
+		for (outPip, armView) in outArms {
+			armView.updateStart(self.center)
+		}
+	}
 	
 	
 	// detectPan: UIPanGestureRecognizer -> nil
-	// I/O: takes in recognizer and computes the distance the user has panned
-	//		finally applying this vector to the uiview's center, effectively
-	//		moving the view.
+	// I/O: takes in recognizer. Only used if the pip is not being dragged.
+	//		Passes info to viewController for arm display.
 	
 	func detectPan(recognizer: UIPanGestureRecognizer!){
 		
-		if recognizer.state == UIGestureRecognizerState.Began {
-			lastLocation = self.center
-		}
-		
-		var translation = recognizer.translationInView(self.superview!)
-		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
-        
-        // TODO: stop calculation of certain pips.
-        // TO DO: check if type accelpip instead of autocasting
-        var pipType: String = self.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
-        
-        if (pipType == "AccelPipView"){
-            println("IT'S AN ACCEL PIP!")
-            var castItem = self as? AccelPipView
-            castItem?.accelValue = false
-            castItem?.startAccelerometer(false)
-        }
-		
-        // updates placement of arms
-		for (toPip, armV) in inArms {
-			armV.updateStart(getArmPosForInput(superview!))
-		}
-		
-		for (toPip, armV) in outArms {
-			armV.updateStart(getArmPosForOutput(superview!))
-		}
-		
-        // if finger lifts up (ie gesture ends) > let viewcontroller know > check if pip over trash can
-		if recognizer.state == UIGestureRecognizerState.Ended {
-            println("finger lifted")
-            
-            if (pipType == "AccelPipView"){
-                var castItem = self as? AccelPipView
-                castItem?.accelValue = true
-                castItem?.startAccelerometer(true)
-            }
-
-			if _mainPipDirectory.viewController.stoppedBeingDragged(self.frame) {
-				_mainPipDirectory.deletePip(self.pipId)
-
-                // delete photoImageView
+		if _mainPipDirectory.viewController.pipViewBeingDragged != self {
+			
+			if recognizer.state == .Began {
+				_mainPipDirectory.viewController.scrollView.scrollEnabled = false
+				
+				var newArm: ArmView = ArmView(start: self.center, startPipID: self.pipId)
+				superview?.addSubview(newArm)
+				_mainPipDirectory.viewController.armViewBeingCreated = newArm
+				superview?.bringSubviewToFront(self)
+				
+			}else if recognizer.state == .Ended {
+				_mainPipDirectory.viewController.scrollView.scrollEnabled = true
 			}
-		}else{
-            // make trashcan appears
-			_mainPipDirectory.viewController.startedBeingDragged()
 		}
 		
-		
 	}
-	
-	
-	// inputViewTapped: UITapGestureRecognizer -> nil
-	// I/O: called by pipInputView's gesture recognizer,
-	//		takes in recognizer and calls setActiveInputPip in viewController
-	
-	func inputViewTapped(recognizer: UITapGestureRecognizer!){
-		_mainPipDirectory.setActiveInputPip(pipId)
-	}
-	
-	
-	// outputViewTapped: UITapGestureRecognizer -> nil
-	// I/O: called by pipOutputView's gesture recognizer,
-	//		takes in recognizer and calls setActiveOutputPip in viewController
-	
-	func outputViewTapped(recongizer: UITapGestureRecognizer!){
-		_mainPipDirectory.setActiveOutputPip(pipId)
-	}
+
 	
 	
 	// touchesBegan: NSSet, UIEvent -> nil
@@ -190,12 +185,7 @@ class BasePipView: UIImageView {
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
         
 		self.superview?.bringSubviewToFront(self)
-//		lastLocation = self.center
         self.endEditing(true) // hide keyboard on touching any part of screen
-	}
-
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent){
-        println("touches ended")
 	}
 	
 	// ---------------
@@ -207,11 +197,11 @@ class BasePipView: UIImageView {
 	}
 	
 	func getArmPosForInput(inViewSpace: UIView) -> CGPoint{
-		return inViewSpace.convertPoint(pipInputView.center, fromView: self)
+		return inViewSpace.convertPoint(self.center, fromView: self)
 	}
 	
 	func getArmPosForOutput(inViewSpace: UIView) -> CGPoint{
-		return inViewSpace.convertPoint(pipOutputView.center, fromView: self)
+		return inViewSpace.convertPoint(self.center, fromView: self)
 	}
 	
 	// ---------------
@@ -252,17 +242,20 @@ class BasePipView: UIImageView {
 	//		removes an ArmView from this pip, and from the 
 	//		ArmView's superview
 	
-	func removeArm(toPip: Int, isInputArm: Bool) -> ArmView{
+	func removeArm(toPip: Int, isInputArm: Bool) -> ArmView?{
 		
 		if isInputArm {
-			let arm: ArmView = inArms[toPip]!
-			inArms[toPip] = nil
-			return arm
+			if let arm = inArms[toPip] {
+				inArms[toPip] = nil
+				return arm
+			}
 		} else {
-			let arm: ArmView = outArms[toPip]!
-			outArms[toPip] = nil
-			return arm
+			if let arm = outArms[toPip] {
+				outArms[toPip] = nil
+				return arm
+			}
 		}
+		return nil
 	}
 	
 }

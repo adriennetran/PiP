@@ -39,15 +39,11 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     init(point: CGPoint, id: Int){
         super.init(point: point, image: UIImage(named: "imagePip-image")!, id: id)
-        
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
 		
 		photoImageView.frame = CGRectMake((self.frame.width / 2) - 35, 32, 70, 68)
 		photoImageView.layer.cornerRadius = 15
 		photoImageView.layer.masksToBounds = true
-        
-        pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
-        pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+		
 		
 		textView.frame = photoImageView.frame
         

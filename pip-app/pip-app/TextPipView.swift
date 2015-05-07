@@ -28,11 +28,7 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 	init (point: CGPoint, id: Int) {
 		super.init(point: point, image: UIImage(named: "textPip-image")!, id: id)
 		
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
-        
-        
-		
-		textField = UITextField(frame: CGRectMake(70, 27, 150, 15))
+		textField = UITextField(frame: CGRectMake(10, 27, 150, 15))
 		textField!.borderStyle = UITextBorderStyle.RoundedRect
 		textField!.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
 		textField!.font = UIFont(name: textField!.font!.fontName, size: 12)
@@ -41,10 +37,6 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 		self.addSubview(textField!)
         
         textField!.delegate = self
-		
-		pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
-		pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
-        
 	}
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
