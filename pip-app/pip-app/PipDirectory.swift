@@ -182,86 +182,6 @@ class PipDirectory{
 	//  Mutators
 	// ---------------
 	
-	// setActiveOutputPip: BasePipView -> nil
-	// I/O: called when a BasePipView object's pipOutputView is tapped
-	//		sets activeOutputPip, and, if activeInputPip has a value
-	//		conects the two nodes
-	
-	func setActiveOutputPip(pipID: Int){
-		activeOutputPipID = pipID
-		
-		if activeInputPipID != nil && activeInputPipID != activeOutputPipID{
-			
-			makeConnection(activeInputPipID!, outPipID: activeOutputPipID)
-		}
-	}
-	
-	
-	// setActiveOutputPip: BasePipView -> nil
-	// I/O: called when a BasePipView object's pipInputView is tapped
-	//		sets activeInputPip, and, if activeOutputPip has a value
-	//		conects the two nodes
-	
-	func setActiveInputPip(pipID: Int){
-		activeInputPipID = pipID
-		
-		if activeOutputPipID != nil && activeInputPipID != activeOutputPipID{
-			
-			makeConnection(activeInputPipID!, outPipID: activeOutputPipID!)
-		}
-	}
-	
-	// clearActiveInOut: nil -> nil
-	// I/O: called when the user taps the canvas, sets both activePip variables to nil
-	
-	func clearActiveInOut() {
-		activeInputPipID = nil
-		activeOutputPipID = nil
-	}
-	
-	// makeConnection: Int, Int -> nil
-	// I/O: makes a link from inPip to outPip
-	
-	func makeConnection(inPipID: Int, outPipID: Int) {
-		let inPip: (model: BasePip, view:BasePipView) = pipDirectory[inPipID]!
-		let outPip: (model: BasePip, view:BasePipView) = pipDirectory[outPipID]!
-		
-		inPip.model.setOutput(outPipID)
-		outPip.model.setInput(inPipID)
-		
-		pipDirectory[inPipID]! = inPip
-		pipDirectory[outPipID]! = outPip
-		
-		activeOutputPipID = nil
-		activeInputPipID = nil
-		
-		outPip.view.updateView()
-		
-		// Arm Construction
-		
-		var inPipArmLoc: CGPoint = inPip.view.getArmPosForInput(viewController.getContainerView())
-		var outPipArmLoc: CGPoint = outPip.view.getArmPosForOutput(viewController.getContainerView())
-		
-		var avgPos: CGPoint = CGPoint(x: (inPip.view.center.x + outPip.view.center.x) / 2, y: (inPip.view.center.y + outPip.view.center.y) / 2)
-		
-		var newHand: HandView = HandView(pos: avgPos, inPipID: inPipID, outPipID: outPipID)
-		
-		var inArm: ArmView = ArmView(start: inPipArmLoc, end: newHand.center, pipFromID: inPipID)
-		var outArm: ArmView = ArmView(start: outPipArmLoc, end: newHand.center, pipFromID: outPipID)
-		
-		inArm.setHand(newHand)
-		outArm.setHand(newHand)
-		
-		viewController.addHandView(newHand)
-		viewController.addArmView(inArm)
-		viewController.addArmView(outArm)
-		
-		inPip.view.addArm(inArm, toPipID: outPipID, isInputArm: true)
-		outPip.view.addArm(outArm, toPipID: inPipID, isInputArm: false)
-		
-		newHand.setArms(inArm, armB: outArm)
-	}
-	
 	// breakConnection: Int, Int -> nil
 	// I/O: breaks a link between two pips
 	
@@ -272,15 +192,12 @@ class PipDirectory{
 		inPip.model.removeOutput(outPipID)
 		outPip.model.removeInput(inPipID)
 		
-		let inArm: ArmView = inPip.view.removeArm(outPipID, isInputArm: true)
-		let outArm: ArmView = outPip.view.removeArm(inPipID, isInputArm: false)
-		
-		inArm.handView.removeFromSuperview()
-		inArm.handView = nil
-		outArm.handView = nil
-		
-		viewController.removeArmView(inArm)
-		viewController.removeArmView(outArm)
+		if let arm = inPip.view.removeArm(outPipID, isInputArm: false) {
+			viewController.removeArmView(arm)
+		}
+		if let arm2 = outPip.view.removeArm(inPipID, isInputArm: true) {
+			viewController.removeArmView(arm2)
+		}
 		
 		outPip.view.updateView()
 	}

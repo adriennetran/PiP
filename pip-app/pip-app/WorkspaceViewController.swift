@@ -12,7 +12,7 @@ import MobileCoreServices
 //import Photos
 
 
-class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
+class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
     
     lazy var motionManager = CMMotionManager()
 
@@ -20,6 +20,9 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 	@IBOutlet var scrollView: UIScrollView!
 	var containerView: UIView!
 	var staticScreenElements: [(view: UIView, pos: CGPoint)] = []
+	
+	var pipViewBeingDragged: BasePipView!
+	var armViewBeingCreated: ArmView!
 
     
     // this gets called on ViewController.addPipView, if the pipType is an ImagePip
@@ -207,10 +210,6 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		scrollView.addSubview(containerView)
 		containerView.setNeedsDisplay()
 		
-		var backgroundView = UIView(frame: CGRectMake(0, 0, 1440, 2880))
-		backgroundView.backgroundColor = UIColor.whiteColor()
-		containerView.addSubview(backgroundView)
-		
 		scrollView.contentSize = containerView.bounds.size
 		
 		scrollView.backgroundColor = UIColor.whiteColor()
@@ -311,6 +310,10 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		tapRecognizer.numberOfTouchesRequired = 1
 		scrollView.addGestureRecognizer(tapRecognizer)
 		
+		var panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "scrollViewPan:")
+		panGestureRecognizer.delegate = self
+		scrollView.addGestureRecognizer(panGestureRecognizer)
+		
 		let scrollViewFrame: CGRect = scrollView.frame
 		let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
 		let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
@@ -333,18 +336,72 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		// Dispose of any resources that can be recreated.
 	}
 	
+	func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return true
+	}
+	
+	func setPipBeingDragged(view: BasePipView) {
+		pipViewBeingDragged = view
+		scrollView.scrollEnabled = false
+	}
+	
+	func clearPipBeingDragged() {
+		pipViewBeingDragged = nil
+		scrollView.scrollEnabled = true
+	}
+	
+	
+	func scrollViewPan(recognizer: UIPanGestureRecognizer) {
+		if pipViewBeingDragged != nil {
+			
+			if recognizer.state == .Began {
+				pipViewBeingDragged.updateLastLocation()
+			}
+			
+			let lastLocation = pipViewBeingDragged.lastLocation
+			
+			var translation = recognizer.translationInView(scrollView)
+			pipViewBeingDragged.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+			
+			pipViewBeingDragged.updateArms()
+			
+			if recognizer.state == .Ended {
+				if stoppedBeingDragged(pipViewBeingDragged.frame) {
+					_mainPipDirectory.deletePip(pipViewBeingDragged.pipId)
+				}
+				
+				clearPipBeingDragged()
+				
+			}else{
+				startedBeingDragged()
+			}
+			
+			return
+		}
+		
+		if armViewBeingCreated != nil {
+			armViewBeingCreated.updateEnd(recognizer.locationInView(scrollView))
+			
+			if recognizer.state == .Ended {
+				
+				armStoppedBeingDragged(armViewBeingCreated)
+				
+			}
+		}
+	}
 
 	// touchesBegan: 
 	// I/O: used to exit/cancel any active screen elements
 	//		active buttons, open menus etc.
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
-		println("!")
 		for ele in staticScreenElements {
 			if var menu = (ele.view as? CanvasMenuView){
 				menu.toggleActive()
-				println("!")
 			}
 		}
+		
+		scrollView.endEditing(true)
+		
         return
 	}
 	
@@ -373,8 +430,6 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 	// I/O: resets the state of active Pips, and closes all menus
 	
 	func scrollViewTapped(recognizer: UITapGestureRecognizer) {
-		
-		_mainPipDirectory.clearActiveInOut()
 			
 		for ele in staticScreenElements {
 			if var menu = (ele.view as? CanvasMenuView) {
@@ -440,6 +495,24 @@ class WorkspaceViewController: UIViewController, UIScrollViewDelegate, UINavigat
 		let pipRect: CGRect = scrollView.convertRect(rect, fromView: containerView)
 		
 		return CGRectIntersectsRect(pipRect, trashCanButton.frame)
+	}
+	
+	func armStoppedBeingDragged(arm: ArmView) {
+		for (id, pip) in _mainPipDirectory.getAllPips() {
+			
+			// if arm was successfully connected
+			if pip.view.frame.contains(arm.end) && id != arm.startPipID{
+				arm.endPipID = id
+				arm.makeConnection()
+				
+				armViewBeingCreated = nil
+				
+				return
+			}
+		}
+		
+		armViewBeingCreated.removeFromSuperview()
+		armViewBeingCreated = nil
 	}
 	
 	// menuButtonPressed: UIButton -> nil
