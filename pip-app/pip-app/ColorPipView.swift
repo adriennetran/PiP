@@ -14,6 +14,8 @@ import UIKit
 // that value back up to the ColorPipView
 
 class ColorPipView: BasePipView{
+    
+//    var colorBlock = UIImageView(frame: CGRectMake(10, 220, 100, 100))
 	
 	//Required
 	required init(coder aDecoder: NSCoder) {
@@ -46,6 +48,8 @@ class ColorPipView: BasePipView{
 		redFrame.backgroundColor = UIColor.redColor()
 		redFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "redTouched:"))
 		addSubview(redFrame)
+        
+//        self.colorBlock.backgroundColor = UIColor.brownColor()
 	}
 	
 	// ---------------
@@ -99,6 +103,15 @@ class ColorPipView: BasePipView{
 	
 	override func updateView() {
 		(getModel() as? ColorPip)?.updateReliantPips()
+        
+        let output = (getModel() as? ColorPip)?.getOutput()
+        
+        
+        // color- if present
+        if (output?.getAccel() != nil){
+            println("accel > color")
+            //            self.addSubview(self.colorBlock)
+        }
 	}
 
 }
