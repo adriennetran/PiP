@@ -58,6 +58,15 @@ class PipDirectory{
 		
 		switch pType{
             
+        case .Audio:
+            // Create View and Model
+            var audioModel: AudioPip = AudioPip(id: lastPipID)
+            var audioView: AudioPipView = AudioPipView(point: createPos, id: lastPipID)
+            
+            // Add tuple to array
+            tuple = (model: audioModel, view: audioView)
+
+            
         case .Image:
             // Create View and Model
             var imageModel: ImagePip = ImagePip(id: lastPipID)
@@ -210,6 +219,8 @@ class PipDirectory{
 		let type = getPipByID(pID).model.getPipType()
 		switch type{
 			//case .Button:
+        case .Audio:
+            (getPipByID(pID).model as? AudioPip)?.getOutput()
         case .Image:
             (getPipByID(pID).model as? ImagePip)?.getOutput()
             

@@ -633,58 +633,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             pipView2!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("capture:")))
             */
         }
-        
-//        var monkey = 1.0
-        
-//        if (pipType == "TextPipView"){
-//            var pipViewText = pipView as? TextPipView
-//            
-//            self.userText = UITextField(frame: CGRectMake(75, 75, 315, 45))
-//            self.userText.borderStyle = UITextBorderStyle.RoundedRect
-//            self.userText.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-////            self.userText.font = UIFont(name: self.userText!.font!.fontName, size: 24)
-//            self.userText.backgroundColor = UIColor.whiteColor()
-//            self.userText.textColor = UIColor.blackColor()
-//            
-//            self.view.addSubview(userText)
-//        }
-        
-        if (pipType == "AccelPipView"){
-//            var pipViewAccel = pipView as? AccelPipView
-//            
-//            if motionManager.accelerometerAvailable{
-//                let motionQueue = NSOperationQueue.mainQueue()
-//                motionManager.deviceMotionUpdateInterval = 0.01
-//                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
-//                withHandler: gravityUpdated)
-//            } else{
-//                println("accelerometer not available")
-//            }
-//            
-//            currPipView(pipViewAccel!)
-//            
-//            // text layer
-//            pipViewAccel!.textLayer.frame = CGRectMake(0, 0, pipViewAccel!.photoImageView.bounds.width, pipViewAccel!.photoImageView.bounds.height)
-//            
-//            let fontName: CFStringRef = "Helvetica"
-//            pipViewAccel!.textLayer.font = CTFontCreateWithName(fontName, 4, nil)
-//            
-//            pipViewAccel!.textLayer.foregroundColor = UIColor.blackColor().CGColor
-//            pipViewAccel!.textLayer.wrapped = true
-//            pipViewAccel!.textLayer.alignmentMode = kCAAlignmentCenter
-//            pipViewAccel!.textLayer.contentsScale = UIScreen.mainScreen().scale
-//            
-//            
-//            
-//            
-//            pipViewAccel!.colorBlock.backgroundColor = UIColor.brownColor()
-//            
-//            self.view.addSubview(pipViewAccel!.photoImageView)
-//            self.view.addSubview(pipViewAccel!.colorBlock)
-//            
-//            pipViewAccel!.photoImageView.layer.addSublayer(pipViewAccel!.textLayer)
-            
-        }
+
         
 		containerView.addSubview(pipView)
 		containerView.bringSubviewToFront(pipView)
