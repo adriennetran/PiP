@@ -7,7 +7,7 @@
 //
 
 enum PipType: Int{
-	case Text, Color, Button, Switch, Accel, Image
+	case Text, Color, Button, Switch, Accel, Image, Audio
 }
 
 class BasePipOutput: Printable {

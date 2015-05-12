@@ -30,13 +30,22 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     var y: CGFloat?
     var z: CGFloat?
     
+    var sx: NSString?
+    var sy: NSString?
+    var sz: NSString?
+    
     var motionManager = CMMotionManager()
     var accelValue: Bool = true
     
     
     init(point: CGPoint, id: Int){
-        super.init(point: point, image: UIImage(named: "mathPip-image")!, id: id)
-
+        super.init(point: point, image: UIImage(named: "accelerometerPip-image")!, id: id)
+        
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
+        
+//        pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
+//        pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
+        
         startAccelerometer(accelValue)
         
         // text layer
@@ -109,6 +118,13 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
             // make it so that this is only being updated when the view is present
         self.colorBlock.backgroundColor = UIColor(red:r, green:g,blue:b,alpha:1.0)
         
+            
+        // TO DO : HAVE CODE HERE THAT CHECKS WHETHER THIS ACCEL PIP GOES INTO A TEXT PIP
+        // AND POPULATE THE TEXT PIP WITH SX, SY, SZ INFORMATION
+            // textPipCast = inputPip as? TextPip
+            // textPipCast.setText(SX, SY, SZ)
+            
+            
 //        println(self.x)
 //        println(self.y)
 //        println(self.z)
@@ -143,7 +159,8 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         // color- if present
         if (output?.getColor() != nil){
-            self.addSubview(self.colorBlock)
+            println("color > accel: N/A")
+//            self.addSubview(self.colorBlock)
         }
         
         

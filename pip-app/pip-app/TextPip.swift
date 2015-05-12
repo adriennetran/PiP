@@ -90,6 +90,33 @@ class TextPip: BasePip {
 			let inPip = _mainPipDirectory.getPipByID(item).model
 			
             switch inPip.getPipType(){
+                
+            case .Accel:
+                let castItem: AccelPip! = inPip as? AccelPip
+                
+                var accelView = _mainPipDirectory.getPipByID(castItem.pipID).view
+                var accelViewCast: AccelPipView! = accelView as? AccelPipView
+                
+                if castItem != nil{
+                    
+//                    output.setAccel(true)
+                    
+//                     add colorBlock view
+//                    accelViewCast.addSubview(accelViewCast.colorBlock)
+                    
+                    // set text to xyz from accel
+                    
+//                    output.setText("ACCEL IS INSIDE")
+                    output.setText("accel is inside \(accelViewCast.sx)")
+                    
+                }
+//                else{
+//                    output.setAccel(false)
+//                    
+//                    // * * * * THIS MAY CAUSE ERRORS
+//                    accelViewCast.delete(accelViewCast.colorBlock)
+//                    //                    accelViewCast.removeFromSuperview(accelViewCast.colorBlock)
+//                }
 
             case .Text:
 				let castItem: TextPip! = inPip as? TextPip

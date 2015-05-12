@@ -12,14 +12,24 @@ import UIKit
 class ColorOutput: BasePipOutput{
 	
 	var color: UIColor!
+    var accelStatus: Bool!
 	
     override init(){
         color = UIColor.blackColor()
+        accelStatus = false
     }
 	
 	override var description: String {
 		return color.description
 	}
+    
+    func setAccel(status: Bool){
+        accelStatus = status
+    }
+    
+    func getAccel() -> Bool{
+        return accelStatus!
+    }
     
     func getColor() -> UIColor{
         return color
@@ -68,6 +78,28 @@ class ColorPip: BasePip{
             
             switch inPip.getPipType(){
                 
+            case .Accel:
+                let castItem: AccelPip! = inPip as? AccelPip
+                
+                var accelView = _mainPipDirectory.getPipByID(castItem.pipID).view
+                var accelViewCast: AccelPipView! = accelView as? AccelPipView
+                
+                if castItem != nil{
+                    
+                    output.setAccel(true)
+                    
+                    // add colorBlock view
+                    accelViewCast.addSubview(accelViewCast.colorBlock)
+                    
+                }else{
+                    output.setAccel(false)
+                    
+                    // * * * * THIS MAY CAUSE ERRORS
+                    accelViewCast.delete(accelViewCast.colorBlock)
+//                    accelViewCast.removeFromSuperview(accelViewCast.colorBlock)
+                }
+                
+                
             case .Text:
 				let castItem: TextPip! = inPip as? TextPip
 				
@@ -93,6 +125,7 @@ class ColorPip: BasePip{
 					
                     output.color = UIColor(hue: (h1 * h2)/2, saturation: (s1*s2)/2, brightness: (b1*b2)/2, alpha: (a1*a2)/2)
                 }
+                
 			default:	//Switch Pip case
 				let castItem: SwitchPip! = inPip as? SwitchPip
 				
