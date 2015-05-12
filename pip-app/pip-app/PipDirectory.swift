@@ -136,6 +136,20 @@ class PipDirectory{
 		}
 	}
 	
+	func getColorForPipType(type: PipType) -> UIColor{
+		switch type{
+		case .Accel:
+			return UIColor(red: (183 / 256), green: (237 / 256), blue: (36 / 256), alpha: 1.0)
+		case .Image:
+			return UIColor(red: (31 / 256), green: (175 / 256), blue: (255 / 256), alpha: 1.0)
+		case .Color:
+			return UIColor(red: (244 / 256), green: (105 / 256), blue: (105 / 256), alpha: 1.0)
+		case .Text:
+			return UIColor(red: (35 / 256), green: (247 / 256), blue: (161 / 256), alpha: 1.0)
+		default:
+			return UIColor(red: (239 / 256), green: (188 / 256), blue: (63 / 256), alpha: 1.0)
+		}
+	}
 	// ---------------
 	//  Deletion
 	// ---------------

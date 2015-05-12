@@ -101,9 +101,9 @@ class ArmView: UIView {
 	
 	func updateFrame() {
 		//Corners
-		let tLeft = CGPoint(x: min(start.x-100, end.x-100), y: min(start.y, end.y))
+		let tLeft = CGPoint(x: min(start.x-100, end.x-100), y: min(start.y, end.y) - 25)
 		let tRight = CGPoint(x: max(start.x+100, end.x+100), y: tLeft.y)
-		let bLeft = CGPoint(x: tLeft.x, y: max(start.y, end.y))
+		let bLeft = CGPoint(x: tLeft.x, y: max(start.y, end.y) + 25)
 		
 		let nFrame = CGRectMake(tLeft.x, tLeft.y, abs(tLeft.x - tRight.x), abs(tLeft.y - bLeft.y))
 		self.frame = nFrame
@@ -137,12 +137,20 @@ class ArmView: UIView {
 		CGContextSetLineWidth(context, 5.0)
 		// Set Color
 		let components: [CGFloat] = [0.0, 0.0, 1.0, 1.0]
-		let color = CGColorCreate(colorSpace, components)
-		CGContextSetStrokeColorWithColor(context, color)
+		
+		let startColor: CGColor = _mainPipDirectory.getColorForPipType(_mainPipDirectory.getPipByID(startPipID).model.getPipType()).CGColor
+		
+		var endColor: CGColor!
+		if hasEnd {
+			endColor = _mainPipDirectory.getColorForPipType(_mainPipDirectory.getPipByID(endPipID).model.getPipType()).CGColor
+		}else{
+			endColor = startColor
+		}
 		
 		// Convert start and end points to superview coordinate space
 		let startConv: CGPoint = self.convertPoint(start, fromView: superview)
 		let endConv: CGPoint = self.convertPoint(end, fromView: superview)
+		let halfPoint: CGPoint = CGPoint(x: (startConv.x + endConv.x) / 2, y: (startConv.y + endConv.y) / 2)
 		
 		let startInfl = CGPoint(x: startConv.x + 200, y: startConv.y)
 		let endInfl = CGPoint(x: endConv.x - 200, y: endConv.y)
@@ -151,8 +159,15 @@ class ArmView: UIView {
 		
 		// Set Line to Draw
 		CGContextMoveToPoint(context, startConv.x, startConv.y)
-		CGContextAddCurveToPoint(context, startInfl.x, startInfl.y, endInfl.x, endInfl.y, endConv.x, endConv.y)
+		CGContextAddCurveToPoint(context, startInfl.x, startInfl.y, halfPoint.x, halfPoint.y, halfPoint.x, halfPoint.y)
+		
+		CGContextSetStrokeColorWithColor(context, startColor)
+		CGContextStrokePath(context)
+		
+		CGContextMoveToPoint(context, halfPoint.x, halfPoint.y)
+		CGContextAddCurveToPoint(context, halfPoint.x, halfPoint.y, endInfl.x, endInfl.y, endConv.x, endConv.y)
 		// Draw Arm
+		CGContextSetStrokeColorWithColor(context, endColor)
 		CGContextStrokePath(context)
 		//CGContextFillEllipseInRect(context, hand)
 		
