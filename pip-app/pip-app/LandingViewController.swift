@@ -35,7 +35,7 @@ class LandingViewController: UIViewController {
 	
 	func tutorialButtonPressed(sender: UIButton) {
 		let storyboard = UIStoryboard(name: "Main", bundle: nil)
-		let vc = storyboard.instantiateViewControllerWithIdentifier("tutorial") as! UIPageViewController
+		let vc = storyboard.instantiateViewControllerWithIdentifier("tutorialView") as! UIViewController
 		self.presentViewController(vc, animated: true, completion: nil)
 	}
 }

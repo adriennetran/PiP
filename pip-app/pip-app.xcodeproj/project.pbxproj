@@ -12,7 +12,6 @@
 		5E26ACC21AD1B3F900B416C5 /* ColorPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */; };
 		5E339B631AD238F400CC3E8A /* SwitchPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E339B621AD238F400CC3E8A /* SwitchPipView.swift */; };
 		5E528B051AEDC1280072EA10 /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E528B041AEDC1280072EA10 /* LandingViewController.swift */; };
-		5E528B071AEDD95B0072EA10 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E528B061AEDD95B0072EA10 /* TutorialViewController.swift */; };
 		5E528B0B1AEDED3A0072EA10 /* HandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E528B0A1AEDED3A0072EA10 /* HandView.swift */; };
 		5E53545D1AD17E9800617B7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E53545C1AD17E9800617B7C /* AppDelegate.swift */; };
 		5E53545F1AD17E9800617B7C /* WorkspaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E53545E1AD17E9800617B7C /* WorkspaceViewController.swift */; };
@@ -54,7 +53,6 @@
 		5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPipView.swift; sourceTree = "<group>"; };
 		5E339B621AD238F400CC3E8A /* SwitchPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchPipView.swift; sourceTree = "<group>"; };
 		5E528B041AEDC1280072EA10 /* LandingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingViewController.swift; sourceTree = "<group>"; };
-		5E528B061AEDD95B0072EA10 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		5E528B0A1AEDED3A0072EA10 /* HandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandView.swift; sourceTree = "<group>"; };
 		5E5354571AD17E9800617B7C /* pip-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pip-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E53545B1AD17E9800617B7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 				AE3AF6B11AF1F7FB00C96F59 /* AccelPhotoOperations.swift */,
 				5E53545E1AD17E9800617B7C /* WorkspaceViewController.swift */,
 				5E528B041AEDC1280072EA10 /* LandingViewController.swift */,
-				5E528B061AEDD95B0072EA10 /* TutorialViewController.swift */,
 				AEDB54E51AED63720016D054 /* CameraViewController.swift */,
 				5E53990B1AD6261D00A2CAC7 /* PipDirectory.swift */,
 				5EC853911B01A6BF00D7EBED /* Utils.swift */,
@@ -311,7 +308,6 @@
 				5E879C791AD18B8500DCAC47 /* BasePipView.swift in Sources */,
 				5E53545F1AD17E9800617B7C /* WorkspaceViewController.swift in Sources */,
 				5E53545D1AD17E9800617B7C /* AppDelegate.swift in Sources */,
-				5E528B071AEDD95B0072EA10 /* TutorialViewController.swift in Sources */,
 				AE0195411AE7128600C869DA /* ImagePipView.swift in Sources */,
 				5E66EEEE1AE595AD0067BA33 /* ArmView.swift in Sources */,
 				5E528B051AEDC1280072EA10 /* LandingViewController.swift in Sources */,

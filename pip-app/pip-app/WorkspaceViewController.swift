@@ -321,7 +321,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
-		scrollView.zoomScale = 1.0
+		scrollView.zoomScale = minScale
 		
 		/* ------------------------
 			Tap Gesture Recognizer
@@ -360,8 +360,9 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 			
 			let lastLocation = pipViewBeingDragged.lastLocation
 			
-			var translation = recognizer.translationInView(scrollView)
-			pipViewBeingDragged.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+			let translation = recognizer.translationInView(scrollView)
+			let translationScaled = CGPoint(x: translation.x / scrollView.zoomScale, y: translation.y / scrollView.zoomScale)
+			pipViewBeingDragged.center = CGPointMake(lastLocation.x + translationScaled.x, lastLocation.y + translationScaled.y)
 			
 			pipViewBeingDragged.updateArms()
 			

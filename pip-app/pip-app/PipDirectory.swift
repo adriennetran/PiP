@@ -168,7 +168,6 @@ class PipDirectory{
 		
 		// remove all connections between pip and other pips
 		pip.model.pipToBeDestroyed()
-        // ^ TO DO: if image pip, add view.photoImageView to delete
         // ^ TO DO: override in ImagePip- call super.pipToBeDestroyed
 		
 		// remove pip from its superview
