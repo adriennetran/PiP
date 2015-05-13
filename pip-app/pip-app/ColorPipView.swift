@@ -97,7 +97,7 @@ class ColorPipView: BasePipView{
         
         let output = (getModel() as? ColorPip)?.getOutput()
         
-        
+        colorPickerView.backgroundColor = output?.color
         // color- if present
         if (output?.getAccel() != nil){
             println("accel > color")
