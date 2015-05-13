@@ -9,10 +9,11 @@
 import UIKit
 import CoreMotion
 import MobileCoreServices
+import AVFoundation
 //import Photos
 
 
-class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate {
+class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
     
     lazy var motionManager = CMMotionManager()
 
@@ -37,6 +38,8 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 //        // presentViewController(captureDetails!, animated: true, completion: nil)
 //    }
 //    
+    
+    // capture is called in ImagePipView as a gesture recognizer
     func capture(tap: UITapGestureRecognizer) {
         
         println("capture")
@@ -90,6 +93,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             var curModel = curPipView2!.getModel() as? ImagePip
             
             
+            // ImagePip output has an attribute 'accelStatus' that toggles according to whether there is an AccelPip input
             if (curModel?.output.accelStatus == true){
                 println("GET ACCEL IS TRUE")
                 var blurredImage = curPipView2!.applyBlurEffect(curPipView2!.photoImageView.image!)
@@ -186,19 +190,48 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             println("The camera does not support taking photos")
         }
         
-        //Get accelerometer data
-        if motionManager.accelerometerAvailable{
-            let queue = NSOperationQueue()
-            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler:
-                {(data: CMAccelerometerData!, error: NSError!) in
-                    //println("X = \(data.acceleration.x)")
-                    //println("Y = \(data.acceleration.y)")
-                    //println("Z = \(data.acceleration.z)")
-                })
-        } else{
-            println("accelerometer is not available.")
+        // audio recording permissions
+        var error: NSError?
+        let session = AVAudioSession.sharedInstance()
+        if session.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: .DuckOthers,
+            error: &error){
+            if session.setActive(true, error: nil){ println("Successfully activated the audio session")
+            session.requestRecordPermission{[weak self](allowed: Bool) in
+            if allowed{
+//            self!.startRecordingAudio()
+                println("audio recording allowed")
+        } else {
+            println("We don't have permission to record audio");
+            }
+            }
+        } else {
+            println("Could not activate the audio session")
+            }
+        } else {
+            if let theError = error{
+            println("An error occurred in setting the audio " +
+            "session category. Error = \(theError)")
+            }
         }
         
+//        var curPip = self.curPipView
+//        if (curPip as? AudioPipView) != nil{
+//            println("AUDIO PIP IS NOT NIl")
+//        }
+        
+//        //Get accelerometer data
+//        if motionManager.accelerometerAvailable{
+//            let queue = NSOperationQueue()
+//            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler:
+//                {(data: CMAccelerometerData!, error: NSError!) in
+//                    //println("X = \(data.acceleration.x)")
+//                    //println("Y = \(data.acceleration.y)")
+//                    //println("Z = \(data.acceleration.z)")
+//                })
+//        } else{
+//            println("accelerometer is not available.")
+//        }
+//        
         
 		_mainPipDirectory.registerViewController(self)
 		
@@ -569,48 +602,9 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
     func currPipView(pipView: BasePipView){
         curPipView = pipView
     }
+
     
-//    func gravityUpdated(motion: CMDeviceMotion!, error: NSError!) {
-//        
-//        let grav : CMAcceleration = motion.gravity;
-//        
-//        let x = CGFloat(grav.x);
-//        let y = CGFloat(grav.y);
-//        
-//        var v = CGVectorMake(x, y);
-//        
-//        var accelPip = curPipView as? AccelPipView
-//        accelPip!.x = CGFloat(grav.x)
-//        accelPip!.y = CGFloat(grav.y)
-//        accelPip!.z = CGFloat(grav.z)
-//        
-//        let numberFormatter = NSNumberFormatter()
-//        numberFormatter.numberStyle = .DecimalStyle
-//        numberFormatter.minimumFractionDigits = 3
-//        numberFormatter.maximumFractionDigits = 3
-//        let sx = numberFormatter.stringFromNumber(accelPip!.x!)
-//        let sy = numberFormatter.stringFromNumber(accelPip!.y!)
-//        let sz = numberFormatter.stringFromNumber(accelPip!.z!)
-//        
-////        accelPip!.textLayer.string = "\(accelPip!.x)"
-//        accelPip!.textLayer.string = sx! + " " + sy! + " " + sz!
-//        var r = accelPip!.x!*2
-//        var g = accelPip!.y!*2
-//        var b = accelPip!.z!*2
-//        
-////        println(r)
-//        
-//        accelPip!.colorBlock.backgroundColor = UIColor(red:r, green:g,blue:b,alpha:1.0)
-//        
-////        accelPip!.x.save(CGFloat(grav.x))
-//        println(accelPip!.x)
-//        println(accelPip!.y)
-//        println(accelPip!.z)
-////        println(x)
-//        
-//        
-//    }
-	
+    
 	func addPipView(pipView: BasePipView) {
         println("Add pip view")
         
@@ -632,6 +626,12 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             // opens camera
             pipView2!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("capture:")))
             */
+        }
+        
+        
+        if var castPipView = (pipView as? AudioPipView){
+            println("audio pip!")
+            currPipView(castPipView)
         }
 
         

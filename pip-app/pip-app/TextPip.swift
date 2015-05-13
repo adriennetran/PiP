@@ -92,6 +92,7 @@ class TextPip: BasePip {
             switch inPip.getPipType(){
                 
             case .Accel:
+                println("accel > text")
                 let castItem: AccelPip! = inPip as? AccelPip
                 
                 var accelView = _mainPipDirectory.getPipByID(castItem.pipID).view

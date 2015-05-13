@@ -46,6 +46,7 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 //        pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
 //        pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
         
+        // instantiate handler to collect accelerometer data
         startAccelerometer(accelValue)
         
         // text layer
@@ -68,6 +69,10 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
     }
     
+    // this is called when the AccelPipView is instantiated
+    // input: true and false
+    
+    // handler calls gravityUpdated
     func startAccelerometer(val: Bool){
         if val == true{
             println("accelerometer starting")
@@ -87,6 +92,7 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         }
     }
     
+    // this fn is called in startAccelerometer and collects accel data and populates textLayer with it
     func gravityUpdated(motion: CMDeviceMotion!, error: NSError!) {
         
         if (accelValue == true){
@@ -153,26 +159,26 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         let output = (getModel() as? AccelPip)?.getOutput()
         
         // text
-        if (output?.getText() != nil){
-            println("text > accel: N/A")
-        }
+//        if (output?.getText() != nil){
+//            println("text > accel: N/A")
+//        }
         
         // color- if present
-        if (output?.getColor() != nil){
-            println("color > accel: N/A")
-//            self.addSubview(self.colorBlock)
-        }
+//        if (output?.getColor() != nil){
+//            println("color > accel: N/A")
+////            self.addSubview(self.colorBlock)
+//        }
         
         
         // get switch signal
-        if (output?.getSwitch() != nil){
-            if (output?.getSwitch() == true){
-                // turn on
-            } else{
-                println("switch > accel: false")
-                // turn off
-            }
-        }
+//        if (output?.getSwitch() != nil){
+//            if (output?.getSwitch() == true){
+//                // turn on
+//            } else{
+//                println("switch > accel: false")
+//                // turn off
+//            }
+//        }
         
         (getModel() as? AccelPip)?.updateReliantPips()
     }

@@ -95,7 +95,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 //    }
     
     override func updateView(){
-        println ("updating imageView")
+        println ("updating imageView (ImagePipView)")
         let output = (getModel() as? ImagePip)?.getOutput()
         
         // color
