@@ -53,10 +53,6 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 		return _mainPipDirectory.getPipByID(pipId).model
 	}
 	
-	// ---------------
-	//  Accessors
-	// ---------------
-	
 	// textFieldDidChage: UITextField -> nil
 	// I/O: takes in a UITextField, field, whose content has just changed.
 	// Note: Use this to pass the content of field to the model

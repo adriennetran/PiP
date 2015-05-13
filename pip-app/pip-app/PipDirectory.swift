@@ -57,7 +57,16 @@ class PipDirectory{
 		var tuple: (model: BasePip, view: BasePipView)!
 		
 		switch pType{
-            
+			
+		case .Accel:
+			
+			// Create View and Model
+			var accelModel: AccelPip = AccelPip(id: lastPipID)
+			var accelView: AccelPipView = AccelPipView(point: createPos, id: lastPipID)
+			
+			// Add tuple to array
+			tuple = (model: accelModel, view: accelView)
+			
         case .Audio:
             // Create View and Model
             var audioModel: AudioPip = AudioPip(id: lastPipID)
@@ -65,7 +74,14 @@ class PipDirectory{
             
             // Add tuple to array
             tuple = (model: audioModel, view: audioView)
-
+		
+		case .Color:
+			
+			// Create View and Model
+			var colorModel = ColorPip(id: ++lastPipID)
+			var colorView = ColorPipView(point: createPos, id: lastPipID)
+			
+			tuple = (model: colorModel, view: colorView)
             
         case .Image:
             // Create View and Model
@@ -74,16 +90,13 @@ class PipDirectory{
             
             // Add tuple to array
             tuple = (model: imageModel, view: imageView)
-            
-        case .Accel:
-            
-            // Create View and Model
-            var accelModel: AccelPip = AccelPip(id: lastPipID)
-            var accelView: AccelPipView = AccelPipView(point: createPos, id: lastPipID)
-            
-            // Add tuple to array
-            tuple = (model: accelModel, view: accelView)
-            
+			
+		case .Math:
+			// Create View and Model
+			var mathModel: MathPip = MathPip(id: lastPipID)
+			var mathView: MathPipView = MathPipView(point: createPos, id: lastPipID)
+			
+			tuple = (model: mathModel, view: mathView)
 			
 		case .Text:
 			
@@ -92,14 +105,6 @@ class PipDirectory{
 			var textView: TextPipView = TextPipView(point: createPos, id: lastPipID)
 			
 			tuple = (model: textModel, view: textView)
-			
-		case .Color:
-			
-			// Create View and Model
-			var colorModel = ColorPip(id: ++lastPipID)
-			var colorView = ColorPipView(point: createPos, id: lastPipID)
-			
-			tuple = (model: colorModel, view: colorView)
 			
 		default: // creates .Switch
 			
@@ -140,6 +145,8 @@ class PipDirectory{
 			return UIImage(named: "colorPip-image")!
         case .Image:
             return UIImage(named: "imagePip-image")!
+		case .Math:
+			return UIImage(named: "mathPip-image")!
 		case .Text:
 			return UIImage(named: "textPip-image")!
 		default:

@@ -53,12 +53,13 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		// HARDCODING MENU BUTTONS
 		let imgScale: CGFloat = 0.7
 		
-		let switchImg = _mainPipDirectory.getImageForPipType(.Switch);
-		let textImg = _mainPipDirectory.getImageForPipType(.Text);
-		let colorImg = _mainPipDirectory.getImageForPipType(.Color);
-		let accelImg = _mainPipDirectory.getImageForPipType(.Accel);
-		let imageImg = _mainPipDirectory.getImageForPipType(.Image);
-		let audioImg = _mainPipDirectory.getImageForPipType(.Audio);
+		let switchImg = _mainPipDirectory.getImageForPipType(.Switch)
+		let textImg = _mainPipDirectory.getImageForPipType(.Text)
+		let colorImg = _mainPipDirectory.getImageForPipType(.Color)
+		let accelImg = _mainPipDirectory.getImageForPipType(.Accel)
+		let imageImg = _mainPipDirectory.getImageForPipType(.Image)
+		let audioImg = _mainPipDirectory.getImageForPipType(.Audio)
+		let mathImg = _mainPipDirectory.getImageForPipType(.Math)
 		
 		let switchFrame = CGRectMake(45, 60, switchImg.size.width * imgScale, switchImg.size.height * imgScale)
 		let textFrame = CGRectMake(130, 80, textImg.size.width * imgScale, textImg.size.height * imgScale)
@@ -66,6 +67,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		let accelFrame = CGRectMake(35, 170, accelImg.size.width * imgScale, accelImg.size.height * imgScale)
 		let imageFrame = CGRectMake(155, 170, imageImg.size.width * imgScale, imageImg.size.height * imgScale)
 		let audioFrame = CGRectMake(275, 173, audioImg.size.width * imgScale, audioImg.size.height * imgScale)
+		let mathFrame = CGRectMake(20, 285, mathImg.size.width * imgScale, mathImg.size.height * imgScale)
 		
 		let switchBtn = UIButton(frame: switchFrame)
 		switchBtn.setImage(switchImg, forState: .Normal)
@@ -97,12 +99,18 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		audioBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		audioBtn.tag = PipType.Audio.rawValue
 		
+		let mathBtn = UIButton(frame: mathFrame)
+		mathBtn.setImage(mathImg, forState: .Normal)
+		mathBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		mathBtn.tag = PipType.Math.rawValue
+		
 		menu.addSubview(switchBtn)
 		menu.addSubview(textBtn)
 		menu.addSubview(colorBtn)
 		menu.addSubview(accelBtn)
 		menu.addSubview(imageBtn)
 		menu.addSubview(audioBtn)
+		menu.addSubview(mathBtn)
 		
 		
 		menu.contentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: CGFloat(300));
