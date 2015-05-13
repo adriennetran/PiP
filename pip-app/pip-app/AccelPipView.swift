@@ -43,13 +43,10 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
         
-<<<<<<< HEAD
 //        pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
 //        pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
         
-        // instantiate handler to collect accelerometer data
-=======
->>>>>>> ba85a77f856e88a22a20757346d7a620a0670493
+
         startAccelerometer(accelValue)
         
         // text layer
