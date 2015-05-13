@@ -310,7 +310,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		
 		let trashCanPos = CGPoint(x: UIScreen.mainScreen().bounds.width/2 - 50,
 			y: UIScreen.mainScreen().bounds.height - 110)
-		trashCanButton = UIView(frame: CGRectMake(settingsBtnPos.x, settingsBtnPos.y, 100, 100))
+		trashCanButton = UIView(frame: CGRectMake(trashCanPos.x, trashCanPos.y, 100, 100))
 		trashCanButton.backgroundColor = UIColor.blackColor()
 		trashCanButton.hidden = true
 		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
@@ -393,8 +393,9 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 			
 			let lastLocation = pipViewBeingDragged.lastLocation
 			
-			var translation = recognizer.translationInView(scrollView)
-			pipViewBeingDragged.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+			let translation = recognizer.translationInView(scrollView)
+			let translationScaled = CGPoint(x: translation.x / scrollView.zoomScale, y: translation.y / scrollView.zoomScale)
+			pipViewBeingDragged.center = CGPointMake(lastLocation.x + translationScaled.x, lastLocation.y + translationScaled.y)
 			
 			pipViewBeingDragged.updateArms()
 			
@@ -413,7 +414,9 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		}
 		
 		if armViewBeingCreated != nil {
-			armViewBeingCreated.updateEnd(recognizer.locationInView(scrollView))
+			let locInView = recognizer.locationInView(scrollView)
+			let locInViewScaled = CGPoint(x: locInView.x / scrollView.zoomScale, y: locInView.y / scrollView.zoomScale)
+			armViewBeingCreated.updateEnd(locInViewScaled)
 			
 			if recognizer.state == .Ended {
 				

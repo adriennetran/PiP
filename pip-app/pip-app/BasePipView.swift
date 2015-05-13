@@ -25,7 +25,7 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 	
 	//Used for dragging
 	var lastLocation: CGPoint = CGPointMake(0, 0)
-	
+	var panOverridden: Bool = false
 	
 	//Required
 	required init(coder aDecoder: NSCoder) {
@@ -64,7 +64,7 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
 		var longTouchRecognizer = UILongPressGestureRecognizer(target: self, action: "prepPan:")
-		longTouchRecognizer.minimumPressDuration = 0.25
+		longTouchRecognizer.minimumPressDuration = 0.35
 		
 		panRecognizer.delegate = self
 		longTouchRecognizer.delegate = self
@@ -79,11 +79,6 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 		self.userInteractionEnabled = true;
 		
 	}
-	
-	
-    func changeInputViewColorOrange(){
-		// self.pipInputView.backgroundColor = UIColor(red: (253.0/255.0), green: (159.0/255.0), blue: (47.0/255.0), alpha: 1.0);
-    }
 
 	
 	func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -96,13 +91,15 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 	//		updates view to show its being dragged
 	
 	func prepPan(recognizer: UILongPressGestureRecognizer) {
-		if recognizer.state == .Began {
-			_mainPipDirectory.viewController.setPipBeingDragged(self)
-		
-			showShadow()
-		}else if recognizer.state == .Ended {
+		if !panOverridden {
+			if recognizer.state == .Began {
+				_mainPipDirectory.viewController.setPipBeingDragged(self)
+				
+				showShadow()
+			}else if recognizer.state == .Ended {
 			
-			hideShadow()
+				hideShadow()
+			}
 		}
 	}
 	
@@ -154,7 +151,7 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 	
 	func detectPan(recognizer: UIPanGestureRecognizer!){
 		
-		if _mainPipDirectory.viewController.pipViewBeingDragged != self {
+		if !panOverridden && _mainPipDirectory.viewController.pipViewBeingDragged != self {
 			
 			if recognizer.state == .Began {
 				_mainPipDirectory.viewController.scrollView.scrollEnabled = false
@@ -177,10 +174,6 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 	// I/O: called when the user presses the UIView. This implementation
 	//		tells the superview to bring this view to the front, and update
 	//		lastLocation's value
-
-
-    // [] - could be used to tell which node a connection is being made to
-    
 
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
         

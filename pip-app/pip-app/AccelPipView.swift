@@ -39,14 +39,17 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     
     init(point: CGPoint, id: Int){
-        super.init(point: point, image: UIImage(named: "accelerometerPip-image")!, id: id)
+        super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Accel), id: id)
         
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
         
+<<<<<<< HEAD
 //        pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
 //        pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
         
         // instantiate handler to collect accelerometer data
+=======
+>>>>>>> ba85a77f856e88a22a20757346d7a620a0670493
         startAccelerometer(accelValue)
         
         // text layer
@@ -73,6 +76,10 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // input: true and false
     
     // handler calls gravityUpdated
+	
+	// startAccelerometer: Bool -> nil
+	// I/O: checks to see if the accelerometer is available
+	
     func startAccelerometer(val: Bool){
         if val == true{
             println("accelerometer starting")
@@ -91,6 +98,8 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
             motionManager.stopAccelerometerUpdates()
         }
     }
+	
+	
     
     // this fn is called in startAccelerometer and collects accel data and populates textLayer with it
     func gravityUpdated(motion: CMDeviceMotion!, error: NSError!) {

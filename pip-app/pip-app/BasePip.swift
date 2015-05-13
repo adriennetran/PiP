@@ -6,8 +6,15 @@
 //  Copyright (c) 2015 Peter Slattery. All rights reserved.
 //
 
-enum PipType: Int{
-	case Text, Color, Button, Switch, Accel, Image, Audio
+enum PipType: Int {
+	case Text
+	case Color
+	case Button
+	case Switch
+	case Accel
+	case Image
+	case Audio
+	case Math
 }
 
 class BasePipOutput: Printable {

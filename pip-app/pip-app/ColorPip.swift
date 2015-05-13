@@ -45,9 +45,13 @@ class ColorPip: BasePip{
 	var output: ColorOutput!
 	
 	var colorDirectory: [String: UIColor] =
-	["Red":UIColor.redColor(),
-	"Blue":UIColor.blueColor(),
-	"Green": UIColor.greenColor()]
+	["red":UIColor.redColor(),
+	"blue":UIColor.blueColor(),
+	"green": UIColor.greenColor(),
+	"purple": UIColor.purpleColor(),
+	"orange": UIColor.orangeColor(),
+	"yellow": UIColor.yellowColor(),
+	]
 	
 	init(id: Int){
 		super.init(pipType: PipType.Color, id: id)

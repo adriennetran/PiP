@@ -26,7 +26,7 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 	//		entry to the model
 	
 	init (point: CGPoint, id: Int) {
-		super.init(point: point, image: UIImage(named: "textPip-image")!, id: id)
+		super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Text), id: id)
 		
 		textField = UITextField(frame: CGRectMake(10, 27, 150, 15))
 		textField!.borderStyle = UITextBorderStyle.RoundedRect
@@ -52,10 +52,6 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 	override func getModel() -> BasePip {
 		return _mainPipDirectory.getPipByID(pipId).model
 	}
-	
-	// ---------------
-	//  Accessors
-	// ---------------
 	
 	// textFieldDidChage: UITextField -> nil
 	// I/O: takes in a UITextField, field, whose content has just changed.
