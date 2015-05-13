@@ -17,6 +17,11 @@ class ColorPipView: BasePipView{
     
 //    var colorBlock = UIImageView(frame: CGRectMake(10, 220, 100, 100))
 	
+	let centerOfColorWheel: CGPoint = CGPoint(x: 33, y: 47)
+	let cPickerMaxDelta: CGFloat = 30
+	
+	var colorPickerView: ColorPickerView!
+	
 	//Required
 	required init(coder aDecoder: NSCoder) {
 		fatalError("coder initializer not coded")
@@ -29,22 +34,9 @@ class ColorPipView: BasePipView{
 	init(point: CGPoint, id: Int){
 		super.init(point: point, image: UIImage(named: "colorPip-image")!, id: id)
 		
-		var blueFrame = UIView(frame: CGRectMake(frame.width/2 - 15, 0, 30, 30))
-		blueFrame.backgroundColor = UIColor.blueColor()
-		blueFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "blueTouched:"))
-		addSubview(blueFrame)
-		
-		var greenFrame = UIView(frame: CGRectMake(0, 60, 30, 30))
-		greenFrame.backgroundColor = UIColor.greenColor()
-		greenFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "greenTouched:"))
-		addSubview(greenFrame)
-		
-		var redFrame = UIView(frame: CGRectMake(frame.width - (frame.width / 3), 60, 30, 30))
-		redFrame.backgroundColor = UIColor.redColor()
-		redFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "redTouched:"))
-		addSubview(redFrame)
-        
-//        self.colorBlock.backgroundColor = UIColor.brownColor()
+		colorPickerView = ColorPickerView(pos: centerOfColorWheel)
+		self.addSubview(colorPickerView)
+		colorPickerView.backgroundColor = UIColor.whiteColor()
 	}
 	
 	// ---------------
@@ -73,24 +65,28 @@ class ColorPipView: BasePipView{
 	}
 	
 	
-	// getPixelColor: nil -> nil
-	// I/O: called when the view is moved
-	//		gets the color of the pixel under the center of the view
-	//		makes this color the new background color
-	
-	func getPixelColor(point: CGPoint) -> UIColor{
+	func getColourFromPoint(point:CGPoint) -> UIColor {
+		let colorSpace:CGColorSpace = CGColorSpaceCreateDeviceRGB()
+		let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
 		
-		let pixelData: CFDataRef = CGDataProviderCopyData(CGImageGetDataProvider(self.image?.CGImage))
-		let data = CFDataGetBytePtr(pixelData)
+		var pixelData:[UInt8] = [0, 0, 0, 0]
 		
-		var pixelInfo: Int = ((Int(pipImage.size.width) * Int(self.center.x)) + Int(self.center.y)) * 4
+		let context = CGBitmapContextCreate(&pixelData, 1, 1, 8, 4, colorSpace, bitmapInfo)
+		CGContextTranslateCTM(context, -point.x, -point.y);
 		
-		var r = CGFloat(data[pixelInfo])
-		var g = CGFloat(data[pixelInfo+1])
-		var b = CGFloat(data[pixelInfo+2])
-		var a = CGFloat(data[pixelInfo+3])
+		colorPickerView.hidden = true
 		
-		return UIColor(red: r, green: g, blue: b, alpha: a)
+		self.layer.renderInContext(context)
+		
+		colorPickerView.hidden = false
+		
+		var red:CGFloat = CGFloat(pixelData[0])/CGFloat(255.0)
+		var green:CGFloat = CGFloat(pixelData[1])/CGFloat(255.0)
+		var blue:CGFloat = CGFloat(pixelData[2])/CGFloat(255.0)
+		var alpha:CGFloat = CGFloat(pixelData[3])/CGFloat(255.0)
+		
+		var color:UIColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+		return color
 	}
 	
 	// updateView: nil -> nil
@@ -108,5 +104,80 @@ class ColorPipView: BasePipView{
             //            self.addSubview(self.colorBlock)
         }
 	}
+	
+	func getColorFromPicker(point: CGPoint) -> UIColor{
+		let color = self.getColourFromPoint(point)
+		(getModel() as? ColorPip)?.updateColor(color)
+		return color
+	}
 
+}
+
+class ColorPickerView: UIImageView {
+	
+	var lastLocation: CGPoint = CGPoint(x: 0, y: 0)
+	
+	init(pos: CGPoint) {
+		let pickerImage = UIImage(named: "colorPipPicker-image")
+		
+		super.init(image: pickerImage)
+		
+		self.frame.origin = pos
+		
+		self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "viewBeingPanned:"))
+		
+		self.userInteractionEnabled = true
+		
+		self.layer.cornerRadius = self.frame.width / 2
+		
+	}
+
+	required init(coder aDecoder: NSCoder) {
+	    fatalError("init(coder:) has not been implemented")
+	}
+	
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+		if var sup = (superview as? BasePipView) {
+			sup.panOverridden = true
+		}
+	}
+	
+	override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+		if var sup = (superview as? BasePipView) {
+			sup.panOverridden = false
+		}
+	}
+	
+	func viewBeingPanned(sender: UIPanGestureRecognizer) {
+		if sender.state == .Began {
+			lastLocation = frame.origin
+			if var sup = (superview as? BasePipView) {
+				sup.panOverridden = true
+			}
+		}else if sender.state == .Ended {
+			superview!.userInteractionEnabled = true
+			if var sup = (superview as? BasePipView) {
+				sup.panOverridden = false
+			}
+		}
+		
+		var newOrigin = CGPoint(x: lastLocation.x + sender.translationInView(superview!).x, y: lastLocation.y + sender.translationInView(superview!).y)
+		
+		if var sup = (superview as? ColorPipView) {
+			if CGFloat(distance(newOrigin, sup.centerOfColorWheel)) >= sup.cPickerMaxDelta{
+				let normalizedDelta = normalize(CGPoint(x: newOrigin.x - sup.centerOfColorWheel.x,
+					y: newOrigin.y - sup.centerOfColorWheel.y))
+				newOrigin = CGPoint(x: sup.centerOfColorWheel.x + (normalizedDelta.x * sup.cPickerMaxDelta),
+					y: sup.centerOfColorWheel.x + (normalizedDelta.y * sup.cPickerMaxDelta))
+			}
+		}
+		
+		self.frame.origin = newOrigin
+		
+		if var sup = (superview as? ColorPipView) {
+			self.backgroundColor = sup.getColorFromPicker(self.center)
+		}
+	}
+	
+	
 }

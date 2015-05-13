@@ -25,7 +25,7 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 	
 	//Used for dragging
 	var lastLocation: CGPoint = CGPointMake(0, 0)
-	
+	var panOverridden: Bool = false
 	
 	//Required
 	required init(coder aDecoder: NSCoder) {
@@ -96,13 +96,15 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 	//		updates view to show its being dragged
 	
 	func prepPan(recognizer: UILongPressGestureRecognizer) {
-		if recognizer.state == .Began {
-			_mainPipDirectory.viewController.setPipBeingDragged(self)
-		
-			showShadow()
-		}else if recognizer.state == .Ended {
+		if !panOverridden {
+			if recognizer.state == .Began {
+				_mainPipDirectory.viewController.setPipBeingDragged(self)
+				
+				showShadow()
+			}else if recognizer.state == .Ended {
 			
-			hideShadow()
+				hideShadow()
+			}
 		}
 	}
 	
@@ -154,7 +156,7 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 	
 	func detectPan(recognizer: UIPanGestureRecognizer!){
 		
-		if _mainPipDirectory.viewController.pipViewBeingDragged != self {
+		if !panOverridden && _mainPipDirectory.viewController.pipViewBeingDragged != self {
 			
 			if recognizer.state == .Began {
 				_mainPipDirectory.viewController.scrollView.scrollEnabled = false

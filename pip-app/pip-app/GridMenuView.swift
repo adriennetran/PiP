@@ -67,27 +67,27 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		
 		let switchBtn = UIButton(frame: switchFrame)
 		switchBtn.setImage(switchImg, forState: .Normal)
-		switchBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		switchBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		switchBtn.tag = PipType.Switch.rawValue
 		
 		let textBtn = UIButton(frame: textFrame)
 		textBtn.setImage(textImg, forState: .Normal)
-		textBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		textBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		textBtn.tag = PipType.Text.rawValue
 		
 		let colorBtn = UIButton(frame: colorFrame)
 		colorBtn.setImage(colorImg, forState: .Normal)
-		colorBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		colorBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		colorBtn.tag = PipType.Color.rawValue
 		
 		let accelBtn = UIButton(frame: accelFrame)
 		accelBtn.setImage(accelImg, forState: .Normal)
-		accelBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		accelBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		accelBtn.tag = PipType.Accel.rawValue
 		
 		let imageBtn = UIButton(frame: imageFrame)
 		imageBtn.setImage(imageImg, forState: .Normal)
-		imageBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
+		imageBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		imageBtn.tag = PipType.Image.rawValue
 		
 		menu.addSubview(switchBtn)
@@ -166,6 +166,14 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		return btn
 	}
 	
+	// buttonDelegateMethod: nil -> nil
+	// I/O: tells _mainPipDirectory to create appropriate Pip and closes the menu
+	
+	func buttonDelegateMethod(sender: UIButton) {
+		_mainPipDirectory.createPipFromButtonTag(sender)
+		toggleActive()
+	}
+	
 	// toggleActive: nil -> nil
 	// I/O: toggles the value of viewIsActive, and slides the view In/Out as appropriate
 	
@@ -176,6 +184,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 			slideIn()
 		}else{
 			slideOut()
+			_mainPipDirectory.viewController.setMenuButtonsActive()
 		}
 	}
 	

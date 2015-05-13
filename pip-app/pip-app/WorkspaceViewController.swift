@@ -277,7 +277,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		
 		let trashCanPos = CGPoint(x: UIScreen.mainScreen().bounds.width/2 - 50,
 			y: UIScreen.mainScreen().bounds.height - 110)
-		trashCanButton = UIView(frame: CGRectMake(settingsBtnPos.x, settingsBtnPos.y, 100, 100))
+		trashCanButton = UIView(frame: CGRectMake(trashCanPos.x, trashCanPos.y, 100, 100))
 		trashCanButton.backgroundColor = UIColor.blackColor()
 		trashCanButton.hidden = true
 		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
