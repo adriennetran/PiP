@@ -321,7 +321,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		
 		scrollView.minimumZoomScale = minScale
 		scrollView.maximumZoomScale = 1.5
-		scrollView.zoomScale = minScale
+		scrollView.zoomScale = 1.0
 		
 		/* ------------------------
 			Tap Gesture Recognizer
@@ -381,7 +381,9 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		}
 		
 		if armViewBeingCreated != nil {
-			armViewBeingCreated.updateEnd(recognizer.locationInView(scrollView))
+			let locInView = recognizer.locationInView(scrollView)
+			let locInViewScaled = CGPoint(x: locInView.x / scrollView.zoomScale, y: locInView.y / scrollView.zoomScale)
+			armViewBeingCreated.updateEnd(locInViewScaled)
 			
 			if recognizer.state == .Ended {
 				

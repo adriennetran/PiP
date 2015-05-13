@@ -64,7 +64,7 @@ class BasePipView: UIImageView, UIGestureRecognizerDelegate {
 		
 		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
 		var longTouchRecognizer = UILongPressGestureRecognizer(target: self, action: "prepPan:")
-		longTouchRecognizer.minimumPressDuration = 0.25
+		longTouchRecognizer.minimumPressDuration = 0.35
 		
 		panRecognizer.delegate = self
 		longTouchRecognizer.delegate = self
