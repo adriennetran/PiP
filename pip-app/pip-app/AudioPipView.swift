@@ -38,7 +38,7 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     
     init(point: CGPoint, id: Int){
-        super.init(point: point, image: UIImage(named: "soundPip-image")!, id: id)
+        super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Audio), id: id)
         
         photoImageView.frame = CGRectMake((self.frame.width / 2) - 35, 32, 70, 68)
         photoImageView.layer.cornerRadius = 15

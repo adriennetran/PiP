@@ -133,11 +133,13 @@ class PipDirectory{
 	func getImageForPipType(type: PipType) -> UIImage{
 		switch type{
         case .Accel:
-            return UIImage(named: "mathPip-image")!
-        case .Image:
-            return UIImage(named: "imagePip-image")!
+            return UIImage(named: "accelerometerPip-image")!
+		case .Audio:
+			return UIImage(named: "audioPip-image")!
 		case .Color:
 			return UIImage(named: "colorPip-image")!
+        case .Image:
+            return UIImage(named: "imagePip-image")!
 		case .Text:
 			return UIImage(named: "textPip-image")!
 		default:

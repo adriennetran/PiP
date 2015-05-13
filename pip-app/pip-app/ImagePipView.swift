@@ -38,7 +38,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 
     
     init(point: CGPoint, id: Int){
-        super.init(point: point, image: UIImage(named: "imagePip-image")!, id: id)
+        super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Image), id: id)
 		
 		photoImageView.frame = CGRectMake((self.frame.width / 2) - 35, 32, 70, 68)
 		photoImageView.layer.cornerRadius = 15

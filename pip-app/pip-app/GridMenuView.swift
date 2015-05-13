@@ -58,12 +58,14 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		let colorImg = _mainPipDirectory.getImageForPipType(.Color);
 		let accelImg = _mainPipDirectory.getImageForPipType(.Accel);
 		let imageImg = _mainPipDirectory.getImageForPipType(.Image);
+		let audioImg = _mainPipDirectory.getImageForPipType(.Audio);
 		
 		let switchFrame = CGRectMake(45, 60, switchImg.size.width * imgScale, switchImg.size.height * imgScale)
 		let textFrame = CGRectMake(130, 80, textImg.size.width * imgScale, textImg.size.height * imgScale)
 		let colorFrame = CGRectMake(275, 60, colorImg.size.width * imgScale, colorImg.size.height * imgScale)
-		let accelFrame = CGRectMake(20, 180, accelImg.size.width * imgScale, accelImg.size.height * imgScale)
+		let accelFrame = CGRectMake(35, 170, accelImg.size.width * imgScale, accelImg.size.height * imgScale)
 		let imageFrame = CGRectMake(155, 170, imageImg.size.width * imgScale, imageImg.size.height * imgScale)
+		let audioFrame = CGRectMake(275, 173, audioImg.size.width * imgScale, audioImg.size.height * imgScale)
 		
 		let switchBtn = UIButton(frame: switchFrame)
 		switchBtn.setImage(switchImg, forState: .Normal)
@@ -90,11 +92,17 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		imageBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		imageBtn.tag = PipType.Image.rawValue
 		
+		let audioBtn = UIButton(frame: audioFrame)
+		audioBtn.setImage(audioImg, forState: .Normal)
+		audioBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		audioBtn.tag = PipType.Audio.rawValue
+		
 		menu.addSubview(switchBtn)
 		menu.addSubview(textBtn)
 		menu.addSubview(colorBtn)
 		menu.addSubview(accelBtn)
 		menu.addSubview(imageBtn)
+		menu.addSubview(audioBtn)
 		
 		
 		menu.contentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: CGFloat(300));

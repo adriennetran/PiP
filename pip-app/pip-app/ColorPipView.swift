@@ -32,27 +32,11 @@ class ColorPipView: BasePipView{
 	//		up to super.init. Initializes colorPickerView.
 	
 	init(point: CGPoint, id: Int){
-		super.init(point: point, image: UIImage(named: "colorPip-image")!, id: id)
+		super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Color), id: id)
 		
 		colorPickerView = ColorPickerView(pos: centerOfColorWheel)
 		self.addSubview(colorPickerView)
 		colorPickerView.backgroundColor = UIColor.whiteColor()
-	}
-	
-	// ---------------
-	//  TEMPORARY -- GET RID OF THIS SHIT... FAST!!!
-	// ---------------
-	
-	func blueTouched(recognizer: UITapGestureRecognizer){
-		(getModel() as? ColorPip)?.updateColor(UIColor.blueColor())
-	}
-	
-	func greenTouched(recognizer: UITapGestureRecognizer){
-		(getModel() as? ColorPip)?.updateColor(UIColor.greenColor())
-	}
-	
-	func redTouched(recognizer: UITapGestureRecognizer){
-		(getModel() as? ColorPip)?.updateColor(UIColor.redColor())
 	}
 	
 	// ---------------
