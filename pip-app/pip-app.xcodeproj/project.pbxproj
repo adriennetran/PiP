@@ -26,6 +26,7 @@
 		5E879C791AD18B8500DCAC47 /* BasePipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E879C781AD18B8500DCAC47 /* BasePipView.swift */; };
 		5EC2E50B1B038DEB0033DA0B /* MathPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC2E50A1B038DEB0033DA0B /* MathPip.swift */; };
 		5EC2E50D1B03908D0033DA0B /* MathPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC2E50C1B03908D0033DA0B /* MathPipView.swift */; };
+		5EC2E50F1B039A460033DA0B /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC2E50E1B039A460033DA0B /* Tutorial.swift */; };
 		5EC853921B01A6BF00D7EBED /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC853911B01A6BF00D7EBED /* Utils.swift */; };
 		5ED3AF611AEE1CD100ABAA88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ED3AF5F1AEE1CD100ABAA88 /* Main.storyboard */; };
 		AE01953D1AE6FFDF00C869DA /* TextPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE01953C1AE6FFDF00C869DA /* TextPipView.swift */; };
@@ -73,6 +74,7 @@
 		5E879C781AD18B8500DCAC47 /* BasePipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePipView.swift; sourceTree = "<group>"; };
 		5EC2E50A1B038DEB0033DA0B /* MathPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathPip.swift; sourceTree = "<group>"; };
 		5EC2E50C1B03908D0033DA0B /* MathPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathPipView.swift; sourceTree = "<group>"; };
+		5EC2E50E1B039A460033DA0B /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		5EC853911B01A6BF00D7EBED /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		5ED3AF601AEE1CD100ABAA88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "pip-app/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		AE01953C1AE6FFDF00C869DA /* TextPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPipView.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				5E21A2971ADC508C001D82DD /* GridMenuView.swift */,
 				5E66EEED1AE595AD0067BA33 /* ArmView.swift */,
 				5E528B0A1AEDED3A0072EA10 /* HandView.swift */,
+				5EC2E50E1B039A460033DA0B /* Tutorial.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				5E53990A1AD6082E00A2CAC7 /* SwitchPip.swift in Sources */,
 				5E5354821AD1805D00617B7C /* TextPip.swift in Sources */,
 				AEDB54E61AED63720016D054 /* CameraViewController.swift in Sources */,
+				5EC2E50F1B039A460033DA0B /* Tutorial.swift in Sources */,
 				AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */,
 				5EC2E50D1B03908D0033DA0B /* MathPipView.swift in Sources */,
 				5E53990C1AD6261D00A2CAC7 /* PipDirectory.swift in Sources */,

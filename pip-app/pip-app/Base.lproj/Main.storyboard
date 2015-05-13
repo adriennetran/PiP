@@ -51,12 +51,14 @@
         <scene sceneID="lp2-WY-qYb">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rkO-ag-Y7g" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="tutorialView" title="tutorialView" id="ajo-cF-T4u" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="d2W-lJ-AvR">
+                <viewController storyboardIdentifier="tutorialView" title="tutorialView" id="ajo-cF-T4u" customClass="TutorialViewController" customModule="pip_app" customModuleProvider="target" sceneMemberID="viewController">
+                    <imageView key="view" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Sjp-ll-Ij0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
+                    </imageView>
+                    <connections>
+                        <outlet property="imageView" destination="Sjp-ll-Ij0" id="sxS-rw-Y1k"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="8" y="456"/>
