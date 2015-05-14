@@ -52,14 +52,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		
 		// HARDCODING MENU BUTTONS
 		let imgScale: CGFloat = 0.7
-//		
-//		let switchImg = _mainPipDirectory.getImageForPipType(.Switch);
-//		let textImg = _mainPipDirectory.getImageForPipType(.Text);
-//		let colorImg = _mainPipDirectory.getImageForPipType(.Color);
-//		let accelImg = _mainPipDirectory.getImageForPipType(.Accel);
-//		let imageImg = _mainPipDirectory.getImageForPipType(.Image);
-//        let soundImg = _mainPipDirectory.getImageForPipType(.Audio);
-//=======
+
 		let switchImg = _mainPipDirectory.getImageForPipType(.Switch)
 		let textImg = _mainPipDirectory.getImageForPipType(.Text)
 		let colorImg = _mainPipDirectory.getImageForPipType(.Color)
@@ -67,19 +60,15 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		let imageImg = _mainPipDirectory.getImageForPipType(.Image)
 		let audioImg = _mainPipDirectory.getImageForPipType(.Audio)
 		let mathImg = _mainPipDirectory.getImageForPipType(.Math)
-//>>>>>>> ba85a77f856e88a22a20757346d7a620a0670493
+
 		
 		let switchFrame = CGRectMake(45, 60, switchImg.size.width * imgScale, switchImg.size.height * imgScale)
 		let textFrame = CGRectMake(130, 80, textImg.size.width * imgScale, textImg.size.height * imgScale)
 		let colorFrame = CGRectMake(275, 60, colorImg.size.width * imgScale, colorImg.size.height * imgScale)
 		let accelFrame = CGRectMake(35, 170, accelImg.size.width * imgScale, accelImg.size.height * imgScale)
 		let imageFrame = CGRectMake(155, 170, imageImg.size.width * imgScale, imageImg.size.height * imgScale)
-//<<<<<<< HEAD
-//        let soundFrame = CGRectMake(45, 60, soundImg.size.width * imgScale, soundImg.size.height * imgScale)
-//=======
 		let audioFrame = CGRectMake(275, 173, audioImg.size.width * imgScale, audioImg.size.height * imgScale)
 		let mathFrame = CGRectMake(20, 285, mathImg.size.width * imgScale, mathImg.size.height * imgScale)
-//>>>>>>> ba85a77f856e88a22a20757346d7a620a0670493
 		
 		let switchBtn = UIButton(frame: switchFrame)
 		switchBtn.setImage(switchImg, forState: .Normal)
@@ -105,15 +94,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		imageBtn.setImage(imageImg, forState: .Normal)
 		imageBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		imageBtn.tag = PipType.Image.rawValue
-//<<<<<<< HEAD
 
-//        let soundBtn = UIButton(frame: soundFrame)
-//        soundBtn.setImage(soundImg, forState: .Normal)
-//        soundBtn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
-//        soundBtn.tag = PipType.Audio.rawValue
-//
-//=======
-//		
 		let audioBtn = UIButton(frame: audioFrame)
 		audioBtn.setImage(audioImg, forState: .Normal)
 		audioBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
@@ -124,45 +105,18 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		mathBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
 		mathBtn.tag = PipType.Math.rawValue
 		
-//>>>>>>> ba85a77f856e88a22a20757346d7a620a0670493
+
 		menu.addSubview(switchBtn)
 		menu.addSubview(textBtn)
 		menu.addSubview(colorBtn)
 		menu.addSubview(accelBtn)
 		menu.addSubview(imageBtn)
-////<<<<<<< HEAD
-//        menu.addSubview(soundBtn)
-////=======
 		menu.addSubview(audioBtn)
 		menu.addSubview(mathBtn)
-//>>>>>>> ba85a77f856e88a22a20757346d7a620a0670493
 		
 		
 		menu.contentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: CGFloat(300));
-		/*while let type = PipType(rawValue: typeInt) {
-			let img = _mainPipDirectory.getImageForPipType(type)
-			
-			let sizeX = img.size.width * 0.5
-			let sizeY = img.size.height * 0.5
-			
-			let posX: Float = 50 + lastPipRightPos
-			let posY: Float = Float(menu.frame.height) - Float(sizeY) - 30
-			
-			
-			lastPipRightPos = posX + Float(sizeX)
-			
-			let bFrame = CGRectMake(CGFloat(posX), CGFloat(posY), sizeX, sizeY)
-			
-			var btn = UIButton(frame: bFrame)
-			btn.setImage(img, forState: .Normal)
-			btn.addTarget(_mainPipDirectory, action: "createPipFromButtonTag:", forControlEvents: .TouchUpInside)
-			btn.tag = typeInt
-			
-			menu.addSubview(btn)
-			++typeInt
-		}*/
-		
-		//menu.contentSize = CGSize(width: CGFloat(lastPipRightPos + 50), height: menu.contentSize.height)
+
 		menu.hidden = true
 		
 		return menu

@@ -30,6 +30,13 @@ class AudioControllerDelegate {
 		clipPaths[.Handshake] = ["PipSamples/02_handshakeSounds/0", "PipSamples/02_handshakeSounds/1", "PipSamples/02_handshakeSounds/2"]
 		clipPaths[.Move] = ["PipSamples/03_moveSounds/0", "PipSamples/03_moveSounds/1", "PipSamples/03_moveSounds/2"]
 		
+		clips[.Delete] = setupAudioPlayerWithFile(clipPaths[.Delete]![0], type: "wav")
+		clips[.Delete]?.prepareToPlay()
+		clips[.Handshake] = setupAudioPlayerWithFile(clipPaths[.Handshake]![0], type: "wav")
+		clips[.Handshake]?.prepareToPlay()
+		clips[.Move] = setupAudioPlayerWithFile(clipPaths[.Move]![0], type: "wav")
+		clips[.Move]?.prepareToPlay()
+		
 	}
 	
 	func playSound(clip: AudioClips){
