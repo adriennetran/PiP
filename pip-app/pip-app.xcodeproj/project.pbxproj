@@ -38,7 +38,6 @@
 		AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2479B61AD5F209009EC6AF /* ColorPip.swift */; };
 		AE3AF6B21AF1F7FB00C96F59 /* AccelPhotoOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3AF6B11AF1F7FB00C96F59 /* AccelPhotoOperations.swift */; };
 		AE8E6F0B1B0483E000841B75 /* PipSamples in Resources */ = {isa = PBXBuildFile; fileRef = AE8E6F0A1B0483E000841B75 /* PipSamples */; };
-		AE8E6F0D1B04866900841B75 /* char01A.wav in Resources */ = {isa = PBXBuildFile; fileRef = AE8E6F0C1B04866900841B75 /* char01A.wav */; };
 		AEDB54E61AED63720016D054 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB54E51AED63720016D054 /* CameraViewController.swift */; };
 		AEEB81051AFFA00D00CB8CA5 /* AudioPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEB81041AFFA00D00CB8CA5 /* AudioPip.swift */; };
 		AEEB81071AFFA0C600CB8CA5 /* AudioPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEB81061AFFA0C600CB8CA5 /* AudioPipView.swift */; };
@@ -90,7 +89,6 @@
 		AE2479B61AD5F209009EC6AF /* ColorPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPip.swift; sourceTree = "<group>"; };
 		AE3AF6B11AF1F7FB00C96F59 /* AccelPhotoOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelPhotoOperations.swift; sourceTree = "<group>"; };
 		AE8E6F0A1B0483E000841B75 /* PipSamples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PipSamples; sourceTree = "<group>"; };
-		AE8E6F0C1B04866900841B75 /* char01A.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = char01A.wav; path = PipSamples/01_deletionSounds/char01A.wav; sourceTree = "<group>"; };
 		AEDB54E51AED63720016D054 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		AEEB81041AFFA00D00CB8CA5 /* AudioPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPip.swift; sourceTree = "<group>"; };
 		AEEB81061AFFA0C600CB8CA5 /* AudioPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPipView.swift; sourceTree = "<group>"; };
@@ -157,7 +155,6 @@
 		5E53545A1AD17E9800617B7C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AE8E6F0C1B04866900841B75 /* char01A.wav */,
 				AE8E6F0A1B0483E000841B75 /* PipSamples */,
 				5E53545B1AD17E9800617B7C /* Info.plist */,
 			);
@@ -308,7 +305,6 @@
 				5E5354671AD17E9800617B7C /* LaunchScreen.xib in Resources */,
 				5E438FD81B048FB100DD86CF /* PipSamples in Resources */,
 				AE8E6F0B1B0483E000841B75 /* PipSamples in Resources */,
-				AE8E6F0D1B04866900841B75 /* char01A.wav in Resources */,
 				5E5354641AD17E9800617B7C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

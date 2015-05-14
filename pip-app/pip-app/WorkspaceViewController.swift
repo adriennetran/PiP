@@ -163,7 +163,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	override func viewDidLoad() {
         println("hello")
 		super.viewDidLoad()
-        
+		
         // get camera data
         print("Camera is ")
         if isCameraAvailable() == false{
@@ -384,7 +384,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 				if stoppedBeingDragged(pipViewBeingDragged.frame) {
 					
 					_audioController.playSound(AudioClips.Delete)
-
+					
 					_mainPipDirectory.deletePip(pipViewBeingDragged.pipId)
 				}
 				

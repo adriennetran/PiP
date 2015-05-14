@@ -128,13 +128,17 @@ class ImagePip: BasePip{
             case .Accel:
                 let castItem: AccelPip! = inPip as? AccelPip
                 
+                let curImgPipView = _mainPipDirectory.getPipByID(castItem.self.pipID).view as? ImagePipView
+                
                 if castItem != nil{
                     println( "accel > image. accel is not nil")
                     output.setAccel(true)
                     }else{
                     println( "accel > image. accel is nil")
+                        curImgPipView?.blurView?.removeFromSuperview()
                         output.setAccel(false)
                     }
+                
                 
             case .Color:
                 let castItem: ColorPip! = inPip as? ColorPip
