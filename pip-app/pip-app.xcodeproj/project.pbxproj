@@ -37,7 +37,6 @@
 		AE0195431AE7129800C869DA /* ImagePip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0195421AE7129800C869DA /* ImagePip.swift */; };
 		AE2479B71AD5F209009EC6AF /* ColorPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2479B61AD5F209009EC6AF /* ColorPip.swift */; };
 		AE3AF6B21AF1F7FB00C96F59 /* AccelPhotoOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3AF6B11AF1F7FB00C96F59 /* AccelPhotoOperations.swift */; };
-		AE8E6F0B1B0483E000841B75 /* PipSamples in Resources */ = {isa = PBXBuildFile; fileRef = AE8E6F0A1B0483E000841B75 /* PipSamples */; };
 		AEDB54E61AED63720016D054 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDB54E51AED63720016D054 /* CameraViewController.swift */; };
 		AEEB81051AFFA00D00CB8CA5 /* AudioPip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEB81041AFFA00D00CB8CA5 /* AudioPip.swift */; };
 		AEEB81071AFFA0C600CB8CA5 /* AudioPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEB81061AFFA0C600CB8CA5 /* AudioPipView.swift */; };
@@ -264,7 +263,7 @@
 		5E53544F1AD17E9800617B7C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Peter Slattery";
 				TargetAttributes = {
 					5E5354561AD17E9800617B7C = {
@@ -304,7 +303,6 @@
 				5ED3AF611AEE1CD100ABAA88 /* Main.storyboard in Resources */,
 				5E5354671AD17E9800617B7C /* LaunchScreen.xib in Resources */,
 				5E438FD81B048FB100DD86CF /* PipSamples in Resources */,
-				AE8E6F0B1B0483E000841B75 /* PipSamples in Resources */,
 				5E5354641AD17E9800617B7C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
