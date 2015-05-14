@@ -26,6 +26,8 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	var armViewBeingCreated: ArmView!
     
     var audioPlayer: AVAudioPlayer?
+    
+    var deleteSample: AVAudioPlayer!
 
     
     // this gets called on ViewController.addPipView, if the pipType is an ImagePip
@@ -162,6 +164,10 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		super.viewDidLoad()
 //        self.userText.delegate = self
 
+        // playing sample audio when pip deletes
+        deleteSample = AVAudioPlayer()
+        deleteSample = self.setupAudioPlayerWithFile("PipSamples/01_deletionSounds/char01A", type:"wav")
+        deleteSample.prepareToPlay()
         
         // get camera data
         print("Camera is ")
@@ -380,9 +386,8 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 				if stoppedBeingDragged(pipViewBeingDragged.frame) {
                     
                     // TO DO: PLAY AUDIO FILE
-                    var deleteSample = AVAudioPlayer()
-                    deleteSample = self.setupAudioPlayerWithFile("char01A.wav", type:"wav")
-                    deleteSample.play()
+                
+                    self.deleteSample.play()
                     println("playsample")
                 
                     
