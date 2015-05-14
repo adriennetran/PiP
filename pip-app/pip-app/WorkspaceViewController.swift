@@ -26,7 +26,10 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	var armViewBeingCreated: ArmView!
     
     var audioPlayer: AVAudioPlayer?
-
+    
+    var deleteSample: AVAudioPlayer!
+    var moveSample: AVAudioPlayer!
+    var handshakeSample: AVAudioPlayer!
     
     // this gets called on ViewController.addPipView, if the pipType is an ImagePip
     
@@ -162,6 +165,21 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		super.viewDidLoad()
 //        self.userText.delegate = self
 
+        // playing sample audio when pip deletes
+        deleteSample = AVAudioPlayer()
+        deleteSample = self.setupAudioPlayerWithFile("PipSamples/01_deletionSounds/char04", type:"wav")
+        deleteSample.prepareToPlay()
+        
+        // playing sample audio when pip deletes
+        moveSample = AVAudioPlayer()
+        moveSample = self.setupAudioPlayerWithFile("PipSamples/03_moveSounds/char01", type:"wav")
+        moveSample.prepareToPlay()
+        
+        // playing sample audio when pip deletes
+        handshakeSample = AVAudioPlayer()
+        handshakeSample = self.setupAudioPlayerWithFile("PipSamples/02_handshakeSounds/char01D", type:"wav")
+        handshakeSample.prepareToPlay()
+        
         
         // get camera data
         print("Camera is ")
@@ -343,6 +361,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	
 	func setPipBeingDragged(view: BasePipView) {
 		pipViewBeingDragged = view
+        
 		scrollView.scrollEnabled = false
 	}
 	
@@ -366,6 +385,10 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 			
 			if recognizer.state == .Began {
 				pipViewBeingDragged.updateLastLocation()
+            
+                // play jamar's "move" sound sample
+                self.moveSample.play()
+                println("pip being dragged")
 			}
 			
 			let lastLocation = pipViewBeingDragged.lastLocation
@@ -385,8 +408,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 //                    deleteSample = self.setupAudioPlayerWithFile("char01A.wav", type:"wav")
 //                    deleteSample.play()
 //                    println("playsample")
-					
-                    
+
 					_mainPipDirectory.deletePip(pipViewBeingDragged.pipId)
 				}
 				
@@ -524,6 +546,11 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 			
 			// if arm was successfully connected
 			if pip.view.frame.contains(arm.end) && id != arm.startPipID{
+        
+                // play sound effect
+                self.handshakeSample.play()
+                println("pip handshaked")
+        
 				arm.endPipID = id
 				arm.makeConnection()
 				
