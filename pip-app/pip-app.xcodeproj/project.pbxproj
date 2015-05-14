@@ -11,6 +11,7 @@
 		5E26ACC01AD1A6F400B416C5 /* AccelPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26ACBF1AD1A6F400B416C5 /* AccelPipView.swift */; };
 		5E26ACC21AD1B3F900B416C5 /* ColorPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */; };
 		5E339B631AD238F400CC3E8A /* SwitchPipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E339B621AD238F400CC3E8A /* SwitchPipView.swift */; };
+		5E438FD81B048FB100DD86CF /* PipSamples in Resources */ = {isa = PBXBuildFile; fileRef = 5E438FD71B048FB100DD86CF /* PipSamples */; };
 		5E528B051AEDC1280072EA10 /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E528B041AEDC1280072EA10 /* LandingViewController.swift */; };
 		5E528B0B1AEDED3A0072EA10 /* HandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E528B0A1AEDED3A0072EA10 /* HandView.swift */; };
 		5E53545D1AD17E9800617B7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E53545C1AD17E9800617B7C /* AppDelegate.swift */; };
@@ -58,6 +59,7 @@
 		5E26ACBF1AD1A6F400B416C5 /* AccelPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelPipView.swift; sourceTree = "<group>"; };
 		5E26ACC11AD1B3F900B416C5 /* ColorPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPipView.swift; sourceTree = "<group>"; };
 		5E339B621AD238F400CC3E8A /* SwitchPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchPipView.swift; sourceTree = "<group>"; };
+		5E438FD71B048FB100DD86CF /* PipSamples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PipSamples; sourceTree = "<group>"; };
 		5E528B041AEDC1280072EA10 /* LandingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingViewController.swift; sourceTree = "<group>"; };
 		5E528B0A1AEDED3A0072EA10 /* HandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandView.swift; sourceTree = "<group>"; };
 		5E5354571AD17E9800617B7C /* pip-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pip-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +134,7 @@
 		5E5354591AD17E9800617B7C /* pip-app */ = {
 			isa = PBXGroup;
 			children = (
+				5E438FD71B048FB100DD86CF /* PipSamples */,
 				5E879C771AD18B7200DCAC47 /* View */,
 				5E53547E1AD1801100617B7C /* Model */,
 				5E53545C1AD17E9800617B7C /* AppDelegate.swift */,
@@ -303,6 +306,7 @@
 			files = (
 				5ED3AF611AEE1CD100ABAA88 /* Main.storyboard in Resources */,
 				5E5354671AD17E9800617B7C /* LaunchScreen.xib in Resources */,
+				5E438FD81B048FB100DD86CF /* PipSamples in Resources */,
 				AE8E6F0B1B0483E000841B75 /* PipSamples in Resources */,
 				AE8E6F0D1B04866900841B75 /* char01A.wav in Resources */,
 				5E5354641AD17E9800617B7C /* Images.xcassets in Resources */,

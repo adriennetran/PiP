@@ -13,19 +13,33 @@ import AVFoundation
 var _audioController: AudioControllerDelegate = AudioControllerDelegate()
 
 enum AudioClips: String {
-	case Delete = "char01A.wav"
+	case Delete = "PipSamples/01_deletionSounds/char01A"
+	case Handshake = "PipSamples/02_handshakeSounds/char01A"
+	case Move = "PipSamples/02_handshakeSounds/char02C"
 }
 
 class AudioControllerDelegate {
+	
+	var clips: [AudioClips : AVAudioPlayer] = [:]
 	
 	init() {
 		
 	}
 	
 	func playSound(clip: AudioClips){
-		var soundClip = AVAudioPlayer()
-		soundClip = self.setupAudioPlayerWithFile(clip.rawValue, type: "wav")
-		soundClip.play()
+		
+		if clips[clip] != nil {
+			let clipToPlay = clips[clip]
+			clipToPlay!.play()
+		}else{
+		
+			var soundClip = AVAudioPlayer()
+			soundClip = self.setupAudioPlayerWithFile(clip.rawValue, type: "wav")
+			clips[clip] = soundClip
+			soundClip.prepareToPlay()
+			
+			soundClip.play()
+		}
 	}
 	
 	func setupAudioPlayerWithFile(file: String, type: String) -> AVAudioPlayer {
