@@ -94,6 +94,14 @@ class ColorPip: BasePip{
                     
                     // add colorBlock view
                     accelViewCast.addSubview(accelViewCast.colorBlock)
+                    println("arrayX")
+                    var x = accelViewCast.arrayX[accelViewCast.arrayX.count-1]
+                    var y = accelViewCast.arrayY[accelViewCast.arrayY.count-1]
+                    var z = accelViewCast.arrayZ[accelViewCast.arrayZ.count-1]
+                    
+                    var myColor = UIColor(red: z*2.0, green: x*2.0, blue: y*2.0, alpha: 1.0)
+                    
+                    output.setColor(myColor)
                     
                 }else{
                     output.setAccel(false)

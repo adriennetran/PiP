@@ -117,8 +117,18 @@ class TextPip: BasePip {
                     // set text to xyz from accel
                     
 //                    output.setText("ACCEL IS INSIDE")
+					
+                    println("accelViewCast.arrayX")
+                    println(accelViewCast.arrayX[0])
+                    println(accelViewCast.arrayX[accelViewCast.arrayX.count])
+                    println("count")
+                    println(accelViewCast.arrayX.count)
                     output.appendText("accel is inside \(accelViewCast.sx)")
+                    accelViewCast.photoImageView.layer.addSublayer(accelViewCast.textLayer)
+
                     
+                }else{
+                    accelViewCast.textLayer.removeFromSuperlayer()
                 }
 //                else{
 //                    output.setAccel(false)
