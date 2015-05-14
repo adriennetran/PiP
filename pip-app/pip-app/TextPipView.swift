@@ -27,8 +27,11 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 	
 	init (point: CGPoint, id: Int) {
 		super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Text), id: id)
+		let scale: CGFloat = 1.5
 		
-		textField = UITextField(frame: CGRectMake(10, 27, 150, 15))
+		self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width * scale, frame.height * scale)
+		
+		textField = UITextField(frame: CGRectMake(10 * scale, 27 * scale, 150 * scale, 15 * scale))
 		textField!.borderStyle = UITextBorderStyle.RoundedRect
 		textField!.addTarget(self, action: "textFieldEditingBegun:", forControlEvents: UIControlEvents.EditingDidBegin)
 		textField!.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)

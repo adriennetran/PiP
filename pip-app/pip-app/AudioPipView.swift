@@ -29,13 +29,6 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     var textView = UIView(frame: CGRectMake(40, 120, 200, 200))
     
-//    var blurImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
-    
-//    var blackLayer = CALayer()
-//    var colorLayer = CALayer()
-    var redButtonLayer = CAShapeLayer()
-    var textLayer = CATextLayer()
-    
     var audioRecorder: AVAudioRecorder?
     var audioPlayer: AVAudioPlayer?
     
@@ -44,51 +37,20 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Audio), id: id)
         
         photoImageView.frame = CGRectMake((self.frame.width / 2) - 35, 32, 70, 68)
-//        photoImageView.layer.cornerRadius = 15
-//        photoImageView.layer.masksToBounds = true
-        
-        
-//        textView.frame = photoImageView.frame
-//        
-//        //        self.photoImageView.alpha = 1.0
-//        
-//        photoImageView.backgroundColor = UIColor.redColor()
-//        addSubview(photoImageView)
-//        
-////        photoImageView.contentMode = UIViewContentMode.ScaleAspectFill
-//        
-//        textLayer.frame = CGRectMake(0, 0, photoImageView.bounds.width, photoImageView.bounds.height)
-//        textLayer.font = CTFontCreateWithName("Helvetica", 12, nil)
-////        textLayer.wrapped = true
-////        textLayer.alignmentMode = kCAAlignmentCenter
-////        textLayer.contentsScale = UIScreen.mainScreen().scale
-//        textLayer.string = "Recording..."
-        
-        // text layer
-        self.textLayer.frame = CGRectMake(0, 0, self.photoImageView.bounds.width, self.photoImageView.bounds.height)
-        
+		
         let fontName: CFStringRef = "Helvetica"
-        self.textLayer.font = CTFontCreateWithName(fontName, 1, nil)
-        
-        self.textLayer.foregroundColor = UIColor.blackColor().CGColor
-        self.textLayer.wrapped = true
-        self.textLayer.alignmentMode = kCAAlignmentCenter
-        self.textLayer.contentsScale = UIScreen.mainScreen().scale
-        
-        
-        let radius: CGFloat = 23.0
-        self.redButtonLayer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 2.0 * radius, height: 2.0 * radius)  , cornerRadius: radius).CGPath
-        self.redButtonLayer.position = CGPoint(x: CGRectGetMidX(self.frame) - 286 , y: CGRectGetMidY(self.frame) - 300 )
-        self.redButtonLayer.fillColor = UIColor.redColor().CGColor
-        
-        self.addSubview(self.photoImageView)
-        
-        self.photoImageView.layer.addSublayer(self.textLayer)
-        self.photoImageView.layer.addSublayer(self.redButtonLayer)
+		
+		var buttonRadius: CGFloat = 31.0
+		
+		var interactButton = UIButton(frame: CGRectMake(15.0, 20.0, CGFloat(buttonRadius * 2), CGFloat(buttonRadius * 2)))
+		interactButton.backgroundColor = UIColor.redColor()
+		interactButton.addTarget(self, action: "startRecordingAudio:", forControlEvents: nil)
+		
+		interactButton.layer.cornerRadius = buttonRadius
 
-       
-        
-//        addGestureRecognizer(UITapGestureRecognizer(target: _mainPipDirectory.viewController, action: "capture:"))
+		addSubview(interactButton)
+		
+        self.addSubview(self.photoImageView)
         
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: "startRecordingAudio:"))
         
@@ -112,8 +74,6 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
             // Prepare recorder and then start recording
             if recorder.prepareToRecord() && recorder.record(){
                 println("Successfully started to record")
-
-                self.textLayer.string = "Recording!"
                 
                 // Stop recording after 5 seconds
                 let delayInSeconds = 5.0
@@ -154,7 +114,6 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
         if flag{
             println("Successfully stopped the audio recording process")
-            self.textLayer.string = "Finished recording"
             
             // lets try to retrieve data for recorded file
             var playbackError: NSError?
@@ -174,7 +133,6 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
                 // prepare to play and start playing
                 if player.prepareToPlay() && player.play(){
                     println("Started playing recorded audio")
-                    self.textLayer.string = "Playing audio"
                 } else{
                     println("Could not play recorded audio")
                 }
@@ -191,12 +149,11 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     func audioRecorderDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool){
         if flag{
             println("audio player stopped correctly")
-            self.textLayer.string = "Done playing audio!"
+
         } else{
             println("audio player did not stop correctyl")
         }
         audioPlayer = nil
-        self.textLayer.string = ""
     }
     
     
