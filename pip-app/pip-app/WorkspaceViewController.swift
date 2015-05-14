@@ -380,11 +380,12 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 				if stoppedBeingDragged(pipViewBeingDragged.frame) {
                     
                     // TO DO: PLAY AUDIO FILE
-                    var deleteSample = AVAudioPlayer()
-                    deleteSample = self.setupAudioPlayerWithFile("char01A.wav", type:"wav")
-                    deleteSample.play()
-                    println("playsample")
-                
+					_audioController.playSound(AudioClips.Delete)
+//                    var deleteSample = AVAudioPlayer()
+//                    deleteSample = self.setupAudioPlayerWithFile("char01A.wav", type:"wav")
+//                    deleteSample.play()
+//                    println("playsample")
+					
                     
 					_mainPipDirectory.deletePip(pipViewBeingDragged.pipId)
 				}
