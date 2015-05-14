@@ -94,6 +94,8 @@ class ColorPip: BasePip{
                     
                     // add colorBlock view
                     accelViewCast.addSubview(accelViewCast.colorBlock)
+                    println("arrayX")
+                    println(accelViewCast.arrayX[accelViewCast.arrayX.count-1])
                     
                 }else{
                     output.setAccel(false)

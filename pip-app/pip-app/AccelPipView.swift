@@ -30,6 +30,8 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     var y: CGFloat?
     var z: CGFloat?
     
+    var arrayX: [String] = []
+    
     var sx: NSString?
     var sy: NSString?
     var sz: NSString?
@@ -65,7 +67,8 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         self.addSubview(self.photoImageView)
         
-        self.photoImageView.layer.addSublayer(self.textLayer)
+//        self.photoImageView.layer.addSublayer(self.textLayer)
+        self.arrayX = ["x"]
         
     }
     
@@ -126,6 +129,8 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         var r = self.z!*2
         var g = self.x!*2
         var b = self.y!*2
+            
+        self.arrayX.append(sx!)
         
             // make it so that this is only being updated when the view is present
         self.colorBlock.backgroundColor = UIColor(red:r, green:g,blue:b,alpha:1.0)
