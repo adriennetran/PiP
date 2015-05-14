@@ -30,7 +30,9 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 		
 		textField = UITextField(frame: CGRectMake(10, 27, 150, 15))
 		textField!.borderStyle = UITextBorderStyle.RoundedRect
+		textField!.addTarget(self, action: "textFieldEditingBegun:", forControlEvents: UIControlEvents.EditingDidBegin)
 		textField!.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+		textField!.addTarget(self, action: "textFieldEditingOver:", forControlEvents: UIControlEvents.EditingDidEnd)
 		textField!.font = UIFont(name: textField!.font!.fontName, size: 12)
 		textField!.backgroundColor = UIColor(red: 0.48, green: 0.76, blue: 0.43, alpha: 1.0)
 		textField!.textColor = UIColor.blackColor()
@@ -53,6 +55,13 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 		return _mainPipDirectory.getPipByID(pipId).model
 	}
 	
+	// textFieldEditingBegun: UITextField -> nil
+	// I/O: reverts the state of the text field to its base output
+	
+	func textFieldEditingBegun(field: UITextField) {
+		field.text = (getModel() as? TextPip)?.baseOutput
+	}
+	
 	// textFieldDidChage: UITextField -> nil
 	// I/O: takes in a UITextField, field, whose content has just changed.
 	// Note: Use this to pass the content of field to the model
@@ -60,7 +69,10 @@ class TextPipView: BasePipView, UITextFieldDelegate {
 	func textFieldDidChange(field: UITextField) {
 		(getModel() as? TextPip)?.updateText(field.text)
 		(getModel() as? TextPip)?.updateReliantPips()
-		
+	}
+	
+	func textFieldEditingOver(field: UITextField) {
+		updateView()
 	}
 	
 	// updateView: nil -> nil
