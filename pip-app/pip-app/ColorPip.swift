@@ -117,7 +117,7 @@ class ColorPip: BasePip{
 				
 				if castItem != nil{
 					
-					if let unwrappedValue = colorDirectory[castItem.getOutput().getText()]{
+					if let unwrappedValue = colorDirectory[castItem.getOutput().getText().lowercaseString]{
 						output.color = unwrappedValue
 					}else{
 						output.color = UIColor.blackColor()
