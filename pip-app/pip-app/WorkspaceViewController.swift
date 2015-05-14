@@ -164,21 +164,21 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
         println("hello")
 		super.viewDidLoad()
 //        self.userText.delegate = self
+        
+        
 
         // playing sample audio when pip deletes
         deleteSample = AVAudioPlayer()
-        deleteSample = self.setupAudioPlayerWithFile("PipSamples/01_deletionSounds/char04", type:"wav")
-        deleteSample.prepareToPlay()
+        
+        
         
         // playing sample audio when pip deletes
         moveSample = AVAudioPlayer()
-        moveSample = self.setupAudioPlayerWithFile("PipSamples/03_moveSounds/char01", type:"wav")
-        moveSample.prepareToPlay()
+        
         
         // playing sample audio when pip deletes
         handshakeSample = AVAudioPlayer()
-        handshakeSample = self.setupAudioPlayerWithFile("PipSamples/02_handshakeSounds/char01D", type:"wav")
-        handshakeSample.prepareToPlay()
+        
         
         
         // get camera data
@@ -387,6 +387,11 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 				pipViewBeingDragged.updateLastLocation()
             
                 // play jamar's "move" sound sample
+                var randSound = Int(arc4random_uniform(UInt32(3)))
+                println("randSound #")
+                println(randSound)
+                self.moveSample = self.setupAudioPlayerWithFile("PipSamples/03_moveSounds/" + String(randSound), type:"wav")
+                self.moveSample.prepareToPlay()
                 self.moveSample.play()
                 println("pip being dragged")
 			}
@@ -403,9 +408,15 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 				if stoppedBeingDragged(pipViewBeingDragged.frame) {
                     
                     // TO DO: PLAY AUDIO FILE
-                
+                    var randSound = Int(arc4random_uniform(UInt32(4)))
+                    self.deleteSample = self.setupAudioPlayerWithFile("PipSamples/01_deletionSounds/" + String(randSound), type:"wav")
+                    self.deleteSample.prepareToPlay()
                     self.deleteSample.play()
+                
                     println("playsample")
+                
+
+                
                 
                     
 					_mainPipDirectory.deletePip(pipViewBeingDragged.pipId)
@@ -547,6 +558,11 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 			if pip.view.frame.contains(arm.end) && id != arm.startPipID{
         
                 // play sound effect
+        
+                var randSound2 = Int(arc4random_uniform(UInt32(8)))
+        
+                self.handshakeSample = self.setupAudioPlayerWithFile("PipSamples/02_handshakeSounds/" + String(randSound2), type:"wav")
+                self.handshakeSample.prepareToPlay()
                 self.handshakeSample.play()
                 println("pip handshaked")
         
