@@ -81,11 +81,6 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         self.redButtonLayer.position = CGPoint(x: CGRectGetMidX(self.frame) - 286 , y: CGRectGetMidY(self.frame) - 300 )
         self.redButtonLayer.fillColor = UIColor.redColor().CGColor
         
-//        self.redButtonLayer.backgroundColor = UIColor.redColor().CGColor
-//        self.redButtonLayer.cornerRadius = 40.0
-//        self.redButtonLayer.frame = CGRectMake((self.frame.width / 2) - 35, 32, 20, 20)
-        
-        
         self.addSubview(self.photoImageView)
         
         self.photoImageView.layer.addSublayer(self.textLayer)

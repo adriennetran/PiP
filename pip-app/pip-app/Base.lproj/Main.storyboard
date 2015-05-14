@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="eaz-pt-71P">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="eaz-pt-71P">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <scenes>
         <!--landing_page-->
@@ -50,7 +50,6 @@
         <!--tutorialView-->
         <scene sceneID="lp2-WY-qYb">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rkO-ag-Y7g" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="tutorialView" title="tutorialView" id="ajo-cF-T4u" customClass="TutorialViewController" customModule="pip_app" customModuleProvider="target" sceneMemberID="viewController">
                     <imageView key="view" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Sjp-ll-Ij0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -60,6 +59,7 @@
                         <outlet property="imageView" destination="Sjp-ll-Ij0" id="sxS-rw-Y1k"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rkO-ag-Y7g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8" y="456"/>
         </scene>

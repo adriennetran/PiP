@@ -30,7 +30,9 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     var textView = UIView(frame: CGRectMake(40, 120, 200, 200))
     
-    var blurImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
+    var blurImageView = UIImageView(frame: CGRectMake(24, 64, 75, 68))
+
+//    UIImageView(frame: CGRectMake(40, 120, 200, 200))
     
     var blackLayer = CALayer()
     var colorLayer = CALayer()
@@ -70,15 +72,41 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         fatalError("init(coder:) has not been implemented")
     }
     
+    // takes in an non-blurred image
+    // applies a blur
+    // sets that blurred image to attribute blurImageView
+    // returns a UIImage
     func applyBlurEffect(image: UIImage) -> UIImage{
-        var imageToBlur = CIImage(image: image)
-        var blurfilter = CIFilter(name: "CIGaussianBlur")
-        blurfilter.setValue(imageToBlur, forKey: "inputImage")
-        var resultImage = blurfilter.valueForKey("outputImage") as! CIImage
-        var blurredImage = UIImage(CIImage: resultImage)
-        self.blurImageView.image = blurredImage
+        println("applyBlurEffect0")
         
-        return blurredImage!
+//        var imageToBlur = CIImage(image: image)
+        var blurfilter = CIFilter(name: "CIGaussianBlur")
+        println("applyBlurEffect1")
+//        blurfilter.setValue(imageToBlur, forKey: "inputImage")
+        blurfilter.setValue(CIImage(image: image), forKey: kCIInputImageKey)
+        println("applyBlurEffect2")
+        blurfilter.setValue(50.0, forKey: kCIInputRadiusKey)
+        println("applyBlurEffect2a")
+        let resultImage = blurfilter.valueForKey("outputImage") as? CIImage
+        
+//        let displayImage = UIImage(CGImage: CIContext(options:nil).createCGImage(blurfilter.outputImage, fromRect:blurfilter.outputImage.extent()))!
+        
+        let context = CIContext(options: nil)
+        if context != nil {
+            var cgiImage = context.createCGImage(resultImage, fromRect: resultImage!.extent())
+            var final = UIImage(CGImage: cgiImage)
+            return final!
+        }
+        
+       
+        
+        println("applyBlurEffect3")
+//        let blurredImage = UIImage(CIImage: resultImage!)
+        println("applyBlurEffect4")
+//        self.blurImageView.image = displayImage
+        println("applyBlurEffect5")
+//        return blurredImage!
+        return self.photoImageView.image!
         
     }
     
@@ -123,15 +151,77 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
             }
         }
         
-        // accel
+        
         if (output?.getAccel() == true){
             println("accel > image: true")
-//            if (output?.getImage() != nil){
-            if (self.photoImageView.image != nil){
-                var blurredImage = self.applyBlurEffect(photoImageView.image!)
-                self.photoImageView.image = blurredImage
+        if let img2 = output?.getImage(){
+            if let image = self.photoImageView.image{
+//                println("let image = self.photoImageView.image")
+//                var blurredImage = self.applyBlurEffect(image)
+//                println("blurredImage")
+//                self.photoImageView.image = blurredImage
+//                println("blurredImage2")
+                
+                var darkBlur = UIBlurEffect(style: UIBlurEffectStyle.Light)
+                // 2
+                println("1")
+                var blurView = UIVisualEffectView(effect: darkBlur)
+                println("2")
+                blurView.frame = self.photoImageView.bounds
+                println("3")
+                
+                // 3
+                self.photoImageView.addSubview(blurView)
+                println("4")
             }
         }
+        }
+
+        
+        // accel
+//        if (output?.getAccel() == true){
+//            println("accel > image: true")
+//            if (output?.getImage() != nil) {
+//                println("getImage is not nil")
+//                
+//                if let imgaa = self.photoImageView.image{
+//                        
+//                        
+//                    println("photoimageview is not nil")
+//                    println("photoImageView.image")
+//                    println(photoImageView.image)
+//                    println("after image value")
+//                    println("image")
+//                    println(imgaa)
+//                    
+////                    var img1 : UIImage = self.photoImageView.image!
+//                    
+//                    println("0")
+//                    var ciimage :CIImage = CIImage(image: imgaa)
+//                    println("1")
+//                    var filter : CIFilter = CIFilter(name:"CIGaussianBlur")
+//                    println("2")
+//                    filter.setDefaults()
+//                    filter.setValue(ciimage, forKey: kCIInputImageKey)
+//                    
+//                    filter.setValue(30, forKey: kCIInputRadiusKey)
+//                    
+//                    
+//                    
+//                    var outputImage : CIImage = filter.outputImage;
+//                    
+//                    var blurredImage :UIImage = UIImage(CIImage: outputImage)!
+//                    self.photoImageView.image = blurredImage
+//                    
+//                    println("blurredImage")
+//                    println(blurredImage)
+//                    
+                    
+
+////                }
+//                }
+//            }
+//        }
         
         (getModel() as? ImagePip)?.updateReliantPips()
     }

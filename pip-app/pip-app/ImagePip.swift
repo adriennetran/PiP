@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class ImageOutput: BasePipOutput{
-    var image: UIImage!
+    var mainImage: UIImage!
     var color: UIColor!
     var text: String!
     var switchStatus: Bool!
@@ -23,7 +23,7 @@ class ImageOutput: BasePipOutput{
         color = UIColor.blackColor()
         switchStatus = false
         accelStatus = false
-        image = nil
+        mainImage = nil
         
     }
 	
@@ -48,11 +48,17 @@ class ImageOutput: BasePipOutput{
     }
     
     func getImage() -> UIImage{
-        return image
+        println("Inside ImagePip.swift -> getImage()")
+        if let img = mainImage{
+            println("ImageOutput: getImage() actually has something")
+            return img
+        }
+        println("ImageOutput: getImage() has nothing")
+        return UIImage()
     }
     
     func setImage(newImage: UIImage){
-        image = newImage
+        mainImage = newImage
     }
     
     func getText() -> String{
@@ -123,8 +129,10 @@ class ImagePip: BasePip{
                 let castItem: AccelPip! = inPip as? AccelPip
                 
                 if castItem != nil{
+                    println( "accel > image. accel is not nil")
                     output.setAccel(true)
                     }else{
+                    println( "accel > image. accel is nil")
                         output.setAccel(false)
                     }
                 

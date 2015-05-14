@@ -57,22 +57,17 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             self.presentViewController(imagePicker, animated: true, completion: nil)
         }
     }
-    
-    
-//    func textFieldShouldReturn(userText: UITextField!) -> Bool {
-//        self.view.endEditing(true)
-//        userText.resignFirstResponder()
-//        return true;
-//    }
+
     
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
-            println("curipview")
+            println("Inside imagePickerController function in ViewController")
+            println("curPipView")
             println(curPipView)
-            var curPipView2 = curPipView as? ImagePipView
+            var curPipView2 = curPipView as? ImagePipView!
             
             // to do: align photo with image pip
-            curPipView2!.photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+            curPipView2!.photoImageView.image = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
 
             println("black layer")
             
@@ -91,6 +86,15 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
             
             var curModel = curPipView2!.getModel() as? ImagePip
+            
+            // afer taking image, set image.
+            
+            curModel?.updateImage(curPipView2!.photoImageView.image!)
+            println("called updateImage in ImagePip")
+            curModel?.output.setImage(curPipView2!.photoImageView.image!)
+            println("called setImage function in ViewController")
+            
+            println("setting image")
             
             
             // ImagePip output has an attribute 'accelStatus' that toggles according to whether there is an AccelPip input
