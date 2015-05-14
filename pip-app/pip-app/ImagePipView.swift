@@ -37,6 +37,8 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     var blackLayer = CALayer()
     var colorLayer = CALayer()
     var textLayer = CATextLayer()
+    
+    var blurView : UIVisualEffectView?
 
     
     init(point: CGPoint, id: Int){
@@ -165,13 +167,14 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
                 var darkBlur = UIBlurEffect(style: UIBlurEffectStyle.Light)
                 // 2
                 println("1")
-                var blurView = UIVisualEffectView(effect: darkBlur)
+                self.blurView = UIVisualEffectView(effect: darkBlur)
                 println("2")
-                blurView.frame = self.photoImageView.bounds
+                self.blurView!.frame = self.photoImageView.bounds
                 println("3")
                 
                 // 3
-                self.photoImageView.addSubview(blurView)
+                self.photoImageView.addSubview(self.blurView!)
+                
                 println("4")
             }
         }
