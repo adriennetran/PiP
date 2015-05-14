@@ -24,6 +24,8 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	
 	var pipViewBeingDragged: BasePipView!
 	var armViewBeingCreated: ArmView!
+    
+    var audioPlayer: AVAudioPlayer?
 
     
     // this gets called on ViewController.addPipView, if the pipType is an ImagePip
@@ -139,41 +141,21 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
     var beenHereBefore = false
     var controller: UIImagePickerController?
     
-//    func viewDidAppear_Camera(animated: Bool) {
-//        println("inside viewToAppear")
-//        super.viewDidAppear(animated)
-//        
-//        if beenHereBefore{
-//            /* Only display the picker once as the viewDidAppear: method gets
-//            called whenever the view of our view controller gets displayed */
-//            return;
-//        } else {
-//            beenHereBefore = true
-//        }
-//        
-//        if isCameraAvailable() && doesCameraSupportTakingPhotos(){
-//            
-//            controller = UIImagePickerController()
-//            
-//            if let theController = controller{
-//                theController.sourceType = .Camera
-//                
-//                theController.mediaTypes = [kUTTypeImage as! String]
-//                
-//                theController.allowsEditing = true
-//                theController.delegate = self
-//                
-//                presentViewController(theController, animated: true, completion: nil)
-//            }
-//            
-//        } else {
-//            println("Camera is not available")
-//        }
-//        
-//    }
-
-
-//	@IBOutlet weak var userText: UITextField!
+    func setupAudioPlayerWithFile(file:NSString, type:NSString) -> AVAudioPlayer  {
+        //1
+        var path = NSBundle.mainBundle().pathForResource(file as String, ofType: type as String)
+        var url = NSURL.fileURLWithPath(path!)
+        
+        //2
+        var error: NSError?
+        
+        //3
+        var audioPlayer:AVAudioPlayer?
+        audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
+        
+        //4
+        return audioPlayer!
+    }
     
 	override func viewDidLoad() {
         println("hello")
@@ -218,24 +200,6 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             }
         }
         
-//        var curPip = self.curPipView
-//        if (curPip as? AudioPipView) != nil{
-//            println("AUDIO PIP IS NOT NIl")
-//        }
-        
-//        //Get accelerometer data
-//        if motionManager.accelerometerAvailable{
-//            let queue = NSOperationQueue()
-//            motionManager.startAccelerometerUpdatesToQueue(queue, withHandler:
-//                {(data: CMAccelerometerData!, error: NSError!) in
-//                    //println("X = \(data.acceleration.x)")
-//                    //println("Y = \(data.acceleration.y)")
-//                    //println("Z = \(data.acceleration.z)")
-//                })
-//        } else{
-//            println("accelerometer is not available.")
-//        }
-//        
         
 		_mainPipDirectory.registerViewController(self)
 		
@@ -387,8 +351,17 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		scrollView.scrollEnabled = true
 	}
 	
+    
+    /* The delegate message that will let us know that the player has finished playing an audio file */
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!,
+        successfully flag: Bool) {
+        println("Finished playing the song")
+    }
 	
 	func scrollViewPan(recognizer: UIPanGestureRecognizer) {
+        
+        
+        
 		if pipViewBeingDragged != nil {
 			
 			if recognizer.state == .Began {
@@ -405,6 +378,14 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 			
 			if recognizer.state == .Ended {
 				if stoppedBeingDragged(pipViewBeingDragged.frame) {
+                    
+                    // TO DO: PLAY AUDIO FILE
+                    var deleteSample = AVAudioPlayer()
+                    deleteSample = self.setupAudioPlayerWithFile("char01A.wav", type:"wav")
+                    deleteSample.play()
+                    println("playsample")
+                
+                    
 					_mainPipDirectory.deletePip(pipViewBeingDragged.pipId)
 				}
 				
