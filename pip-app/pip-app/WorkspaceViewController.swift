@@ -227,8 +227,14 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		let pipMenuTuple: (view: UIView, pos: CGPoint) = (view: pipMenu, pos: pipMenuPos)
 		staticScreenElements.append(pipMenuTuple)
 		
+		let dataMenuPos = CGPoint(x: 0, y: 0)
+		var dataMenu = CanvasMenuView.makeDataMenu(dataMenuPos)
+		let dataMenuTuple: (view: UIView, pos: CGPoint) = (view: dataMenu, pos: dataMenuPos)
+		staticScreenElements.append(dataMenuTuple)
+		
 		
 		scrollView.addSubview(pipMenu)
+		scrollView.addSubview(dataMenu)
 		
 		/*  -------------------
 			 Scroll View Setup
@@ -252,7 +258,8 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		let userDataBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 120, y: 0)
 		var userDataButton = UIButton(frame: CGRectMake(userDataBtnPos.x, userDataBtnPos.y, 120, 120))
 		userDataButton.setImage(UIImage(named: "dataButton"), forState: .Normal)
-		userDataButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
+		userDataButton.addTarget(dataMenu, action: "toggleActive:", forControlEvents: .TouchUpInside)
+		userDataButton.addTarget(self, action: "setMenuButtonsInactive:", forControlEvents: .TouchUpInside)
 		let userTuple: (view: UIView, pos: CGPoint) = (view: userDataButton, pos: userDataBtnPos)
 		staticScreenElements.append(userTuple)
 		

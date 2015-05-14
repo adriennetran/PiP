@@ -36,7 +36,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, 500))
 		
 		menu.backgroundColor = UIColor.whiteColor()
-		menu.contentSize = CGSize(width: 700, height: 200)
+		menu.contentSize = CGSize(width: menu.frame.width, height: menu.frame.height)
 		menu.userInteractionEnabled = true
 		menu.layer.shadowColor = UIColor.blackColor().CGColor
 		menu.layer.shadowOffset = CGSizeMake(0, 5)
@@ -117,6 +117,25 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		
 		menu.contentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: CGFloat(300));
 
+		menu.hidden = true
+		
+		return menu
+	}
+	
+	class func makeDataMenu(pos: CGPoint) -> CanvasMenuView{
+		var menu = CanvasMenuView(offsetLocation: CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0),
+			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, (UIScreen.mainScreen().bounds.height * 0.8)))
+		
+		menu.backgroundColor = UIColor.whiteColor()
+		menu.contentSize = CGSize(width: menu.frame.width, height: menu.frame.height)
+		menu.userInteractionEnabled = true
+		menu.layer.shadowColor = UIColor.blackColor().CGColor
+		menu.layer.shadowOffset = CGSizeMake(0, 5)
+		menu.layer.shadowRadius = 5
+		menu.layer.shadowOpacity = 0.70
+		
+		menu.layer.masksToBounds = false
+		
 		menu.hidden = true
 		
 		return menu

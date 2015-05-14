@@ -120,7 +120,7 @@ class TextPip: BasePip {
 					
                     println("accelViewCast.arrayX")
                     println(accelViewCast.arrayX[0])
-                    println(accelViewCast.arrayX[accelViewCast.arrayX.count])
+					//println(accelViewCast.arrayX[accelViewCast.arrayX.count])
                     println("count")
                     println(accelViewCast.arrayX.count)
                     output.appendText("accel is inside \(accelViewCast.sx)")
