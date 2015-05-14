@@ -54,6 +54,13 @@ class TextOutput: BasePipOutput{
         text = newText
     }
 	
+	// prependText: String ->
+	// I/O: appends to the text field
+	
+	func appendText(pText: String){
+		text = text + pText
+	}
+	
 	// setColor: UIColor ->
 	// I/O: sets color to newColor
 	
@@ -65,18 +72,18 @@ class TextOutput: BasePipOutput{
 class TextPip: BasePip {
     
     // of type text
-    var output: TextOutput!
+    private var output: TextOutput!
+	
+	var baseOutput: String = ""
     
     // TextPip's constructor
 	init(id: Int){
 		super.init(pipType: PipType.Text, id: id)
-		
-		output = TextOutput()
     }
 
     
     func updateText(newVal: String){
-		output.setText(newVal)
+		baseOutput = newVal
 		updateReliantPips()
     }
     
@@ -84,6 +91,8 @@ class TextPip: BasePip {
 	// I/O: updates the output field of the object
 	
     func getOutput() -> TextOutput{
+		
+		output = TextOutput()
         
         for item in inputPipIDs{
 			
@@ -108,14 +117,15 @@ class TextPip: BasePip {
                     // set text to xyz from accel
                     
 //                    output.setText("ACCEL IS INSIDE")
-                    
+					
                     println("accelViewCast.arrayX")
                     println(accelViewCast.arrayX[0])
                     println(accelViewCast.arrayX[accelViewCast.arrayX.count])
                     println("count")
                     println(accelViewCast.arrayX.count)
-                    output.setText("accel is inside \(accelViewCast.sx)")
+                    output.appendText("accel is inside \(accelViewCast.sx)")
                     accelViewCast.photoImageView.layer.addSublayer(accelViewCast.textLayer)
+
                     
                 }else{
                     accelViewCast.textLayer.removeFromSuperlayer()
@@ -132,8 +142,7 @@ class TextPip: BasePip {
 				let castItem: TextPip! = inPip as? TextPip
 				
 				if castItem != nil {
-					let newString = castItem.getOutput().getText() + output.getText()
-					output.setText(newString)
+					output.appendText(castItem.getOutput().getText())
 				}
 				
 			case .Color:
@@ -147,11 +156,13 @@ class TextPip: BasePip {
 				let castItem: SwitchPip! = inPip as? SwitchPip
 				
 				if castItem != nil {
-					output.setText("\(castItem.getOutput())")
+					output.appendText("\(castItem.getOutput())")
 				}
             }
             
         }
+		
+		output.appendText(baseOutput)
         return output
         
     }
