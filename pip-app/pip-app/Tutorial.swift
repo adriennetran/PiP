@@ -23,14 +23,14 @@ class TutorialViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "nextImage:"))
+		imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TutorialViewController.nextImage(_:))))
 		
 		imageView.image = UIImage(named: image[0])
-		imageView.userInteractionEnabled = true
+		imageView.isUserInteractionEnabled = true
 	}
 	
-	func nextImage(sender: UITapGestureRecognizer) {
-		currentImage++
+	func nextImage(_ sender: UITapGestureRecognizer) {
+		currentImage += 1
 		
 		if currentImage < image.count {
 			imageView.image = UIImage(named: image[currentImage])
@@ -40,8 +40,8 @@ class TutorialViewController: UIViewController {
 			imageView.image = UIImage(named: image[currentImage])
 			
 			let storyboard = UIStoryboard(name: "Main", bundle: nil)
-			let vc = storyboard.instantiateInitialViewController() as! UIViewController
-			self.presentViewController(vc, animated: true, completion: nil)
+			let vc = storyboard.instantiateInitialViewController()! as UIViewController
+			self.present(vc, animated: true, completion: nil)
 		}
 	}
 	

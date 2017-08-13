@@ -20,10 +20,10 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     
     // for image pip
-    var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
+    var photoImageView = UIImageView(frame: CGRect(x: 40, y: 120, width: 200, height: 200))
     var textLayer = CATextLayer()
     
-    var colorBlock = UIImageView(frame: CGRectMake(10, 220, 100, 100))
+    var colorBlock = UIImageView(frame: CGRect(x: 10, y: 220, width: 100, height: 100))
     
     // move to model
     var x: CGFloat?
@@ -45,7 +45,7 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     init(point: CGPoint, id: Int){
         super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Accel), id: id)
         
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width + 120, self.frame.height)
+        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.width + 120, height: self.frame.height)
         
 //        pipInputView.frame = CGRectMake(frame.width-60, 0, 60, frame.height)
 //        pipOutputView.frame = CGRectMake(0, 0, 60, frame.height)
@@ -54,18 +54,18 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         startAccelerometer(accelValue)
         
         // text layer
-        self.textLayer.frame = CGRectMake(0, 0, self.photoImageView.bounds.width, self.photoImageView.bounds.height)
+        self.textLayer.frame = CGRect(x: 0, y: 0, width: self.photoImageView.bounds.width, height: self.photoImageView.bounds.height)
         
-        let fontName: CFStringRef = "Helvetica"
+        let fontName: CFString = "Helvetica" as CFString
         self.textLayer.font = CTFontCreateWithName(fontName, 4, nil)
         
-        self.textLayer.foregroundColor = UIColor.blackColor().CGColor
-        self.textLayer.wrapped = true
+        self.textLayer.foregroundColor = UIColor.black.cgColor
+        self.textLayer.isWrapped = true
         self.textLayer.alignmentMode = kCAAlignmentCenter
-        self.textLayer.contentsScale = UIScreen.mainScreen().scale
+        self.textLayer.contentsScale = UIScreen.main.scale
         
         
-        self.colorBlock.backgroundColor = UIColor.brownColor()
+        self.colorBlock.backgroundColor = UIColor.brown
         
         self.addSubview(self.photoImageView)
         
@@ -84,21 +84,21 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 	// startAccelerometer: Bool -> nil
 	// I/O: checks to see if the accelerometer is available
 	
-    func startAccelerometer(val: Bool){
+    func startAccelerometer(_ val: Bool){
         if val == true{
-            println("accelerometer starting")
-            if motionManager.accelerometerAvailable{
-                println("inside motion manager")
-                let motionQueue = NSOperationQueue.currentQueue()
+            print("accelerometer starting")
+            if motionManager.isAccelerometerAvailable{
+                print("inside motion manager")
+                let motionQueue = OperationQueue.current
                 motionManager.deviceMotionUpdateInterval = 0.05
-                motionManager.startDeviceMotionUpdatesToQueue(motionQueue,
-                    withHandler: gravityUpdated)
+                motionManager.startDeviceMotionUpdates(to: motionQueue!,
+                    withHandler: gravityUpdated as! CMDeviceMotionHandler)
             } else{
-                println("accelerometer not available")
+                print("accelerometer not available")
             }
         } else{
-            println("start Accelerometer False")
-            println("accelerometer stopping")
+            print("start Accelerometer False")
+            print("accelerometer stopping")
             motionManager.stopAccelerometerUpdates()
         }
     }
@@ -106,7 +106,7 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 	
     
     // this fn is called in startAccelerometer and collects accel data and populates textLayer with it
-    func gravityUpdated(motion: CMDeviceMotion!, error: NSError!) {
+    func gravityUpdated(_ motion: CMDeviceMotion!, error: NSError!) {
         
         if (accelValue == true){
         
@@ -115,19 +115,19 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         let x = CGFloat(grav.x);
         let y = CGFloat(grav.y);
         
-        var v = CGVectorMake(x, y);
+        var v = CGVector(dx: x, dy: y);
         
         self.x = CGFloat(grav.x)
         self.y = CGFloat(grav.y)
         self.z = CGFloat(grav.z)
         
-        let numberFormatter = NSNumberFormatter()
-        numberFormatter.numberStyle = .DecimalStyle
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 3
         numberFormatter.maximumFractionDigits = 3
-        let sx = numberFormatter.stringFromNumber(self.x!)
-        let sy = numberFormatter.stringFromNumber(self.y!)
-        let sz = numberFormatter.stringFromNumber(self.z!)
+        let sx = numberFormatter.string(from: NSNumber(value: Int(self.x!)))
+        let sy = numberFormatter.string(from: NSNumber(value: Int(self.y!)))
+        let sz = numberFormatter.string(from: NSNumber(value: Int(self.z!)))
         
         self.textLayer.string = sx! + " " + sy! + " " + sz!
         var r = self.z!*2
@@ -152,7 +152,7 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 //        println(self.y)
 //        println(self.z)
         } else{
-            println("ACCEL NOT AVAILABLE IN GRAVITY")
+            print("ACCEL NOT AVAILABLE IN GRAVITY")
         }
         
         
@@ -172,7 +172,7 @@ class AccelPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     
     override func updateView(){
-        println ("updating imageView")
+        print("updating imageView")
         let output = (getModel() as? AccelPip)?.getOutput()
         
         // text

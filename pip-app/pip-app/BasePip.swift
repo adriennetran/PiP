@@ -17,7 +17,7 @@ enum PipType: Int {
 	case Math
 }
 
-class BasePipOutput: Printable {
+class BasePipOutput: CustomStringConvertible {
 	var description: String {
 		return "BasePipOutput. NOTE: description not overridden."
 	}
@@ -87,8 +87,8 @@ class BasePip {
 	// I/O: adds inputPipID to this pip's list of inputs as long as
 	//		inputPipID is not already an input, or is not this pip's ID
 	
-	func setInput(inputPipID: Int){
-		if !contains(inputPipIDs, inputPipID) && !(inputPipID == self.pipID){
+	func setInput(_ inputPipID: Int){
+		if inputPipIDs.contains(inputPipID) && !(inputPipID == self.pipID){
 			self.inputPipIDs.append(inputPipID)
 		}
     }
@@ -96,8 +96,8 @@ class BasePip {
 	// setOutput: Int -> nil
 	// I/O: adds outputPipID to this pip's list of outputs as long as
 	//		outputPipID is not already an output, or is not this pip's ID
-	func setOutput(outputPipID: Int){
-		if !contains(outputPipIDs, outputPipID) && !(outputPipID == self.pipID){
+	func setOutput(_ outputPipID: Int){
+		if outputPipIDs.contains(outputPipID) && !(outputPipID == self.pipID){
 			self.outputPipIDs.append(outputPipID)
 		}
 	}
@@ -105,18 +105,18 @@ class BasePip {
 	// removeInput: Int -> nil
 	// I/O: removes inputPipID from this pip's list of inputs
 	
-	func removeInput(inputPipID: Int) {
-		if let index = find(self.inputPipIDs, inputPipID) {
-			self.inputPipIDs.removeAtIndex(index)
+	func removeInput(_ inputPipID: Int) {
+        if let index = inputPipIDs.index(of: inputPipID) {
+			self.inputPipIDs.remove(at: index)
 		}
 	}
 	
 	// removeOutput: Int -> nil
 	// I/O: removes inputPipID from this pip's list of inputs
 	
-	func removeOutput(outputPipID: Int) {
-		if let index = find(self.outputPipIDs, outputPipID) {
-			self.outputPipIDs.removeAtIndex(index)
+	func removeOutput(_ outputPipID: Int) {
+        if let index = outputPipIDs.index(of: outputPipID) {
+			self.outputPipIDs.remove(at: index)
 		}
 	}
 	

@@ -20,7 +20,7 @@ class AccelOutput: BasePipOutput{
     override init(){
         // image initializes as null until user adds something
         text = ""
-        color = UIColor.blackColor()
+        color = UIColor.black
         switchStatus = false
         
     }
@@ -29,7 +29,7 @@ class AccelOutput: BasePipOutput{
 		return "AccelOutput"
 	}
     
-    func setSwitch(status: Bool){
+    func setSwitch(_ status: Bool){
         switchStatus = status
     }
     
@@ -41,7 +41,7 @@ class AccelOutput: BasePipOutput{
         return image
     }
     
-    func setImage(newImage: UIImage){
+    func setImage(_ newImage: UIImage){
         image = newImage
     }
     
@@ -49,7 +49,7 @@ class AccelOutput: BasePipOutput{
         return text
     }
     
-    func setText(newText: String) -> String{
+    func setText(_ newText: String) -> String{
         text = newText
         return text
     }
@@ -57,7 +57,7 @@ class AccelOutput: BasePipOutput{
     // setColor: UIColor ->
     // I/O: sets color to newColor
     
-    func setColor(newColor: UIColor){
+    func setColor(_ newColor: UIColor){
         color = newColor
     }
     
@@ -75,7 +75,7 @@ class AccelPip: BasePip{
         output = AccelOutput()
     }
     
-    func updateImage(newVal: UIImage){
+    func updateImage(_ newVal: UIImage){
         output.setImage(newVal)
         updateReliantPips()
     }

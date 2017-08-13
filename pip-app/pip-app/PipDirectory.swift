@@ -29,13 +29,13 @@ class PipDirectory{
 		pipDirectory = [:]
 	}
 	
-	func registerViewController(vC: WorkspaceViewController){
+	func registerViewController(_ vC: WorkspaceViewController){
 		viewController = vC
 	}
     
     var viewController2: CameraVC3!
     
-    func registerViewController2(vC: CameraVC3){
+    func registerViewController2(_ vC: CameraVC3){
         viewController2 = vC
     }
 	
@@ -47,12 +47,12 @@ class PipDirectory{
 	// I/O: creates the model and view of the given PipType
 	//		and links them together
 	
-	func createPipOfType(pType: PipType){
+	func createPipOfType(_ pType: PipType){
 		
 		let screenCenter = viewController.scrollView.center
 		let offset = viewController.scrollView.contentOffset
 		var createPos = CGPoint(x: screenCenter.x + offset.x, y: screenCenter.y + offset.y)
-		createPos = viewController.containerView.convertPoint(createPos, fromCoordinateSpace: viewController.scrollView)
+		createPos = viewController.containerView.convert(createPos, from: viewController.scrollView)
 		
 		var tuple: (model: BasePip, view: BasePipView)!
 		
@@ -61,16 +61,16 @@ class PipDirectory{
 		case .Accel:
 			
 			// Create View and Model
-			var accelModel: AccelPip = AccelPip(id: lastPipID)
-			var accelView: AccelPipView = AccelPipView(point: createPos, id: lastPipID)
+			let accelModel: AccelPip = AccelPip(id: lastPipID)
+			let accelView: AccelPipView = AccelPipView(point: createPos, id: lastPipID)
 			
 			// Add tuple to array
 			tuple = (model: accelModel, view: accelView)
 			
         case .Audio:
             // Create View and Model
-            var audioModel: AudioPip = AudioPip(id: lastPipID)
-            var audioView: AudioPipView = AudioPipView(point: createPos, id: lastPipID)
+            let audioModel: AudioPip = AudioPip(id: lastPipID)
+            let audioView: AudioPipView = AudioPipView(point: createPos, id: lastPipID)
             
             // Add tuple to array
             tuple = (model: audioModel, view: audioView)
@@ -78,39 +78,40 @@ class PipDirectory{
 		case .Color:
 			
 			// Create View and Model
-			var colorModel = ColorPip(id: ++lastPipID)
-			var colorView = ColorPipView(point: createPos, id: lastPipID)
+			let colorModel = ColorPip(id: lastPipID)
+            lastPipID += 1
+			let colorView = ColorPipView(point: createPos, id: lastPipID)
 			
 			tuple = (model: colorModel, view: colorView)
             
         case .Image:
             // Create View and Model
-            var imageModel: ImagePip = ImagePip(id: lastPipID)
-            var imageView: ImagePipView = ImagePipView(point: createPos, id: lastPipID)
+            let imageModel: ImagePip = ImagePip(id: lastPipID)
+            let imageView: ImagePipView = ImagePipView(point: createPos, id: lastPipID)
             
             // Add tuple to array
             tuple = (model: imageModel, view: imageView)
 			
 		case .Math:
 			// Create View and Model
-			var mathModel: MathPip = MathPip(id: lastPipID)
-			var mathView: MathPipView = MathPipView(point: createPos, id: lastPipID)
+			let mathModel: MathPip = MathPip(id: lastPipID)
+			let mathView: MathPipView = MathPipView(point: createPos, id: lastPipID)
 			
 			tuple = (model: mathModel, view: mathView)
 			
 		case .Text:
 			
 			// Create View and Model
-			var textModel: TextPip = TextPip(id: lastPipID)
-			var textView: TextPipView = TextPipView(point: createPos, id: lastPipID)
+			let textModel: TextPip = TextPip(id: lastPipID)
+			let textView: TextPipView = TextPipView(point: createPos, id: lastPipID)
 			
 			tuple = (model: textModel, view: textView)
 			
 		default: // creates .Switch
 			
 			// Create View and Model
-			var switchModel = SwitchPip(id: lastPipID)
-			var switchView = SwitchPipView(point: createPos, id: lastPipID)
+			let switchModel = SwitchPip(id: lastPipID)
+			let switchView = SwitchPipView(point: createPos, id: lastPipID)
 			
 			tuple = (model: switchModel, view: switchView)
 		}
@@ -121,13 +122,13 @@ class PipDirectory{
 		
 		viewController?.addPipView(tuple.view)
 		
-		lastPipID++
+		lastPipID += 1
 	}
 	
 	// createPipFromButtonTag: UIButton -> nil
 	// I/O: a function usable as a @selector for UIButton.addTarget
 	//		allows programmatically created buttons to be used to create Pips
-	@objc func createPipFromButtonTag(sender: UIButton!){
+	@objc func createPipFromButtonTag(_ sender: UIButton!){
 		createPipOfType(PipType(rawValue: sender.tag)!)
 	}
 	
@@ -135,7 +136,7 @@ class PipDirectory{
 	// I/O: returns the background image for a given pipType
 	//		allow programmatic, and iterative creation of Pips
 	//		READ: extra function = shorter code
-	func getImageForPipType(type: PipType) -> UIImage{
+	func getImageForPipType(_ type: PipType) -> UIImage{
 		switch type{
         case .Accel:
             return UIImage(named: "accelerometerPip-image")!
@@ -154,7 +155,7 @@ class PipDirectory{
 		}
 	}
 	
-	func getColorForPipType(type: PipType) -> UIColor{
+	func getColorForPipType(_ type: PipType) -> UIColor{
 		switch type{
 		case .Accel:
 			return UIColor(red: (183 / 256), green: (237 / 256), blue: (36 / 256), alpha: 1.0)
@@ -172,8 +173,8 @@ class PipDirectory{
 	//  Deletion
 	// ---------------
 	
-	func deletePip(pipID: Int) {
-		var pip: (model: BasePip, view: BasePipView) = getPipByID(pipID)
+	func deletePip(_ pipID: Int) {
+		let pip: (model: BasePip, view: BasePipView) = getPipByID(pipID)
 		
 		// remove all connections between pip and other pips
 		pip.model.pipToBeDestroyed()
@@ -186,11 +187,11 @@ class PipDirectory{
 		pipDirectory[pipID] = nil
 	}
 	
-	func deleteHand(hand: HandView) {
-		var inPip = hand.inPipID
-		var outPip = hand.outPipID
+	func deleteHand(_ hand: HandView) {
+		let inPip = hand.inPipID
+		let outPip = hand.outPipID
 		
-		breakConnection(inPip, outPipID: outPip)
+		breakConnection(inPip!, outPipID: outPip!)
 	}
 	
 	// ---------------
@@ -200,7 +201,7 @@ class PipDirectory{
 	// getPipByID: Int -> (BasePip, BasePipView)
 	// I/O: given an ID, returns the tuple representing the pip
 	
-	func getPipByID(id: Int) -> (model: BasePip, view: BasePipView){
+	func getPipByID(_ id: Int) -> (model: BasePip, view: BasePipView){
 		return pipDirectory[id]!
 	}
 	
@@ -216,7 +217,7 @@ class PipDirectory{
 	// breakConnection: Int, Int -> nil
 	// I/O: breaks a link between two pips
 	
-	func breakConnection(inPipID: Int, outPipID: Int) {
+	func breakConnection(_ inPipID: Int, outPipID: Int) {
 		let inPip: (model: BasePip, view:BasePipView) = pipDirectory[inPipID]!
 		let outPip: (model: BasePip, view:BasePipView) = pipDirectory[outPipID]!
 		
@@ -237,7 +238,7 @@ class PipDirectory{
 	// I/O: called by any Pip that changes on its inputs or outputs
 	//		forces a Pip to check its inputs and change accordingly
 	
-	func updatePip(pID: Int){
+	func updatePip(_ pID: Int){
 		let type = getPipByID(pID).model.getPipType()
 		switch type{
 			//case .Button:

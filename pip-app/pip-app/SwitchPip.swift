@@ -18,7 +18,7 @@ class SwitchOutput: BasePipOutput{
 	
 	func setTrue(){ state = true; }
 	func setFalse(){ state = false; }
-	func setState(newState : Bool){
+	func setState(_ newState : Bool){
 		state = newState;
 	}
 	func getState() -> Bool { return state; }
@@ -26,7 +26,7 @@ class SwitchOutput: BasePipOutput{
 
 class SwitchPip: BasePip {
 	
-	private var output: SwitchOutput = SwitchOutput();
+	fileprivate var output: SwitchOutput = SwitchOutput();
 	
 	init(id: Int){
 		super.init(pipType: .Switch, id: id)

@@ -15,11 +15,11 @@ class CameraVC3: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var imgPip: ImagePipView!
     var containerView: UIView!
     
-    var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
+    var photoImageView = UIImageView(frame: CGRect(x: 40, y: 120, width: 200, height: 200))
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.photoImageView.backgroundColor = UIColor.greenColor()
+        self.photoImageView.backgroundColor = UIColor.green
         _mainPipDirectory.registerViewController2(self)
         
         self.view.addSubview(photoImageView)
@@ -39,7 +39,7 @@ class CameraVC3: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     var beenHereBefore = false
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if beenHereBefore{
             /* Only display the picker once as the viewDidAppear: method gets
             called whenever the view of our view controller gets displayed */
@@ -48,60 +48,60 @@ class CameraVC3: UIViewController, UIImagePickerControllerDelegate, UINavigation
             beenHereBefore = true
         }
         
-        println("capture")
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-            println("Button capture")
+        print("capture")
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
+            print("Button capture")
             
             var imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera;
-            imagePicker.mediaTypes = [kUTTypeImage]
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
+            imagePicker.mediaTypes = [kUTTypeImage as String]
             imagePicker.allowsEditing = false
             
-            println("post button capture")
+            print("post button capture")
             
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            self.present(imagePicker, animated: true, completion: nil)
         }
         
         
-        println("after camera vc3 will appear")
+        print("after camera vc3 will appear")
     }
     
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        println("Picker was cancelled")
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("Picker was cancelled")
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        println("camera vc3 view will appear")
+    override func viewWillAppear(_ animated: Bool) {
+        print("camera vc3 view will appear")
         super.viewWillAppear(animated)
     }
     
 
     // this is called after a photo is taken
     // saves the photo to photoImageView (which is already added to the view)
-    func imagePickerController(picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
+    func imagePickerController(_ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [AnyHashable: Any]){
         photoImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        self.dismissViewControllerAnimated(false, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
 
-func capture(tap: UITapGestureRecognizer) {
-    println("capture")
-    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-        println("Button capture")
+func capture(_ tap: UITapGestureRecognizer) {
+    print("capture")
+    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
+        print("Button capture")
         
         var imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        imagePicker.sourceType = UIImagePickerControllerSourceType.Camera;
-        imagePicker.mediaTypes = [kUTTypeImage]
+        imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
+        imagePicker.mediaTypes = [kUTTypeImage as String]
         imagePicker.allowsEditing = false
         
-        println("post button capture")
+        print("post button capture")
         
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion: nil)
     }
 }
     

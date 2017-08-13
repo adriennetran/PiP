@@ -20,7 +20,7 @@ class HandView: UIView {
 	var inPipID, outPipID: Int!
 	
 	//Used for dragging
-	var lastLocation: CGPoint = CGPointMake(0, 0)
+	var lastLocation: CGPoint = CGPoint(x: 0, y: 0)
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -31,20 +31,20 @@ class HandView: UIView {
 	}
 	
 	init(pos: CGPoint, inPipID: Int, outPipID: Int) {
-		super.init(frame: CGRectMake(pos.x - CGFloat(HandView.HAND_WIDTH / 2), pos.y - CGFloat(HandView.HAND_HEIGHT / 2), CGFloat(HandView.HAND_WIDTH), CGFloat(HandView.HAND_HEIGHT)))
-		backgroundColor = UIColor.blackColor()
+		super.init(frame: CGRect(x: pos.x - CGFloat(HandView.HAND_WIDTH / 2), y: pos.y - CGFloat(HandView.HAND_HEIGHT / 2), width: CGFloat(HandView.HAND_WIDTH), height: CGFloat(HandView.HAND_HEIGHT)))
+		backgroundColor = UIColor.black
 		
 		self.inPipID = inPipID
 		self.outPipID = outPipID
 		
-		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
+		let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(HandView.detectPan(_:)))
 		
 		addGestureRecognizer(panRecognizer)
 		lastLocation = self.center
 	}
 	
 	init(pos: CGPoint, armA: ArmView, armB: ArmView, inPipID: Int, outPipID: Int) {
-		super.init(frame: CGRectMake(pos.x - CGFloat(HandView.HAND_WIDTH / 2), pos.y - CGFloat(HandView.HAND_HEIGHT / 2), CGFloat(HandView.HAND_WIDTH), CGFloat(HandView.HAND_HEIGHT)))
+		super.init(frame: CGRect(x: pos.x - CGFloat(HandView.HAND_WIDTH / 2), y: pos.y - CGFloat(HandView.HAND_HEIGHT / 2), width: CGFloat(HandView.HAND_WIDTH), height: CGFloat(HandView.HAND_HEIGHT)))
 		
 		self.inPipID = inPipID
 		self.outPipID = outPipID
@@ -55,8 +55,8 @@ class HandView: UIView {
 		armA.end = center
 		armB.end = center
 		
-		var panRecognizer = UIPanGestureRecognizer(target: self, action: "detectPan:")
-		var tapRecognizer = UITapGestureRecognizer(target: self, action: "tapped:")
+		let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(HandView.detectPan(_:)))
+		let tapRecognizer = UITapGestureRecognizer(target: self, action: "tapped:")
 		
 		addGestureRecognizer(panRecognizer)
 		addGestureRecognizer(tapRecognizer)
@@ -64,7 +64,7 @@ class HandView: UIView {
 		lastLocation = self.center
 	}
 	
-	func setArms(armA: ArmView, armB: ArmView) {
+	func setArms(_ armA: ArmView, armB: ArmView) {
 		arms.append(armA)
 		arms.append(armB)
 		
@@ -72,15 +72,15 @@ class HandView: UIView {
 		armB.updateEnd(center)
 	}
 	
-	func detectPan(sender: UIPanGestureRecognizer) {
-		var translation = sender.translationInView(self.superview!)
-		self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+	func detectPan(_ sender: UIPanGestureRecognizer) {
+		var translation = sender.translation(in: self.superview!)
+		self.center = CGPoint(x: lastLocation.x + translation.x, y: lastLocation.y + translation.y)
 		
 		for arm in arms {
 			arm.updateEnd(self.center)
 		}
 		
-		if (sender.state == UIGestureRecognizerState.Ended) {
+		if (sender.state == UIGestureRecognizerState.ended) {
 			if _mainPipDirectory.viewController.stoppedBeingDragged(self.frame){
 				_mainPipDirectory.deleteHand(self)
 			}
@@ -89,8 +89,8 @@ class HandView: UIView {
 		}
 		
 	}
-	
-	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		lastLocation = self.center
         self.endEditing(true) // dismiss keyboard
     }

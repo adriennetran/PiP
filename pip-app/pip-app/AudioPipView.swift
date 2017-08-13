@@ -25,26 +25,26 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // main changer
     // inherits photoImageView: UIImageView from BasePip
     
-    var photoImageView = UIImageView(frame: CGRectMake(40, 120, 200, 200))
+    var photoImageView = UIImageView(frame: CGRect(x: 40, y: 120, width: 200, height: 200))
     
-    var textView = UIView(frame: CGRectMake(40, 120, 200, 200))
+    var textView = UIView(frame: CGRect(x: 40, y: 120, width: 200, height: 200))
     
-    var audioRecorder: AVAudioRecorder?
-    var audioPlayer: AVAudioPlayer?
+    var audioRecorder: AVAudioRecorder!
+    var audioPlayer: AVAudioPlayer!
     
     
     init(point: CGPoint, id: Int){
         super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Audio), id: id)
         
-        photoImageView.frame = CGRectMake((self.frame.width / 2) - 35, 32, 70, 68)
+        photoImageView.frame = CGRect(x: (self.frame.width / 2) - 35, y: 32, width: 70, height: 68)
 		
-        let fontName: CFStringRef = "Helvetica"
+        let fontName: CFString = "Helvetica" as CFString
 		
-		var buttonRadius: CGFloat = 31.0
+		let buttonRadius: CGFloat = 31.0
 		
-		var interactButton = UIButton(frame: CGRectMake(15.0, 20.0, CGFloat(buttonRadius * 2), CGFloat(buttonRadius * 2)))
-		interactButton.backgroundColor = UIColor.redColor()
-		interactButton.addTarget(self, action: "startRecordingAudio:", forControlEvents: nil)
+		let interactButton = UIButton(frame: CGRect(x: 15.0, y: 20.0, width: CGFloat(buttonRadius * 2), height: CGFloat(buttonRadius * 2)))
+		interactButton.backgroundColor = UIColor.red
+		interactButton.addTarget(self, action: #selector(self.startRecordingAudio(_:)), for: .touchUpInside)
 		
 		interactButton.layer.cornerRadius = buttonRadius
 
@@ -52,7 +52,7 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 		
         self.addSubview(self.photoImageView)
         
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: "startRecordingAudio:"))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.startRecordingAudio(_:))))
         
         
     }
@@ -62,96 +62,88 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         fatalError("init(coder:) has not been implemented")
     }
     
-    func startRecordingAudio(tap: UITapGestureRecognizer) {
-        var error: NSError?
+    func startRecordingAudio(_ tap: UITapGestureRecognizer) {
         
-        let audioRecordingURL = self.audioRecordingPath()
-        audioRecorder = AVAudioRecorder(URL: audioRecordingURL, settings: audioRecordingSettings() as [NSObject : AnyObject], error: &error)
+        let audioRecordingURL = self.audioRecordingPath() as URL
+        let audioSession = AVAudioSession.sharedInstance()
         
-        if let recorder = audioRecorder{
-            recorder.delegate = self
-            
-            // Prepare recorder and then start recording
-            if recorder.prepareToRecord() && recorder.record(){
-                println("Successfully started to record")
-                
-                // Stop recording after 5 seconds
-                let delayInSeconds = 5.0
-                let delayInNanoSeconds = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-                
-                dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), {
-                    [weak self] in self!.audioRecorder!.stop()
-                })
-            } else{
-                println("Failed to record")
-                audioRecorder = nil
-            }
-        } else{
-            println("Failed to create instance of the audio recorder")
+        do {
+            audioRecorder = try AVAudioRecorder(url: audioRecordingURL,
+                                                settings: audioRecordingSettings() as! [String : Any])
+            audioRecorder.delegate = self
+            audioRecorder.prepareToRecord()
+        } catch {
+            finishRecording(success: false)
         }
-        
+        do {
+            try audioSession.setActive(true)
+            audioRecorder.record()
+        } catch {
+        }
         
     }
     
+    
+    func finishRecording(success: Bool) {
+        audioRecorder.stop()
+        if success {
+            print(success)
+        } else {
+            audioRecorder = nil
+            print("Somthing Wrong.")
+        }
+    }
+    
     func audioRecordingPath() -> NSURL{
-        let fileManager = NSFileManager()
+        let fileManager = FileManager.default
         
-        let documentsFolderURL = fileManager.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false, error: nil)
-        
-        return documentsFolderURL!.URLByAppendingPathComponent("Recording.m4a")
+        let documentsFolderURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentDirectory = documentsFolderURL[0] as NSURL
+        let soundURL = documentDirectory.appendingPathComponent("Recording.m4a")
+        print(soundURL!)
+        return soundURL as NSURL!
     }
     
     func audioRecordingSettings() -> NSDictionary{
         // Prepare audio recorder options
         return[
-            AVFormatIDKey: kAudioFormatMPEG4AAC as NSNumber,
-            AVSampleRateKey: 16000.0 as NSNumber,
-            AVNumberOfChannelsKey: 1 as NSNumber,
-            AVEncoderAudioQualityKey: AVAudioQuality.Low.rawValue as NSNumber
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 16000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
     }
     
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if flag{
-            println("Successfully stopped the audio recording process")
+            print("Successfully stopped the audio recording process")
             
             // lets try to retrieve data for recorded file
-            var playbackError: NSError?
-            var readingError: NSError?
             
-            let fileData = NSData(contentsOfURL: audioRecordingPath(),
-                options: .MappedRead,
-                error: &readingError)
+            let audioRecordingURL = self.audioRecordingPath() as URL
             
-            // form an audio player and make it play recorded data
-            audioPlayer = AVAudioPlayer(data: fileData, error: &playbackError)
-            
-            // instantiate audio player
-            if let player = audioPlayer{
-                player.delegate = self
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: audioRecordingURL)
+                guard let audioPlayer = audioPlayer else { return }
                 
-                // prepare to play and start playing
-                if player.prepareToPlay() && player.play(){
-                    println("Started playing recorded audio")
-                } else{
-                    println("Could not play recorded audio")
-                }
-            } else{
-                println("failed to create audio player")
+                audioPlayer.prepareToPlay()
+                audioPlayer.play()
+            } catch let error as NSError {
+                print(error.description)
             }
             
         } else{
-            println("stopping the audio recording failed")
+            print("stopping the audio recording failed")
         }
-        self.audioRecorder = nil
+        audioRecorder = nil
     }
     
-    func audioRecorderDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool){
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool){
         if flag{
-            println("audio player stopped correctly")
+            print("audio player stopped correctly")
 
         } else{
-            println("audio player did not stop correctyl")
+            print("audio player did not stop correctyl")
         }
         audioPlayer = nil
     }
@@ -168,12 +160,12 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     //    }
     
     override func updateView(){
-        println ("updating audio View")
+        print("updating audio View")
         let output = (getModel() as? AudioPip)?.getOutput()
         
         // color
         if (output?.getColor() != nil){
-            println(output?.getColor())
+            print(output?.getColor())
 //            self.colorLayer.backgroundColor = (output?.getColor())!.CGColor
 //            self.colorLayer.opacity = 0.2
         }
@@ -188,17 +180,17 @@ class AudioPipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         if (output?.getSwitch() != nil){
             if (output?.getSwitch() == true){
                 // update black
-                println("switch > audio: true")
+                print("switch > audio: true")
 //                self.blackLayer.opacity = 0.5
             } else{
-                println("switch > audio: false")
+                print("switch > audio: false")
 //                self.blackLayer.opacity = 0.1
             }
         }
         
         // accel
         if (output?.getAccel() == true){
-            println("accel > audio: true")
+            print("accel > audio: true")
             //            if (output?.getImage() != nil){
             if (self.photoImageView.image != nil){
 //                var blurredImage = self.applyBlurEffect(photoImageView.image!)

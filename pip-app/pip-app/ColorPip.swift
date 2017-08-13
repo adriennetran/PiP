@@ -15,7 +15,7 @@ class ColorOutput: BasePipOutput{
     var accelStatus: Bool!
 	
     override init(){
-        color = UIColor.blackColor()
+        color = UIColor.black
         accelStatus = false
     }
 	
@@ -23,7 +23,7 @@ class ColorOutput: BasePipOutput{
 		return color.description
 	}
     
-    func setAccel(status: Bool){
+    func setAccel(_ status: Bool){
         accelStatus = status
     }
     
@@ -35,7 +35,7 @@ class ColorOutput: BasePipOutput{
         return color
     }
     
-    func setColor(newColor: UIColor){
+    func setColor(_ newColor: UIColor){
         color = newColor
     }
 }
@@ -45,12 +45,12 @@ class ColorPip: BasePip{
 	var output: ColorOutput!
 	
 	var colorDirectory: [String: UIColor] =
-	["red":UIColor.redColor(),
-	"blue":UIColor.blueColor(),
-	"green": UIColor.greenColor(),
-	"purple": UIColor.purpleColor(),
-	"orange": UIColor.orangeColor(),
-	"yellow": UIColor.yellowColor(),
+	["red":UIColor.red,
+	"blue":UIColor.blue,
+	"green": UIColor.green,
+	"purple": UIColor.purple,
+	"orange": UIColor.orange,
+	"yellow": UIColor.yellow,
 	]
 	
 	init(id: Int){
@@ -60,7 +60,7 @@ class ColorPip: BasePip{
 		
     }
     
-    func updateColor(newVal: UIColor){
+    func updateColor(_ newVal: UIColor){
         output.setColor(newVal)
 		updateReliantPips()
     }
@@ -94,7 +94,7 @@ class ColorPip: BasePip{
                     
                     // add colorBlock view
                     accelViewCast.addSubview(accelViewCast.colorBlock)
-                    println("arrayX")
+                    print("arrayX")
                     var x = accelViewCast.arrayX[accelViewCast.arrayX.count-1]
                     var y = accelViewCast.arrayY[accelViewCast.arrayY.count-1]
                     var z = accelViewCast.arrayZ[accelViewCast.arrayZ.count-1]
@@ -117,10 +117,10 @@ class ColorPip: BasePip{
 				
 				if castItem != nil{
 					
-					if let unwrappedValue = colorDirectory[castItem.getOutput().getText().lowercaseString]{
+					if let unwrappedValue = colorDirectory[castItem.getOutput().getText().lowercased()]{
 						output.color = unwrappedValue
 					}else{
-						output.color = UIColor.blackColor()
+						output.color = UIColor.black
 					}
 				}
                 return output
@@ -143,9 +143,9 @@ class ColorPip: BasePip{
 				
 				if castItem != nil{
 					if castItem.getOutput().getState() {
-						output.color = UIColor.whiteColor()
+						output.color = UIColor.white
 					}else{
-						output.color = UIColor.blackColor()
+						output.color = UIColor.black
 					}
 				}
             }

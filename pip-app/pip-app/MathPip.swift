@@ -22,17 +22,17 @@ class MathOutput: BasePipOutput {
 
 enum MathPipOperations: Int{
 	//Operations are applied to all inputs in order
-	case Add
-	case Subtract
-	case Multiply
-	case Divide
+	case add
+	case subtract
+	case multiply
+	case divide
 }
 
 class MathPip: BasePip {
 	
 	var output: MathOutput!
 	
-	var operation: MathPipOperations = .Add
+	var operation: MathPipOperations = .add
 	
 	init(id: Int){
 		super.init(pipType: PipType.Math, id: id)
@@ -40,7 +40,7 @@ class MathPip: BasePip {
 		output = MathOutput()
 	}
 	
-	func updateNumber(newVal: Float){
+	func updateNumber(_ newVal: Float){
 		output.number = newVal
 		updateReliantPips()
 	}

@@ -31,15 +31,15 @@ class CanvasMenuView: UIScrollView, SlideInView {
 	   ------------------ */
 	
 	// Does all the initialization for PipMenu
-	class func makePipMenu(pos: CGPoint) -> CanvasMenuView{
-		var menu = CanvasMenuView(offsetLocation: CGPoint(x: -UIScreen.mainScreen().bounds.width, y: 0),
-			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, 500))
+	class func makePipMenu(_ pos: CGPoint) -> CanvasMenuView{
+		var menu = CanvasMenuView(offsetLocation: CGPoint(x: -UIScreen.main.bounds.width, y: 0),
+			frame: CGRect(x: pos.x, y: pos.y, width: UIScreen.main.bounds.width, height: 500))
 		
-		menu.backgroundColor = UIColor.whiteColor()
+		menu.backgroundColor = UIColor.white
 		menu.contentSize = CGSize(width: menu.frame.width, height: menu.frame.height)
-		menu.userInteractionEnabled = true
-		menu.layer.shadowColor = UIColor.blackColor().CGColor
-		menu.layer.shadowOffset = CGSizeMake(0, 5)
+		menu.isUserInteractionEnabled = true
+		menu.layer.shadowColor = UIColor.black.cgColor
+		menu.layer.shadowOffset = CGSize(width: 0, height: 5)
 		menu.layer.shadowRadius = 5
 		menu.layer.shadowOpacity = 0.70
 		
@@ -62,47 +62,47 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		let mathImg = _mainPipDirectory.getImageForPipType(.Math)
 
 		
-		let switchFrame = CGRectMake(45, 60, switchImg.size.width * imgScale, switchImg.size.height * imgScale)
-		let textFrame = CGRectMake(130, 80, textImg.size.width * imgScale, textImg.size.height * imgScale)
-		let colorFrame = CGRectMake(275, 60, colorImg.size.width * imgScale, colorImg.size.height * imgScale)
-		let accelFrame = CGRectMake(35, 170, accelImg.size.width * imgScale, accelImg.size.height * imgScale)
-		let imageFrame = CGRectMake(155, 170, imageImg.size.width * imgScale, imageImg.size.height * imgScale)
-		let audioFrame = CGRectMake(275, 173, audioImg.size.width * imgScale, audioImg.size.height * imgScale)
-		let mathFrame = CGRectMake(20, 285, mathImg.size.width * imgScale, mathImg.size.height * imgScale)
+		let switchFrame = CGRect(x: 45, y: 60, width: switchImg.size.width * imgScale, height: switchImg.size.height * imgScale)
+		let textFrame = CGRect(x: 130, y: 80, width: textImg.size.width * imgScale, height: textImg.size.height * imgScale)
+		let colorFrame = CGRect(x: 275, y: 60, width: colorImg.size.width * imgScale, height: colorImg.size.height * imgScale)
+		let accelFrame = CGRect(x: 35, y: 170, width: accelImg.size.width * imgScale, height: accelImg.size.height * imgScale)
+		let imageFrame = CGRect(x: 155, y: 170, width: imageImg.size.width * imgScale, height: imageImg.size.height * imgScale)
+		let audioFrame = CGRect(x: 275, y: 173, width: audioImg.size.width * imgScale, height: audioImg.size.height * imgScale)
+		let mathFrame = CGRect(x: 20, y: 285, width: mathImg.size.width * imgScale, height: mathImg.size.height * imgScale)
 		
 		let switchBtn = UIButton(frame: switchFrame)
-		switchBtn.setImage(switchImg, forState: .Normal)
-		switchBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		switchBtn.setImage(switchImg, for: UIControlState())
+		switchBtn.addTarget(menu, action: "buttonDelegateMethod:", for: .touchUpInside)
 		switchBtn.tag = PipType.Switch.rawValue
 		
 		let textBtn = UIButton(frame: textFrame)
-		textBtn.setImage(textImg, forState: .Normal)
-		textBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		textBtn.setImage(textImg, for: UIControlState())
+		textBtn.addTarget(menu, action: "buttonDelegateMethod:", for: .touchUpInside)
 		textBtn.tag = PipType.Text.rawValue
 		
 		let colorBtn = UIButton(frame: colorFrame)
-		colorBtn.setImage(colorImg, forState: .Normal)
-		colorBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		colorBtn.setImage(colorImg, for: UIControlState())
+		colorBtn.addTarget(menu, action: "buttonDelegateMethod:", for: .touchUpInside)
 		colorBtn.tag = PipType.Color.rawValue
 		
 		let accelBtn = UIButton(frame: accelFrame)
-		accelBtn.setImage(accelImg, forState: .Normal)
-		accelBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		accelBtn.setImage(accelImg, for: UIControlState())
+		accelBtn.addTarget(menu, action: "buttonDelegateMethod:", for: .touchUpInside)
 		accelBtn.tag = PipType.Accel.rawValue
 		
 		let imageBtn = UIButton(frame: imageFrame)
-		imageBtn.setImage(imageImg, forState: .Normal)
-		imageBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		imageBtn.setImage(imageImg, for: UIControlState())
+		imageBtn.addTarget(menu, action: "buttonDelegateMethod:", for: .touchUpInside)
 		imageBtn.tag = PipType.Image.rawValue
 
 		let audioBtn = UIButton(frame: audioFrame)
-		audioBtn.setImage(audioImg, forState: .Normal)
-		audioBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		audioBtn.setImage(audioImg, for: UIControlState())
+		audioBtn.addTarget(menu, action: "buttonDelegateMethod:", for: .touchUpInside)
 		audioBtn.tag = PipType.Audio.rawValue
 		
 		let mathBtn = UIButton(frame: mathFrame)
-		mathBtn.setImage(mathImg, forState: .Normal)
-		mathBtn.addTarget(menu, action: "buttonDelegateMethod:", forControlEvents: .TouchUpInside)
+		mathBtn.setImage(mathImg, for: UIControlState())
+		mathBtn.addTarget(menu, action: "buttonDelegateMethod:", for: .touchUpInside)
 		mathBtn.tag = PipType.Math.rawValue
 		
 
@@ -115,28 +115,28 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		menu.addSubview(mathBtn)
 		
 		
-		menu.contentSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: CGFloat(300));
+		menu.contentSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(300));
 
-		menu.hidden = true
+		menu.isHidden = true
 		
 		return menu
 	}
 	
-	class func makeDataMenu(pos: CGPoint) -> CanvasMenuView{
-		var menu = CanvasMenuView(offsetLocation: CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0),
-			frame: CGRectMake(pos.x, pos.y, UIScreen.mainScreen().bounds.width, (UIScreen.mainScreen().bounds.height * 0.8)))
+	class func makeDataMenu(_ pos: CGPoint) -> CanvasMenuView{
+		let menu = CanvasMenuView(offsetLocation: CGPoint(x: UIScreen.main.bounds.width, y: 0),
+			frame: CGRect(x: pos.x, y: pos.y, width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height * 0.8)))
 		
-		menu.backgroundColor = UIColor.whiteColor()
+		menu.backgroundColor = UIColor.white
 		menu.contentSize = CGSize(width: menu.frame.width, height: menu.frame.height)
-		menu.userInteractionEnabled = true
-		menu.layer.shadowColor = UIColor.blackColor().CGColor
-		menu.layer.shadowOffset = CGSizeMake(0, 5)
+		menu.isUserInteractionEnabled = true
+		menu.layer.shadowColor = UIColor.black.cgColor
+		menu.layer.shadowOffset = CGSize(width: 0, height: 5)
 		menu.layer.shadowRadius = 5
 		menu.layer.shadowOpacity = 0.70
 		
 		menu.layer.masksToBounds = false
 		
-		menu.hidden = true
+		menu.isHidden = true
 		
 		return menu
 	}
@@ -172,18 +172,18 @@ class CanvasMenuView: UIScrollView, SlideInView {
 	// I/O: creates a UIButton at (0,0) with an aspect ratio to fit img at the images size
 	//		times scale, and returns this button
 	
-	class func createButtonFromImage(img : UIImage, scale: Float) -> UIButton {
+	class func createButtonFromImage(_ img : UIImage, scale: Float) -> UIButton {
 		let width = img.size.width * CGFloat(scale)
 		let height = img.size.height * CGFloat(scale)
-		var btn = UIButton(frame: CGRectMake(0, 0, width, height))
-		btn.setImage(img, forState: UIControlState.Normal)
+		let btn = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: height))
+		btn.setImage(img, for: UIControlState())
 		return btn
 	}
 	
 	// buttonDelegateMethod: nil -> nil
 	// I/O: tells _mainPipDirectory to create appropriate Pip and closes the menu
 	
-	func buttonDelegateMethod(sender: UIButton) {
+	func buttonDelegateMethod(_ sender: UIButton) {
 		_mainPipDirectory.createPipFromButtonTag(sender)
 		toggleActive()
 	}
@@ -205,7 +205,7 @@ class CanvasMenuView: UIScrollView, SlideInView {
 	// toggleActive: UIButton -> nil
 	// I/O: toggles the value of viewIsActive, and slides the view In/Out as appropriate
 	
-	func toggleActive(sender: UIButton) {
+	func toggleActive(_ sender: UIButton) {
 		viewIsActive = !viewIsActive
 		
 		if viewIsActive {
@@ -224,11 +224,11 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		if var sView = (superview as? UIScrollView) {
 			offset = sView.contentOffset
 		} else {
-			offset = CGPoint.zeroPoint
+			offset = CGPoint.zero
 		}
 		
 		frame.origin = CGPoint(x: offset.x + baseLocation.x, y: offset.y + baseLocation.y)
-		self.hidden = false
+		self.isHidden = false
 	}
 	
 	// slideOut: nil -> nil
@@ -241,25 +241,25 @@ class CanvasMenuView: UIScrollView, SlideInView {
 		if var sView = (superview as? UIScrollView) {
 			offset = sView.contentOffset
 		} else {
-			offset = CGPoint.zeroPoint
+			offset = CGPoint.zero
 		}
 		
 		frame.origin = CGPoint(x: offset.x + offsetLocation.x, y: offset.y + offsetLocation.y)
-		self.hidden = true
+		self.isHidden = true
 	}
 	
 	// Input Functions
 	// all are implemented to prevent the view from passing touches to the scroll view
 	
-	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		
 	}
 	
-	override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		
 	}
 	
-	override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		
 	}
 	

@@ -27,7 +27,7 @@ class SwitchPipView: BasePipView{
 	init(point: CGPoint, id: Int) {
 		super.init(point: point, image: stateImages[0], id: id)
 
-		addGestureRecognizer(UITapGestureRecognizer(target: self, action: "buttonPressed:"))
+		addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(SwitchPipView.buttonPressed(_:))))
 	}
 	
 	// ---------------
@@ -43,8 +43,8 @@ class SwitchPipView: BasePipView{
 	// buttonPressed: nil -> nil
 	// I/O: tells the model to change state. Updates image to reflect that state.
 	
-	func buttonPressed(sender: UITapGestureRecognizer) {
-        println("button pressed! switch pip")
+	func buttonPressed(_ sender: UITapGestureRecognizer) {
+        print("button pressed! switch pip")
 		if let v = (getModel() as? SwitchPip)?.switchStateChange(){
 			if v.getState() {
 				self.image? = stateImages[0]

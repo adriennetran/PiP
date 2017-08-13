@@ -17,8 +17,8 @@ class LandingViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		startButton.addTarget(self, action: "startButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
-		tutorialButton.addTarget(self, action: "tutorialButtonPressed:", forControlEvents: .TouchUpInside)
+		startButton.addTarget(self, action: #selector(LandingViewController.startButtonPressed(_:)), for: UIControlEvents.touchUpInside)
+		tutorialButton.addTarget(self, action: #selector(LandingViewController.tutorialButtonPressed(_:)), for: .touchUpInside)
 	}
 	
 	// BUILTIN - not sure what to use for
@@ -27,15 +27,15 @@ class LandingViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	
-	func startButtonPressed(sender: UIButton) {
+	func startButtonPressed(_ sender: UIButton) {
 		let storyboard = UIStoryboard(name: "Main", bundle: nil)
-		let vc = storyboard.instantiateViewControllerWithIdentifier("workspace") as! WorkspaceViewController
-		self.presentViewController(vc, animated: true, completion: nil)
+		let vc = storyboard.instantiateViewController(withIdentifier: "workspace") as! WorkspaceViewController
+		self.present(vc, animated: true, completion: nil)
 	}
 	
-	func tutorialButtonPressed(sender: UIButton) {
+	func tutorialButtonPressed(_ sender: UIButton) {
 		let storyboard = UIStoryboard(name: "Main", bundle: nil)
-		let vc = storyboard.instantiateViewControllerWithIdentifier("tutorialView") as! UIViewController
-		self.presentViewController(vc, animated: true, completion: nil)
+		let vc = storyboard.instantiateViewController(withIdentifier: "tutorialView") 
+		self.present(vc, animated: true, completion: nil)
 	}
 }

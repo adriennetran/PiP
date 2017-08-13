@@ -38,7 +38,7 @@ class ArmView: UIView {
 	// I/O: creates a frame to contain both CGPoints, start and end
 	
 	init(start: CGPoint, end: CGPoint, pipFromID: Int) {
-		let nFrame = CGRectMake(min(start.x, end.x), min(start.y, end.y), abs((start.x - end.x)), abs(start.y - end.y))
+		let nFrame = CGRect(x: min(start.x, end.x), y: min(start.y, end.y), width: abs((start.x - end.x)), height: abs(start.y - end.y))
 		super.init(frame: nFrame)
 		
 		self.startPipID = pipFromID
@@ -48,7 +48,7 @@ class ArmView: UIView {
 		self.start = start
 		self.end = end
 		
-		userInteractionEnabled = false
+		isUserInteractionEnabled = false
 		
 		self.layer.masksToBounds = false
 	}
@@ -57,7 +57,7 @@ class ArmView: UIView {
 	// I/O: used when arms are created. Takes in a start, and the inputPip's ID
 	
 	init(start: CGPoint, startPipID: Int) {
-		super.init(frame: CGRectMake(start.x, start.y, 0, 0))
+		super.init(frame: CGRect(x: start.x, y: start.y, width: 0, height: 0))
 		
 		self.startPipID = startPipID
 		self.start = start
@@ -70,7 +70,7 @@ class ArmView: UIView {
 	
 	func makeConnection() {
 		if !(hasStart && hasEnd) {
-			println("tried to make connection without start or end")
+			print("tried to make connection without start or end")
 			return
 		}
 		
@@ -88,11 +88,11 @@ class ArmView: UIView {
 		s.view.updateView()
 		e.view.updateView()
 		
-		superview?.sendSubviewToBack(self)
+		superview?.sendSubview(toBack: self)
 		
 	}
 	
-	func setHand(hand: HandView) {
+	func setHand(_ hand: HandView) {
 		self.handView = hand
 	}
 	
@@ -105,7 +105,7 @@ class ArmView: UIView {
 		let tRight = CGPoint(x: max(start.x+100, end.x+100), y: tLeft.y)
 		let bLeft = CGPoint(x: tLeft.x, y: max(start.y, end.y) + 25)
 		
-		let nFrame = CGRectMake(tLeft.x, tLeft.y, abs(tLeft.x - tRight.x), abs(tLeft.y - bLeft.y))
+		let nFrame = CGRect(x: tLeft.x, y: tLeft.y, width: abs(tLeft.x - tRight.x), height: abs(tLeft.y - bLeft.y))
 		self.frame = nFrame
 		setNeedsDisplay()
 	}
@@ -113,7 +113,7 @@ class ArmView: UIView {
 	// updateStart: CGPoint -> nil
 	// I/O: sets start to newStart and updates the frame to reflect changes
 	
-	func updateStart(newStart: CGPoint) {
+	func updateStart(_ newStart: CGPoint) {
 		start = newStart
 		updateFrame()
 	}
@@ -121,54 +121,57 @@ class ArmView: UIView {
 	// updateEnd: CGPoint -> nil
 	// I/O: sets end to newEnd and updates the frame to reflect changes
 	
-	func updateEnd(newEnd: CGPoint) {
+	func updateEnd(_ newEnd: CGPoint) {
 		end = newEnd
 		updateFrame()
 	}
 	
 	// override drawRect: CGRect -> nil
 	// I/O: defines drawing behavior for arms
-	override func drawRect(rect: CGRect) {
+	override func draw(_ rect: CGRect) {
 		
 		// Drawing overhead
 		let context = UIGraphicsGetCurrentContext()
 		let colorSpace = CGColorSpaceCreateDeviceRGB()
 		// Set line width
-		CGContextSetLineWidth(context, 5.0)
+		context?.setLineWidth(5.0)
 		// Set Color
 		let components: [CGFloat] = [0.0, 0.0, 1.0, 1.0]
 		
-		let startColor: CGColor = _mainPipDirectory.getColorForPipType(_mainPipDirectory.getPipByID(startPipID).model.getPipType()).CGColor
+		let startColor: CGColor = _mainPipDirectory.getColorForPipType(_mainPipDirectory.getPipByID(startPipID).model.getPipType()).cgColor
 		
 		var endColor: CGColor!
 		if hasEnd {
-			endColor = _mainPipDirectory.getColorForPipType(_mainPipDirectory.getPipByID(endPipID).model.getPipType()).CGColor
+			endColor = _mainPipDirectory.getColorForPipType(_mainPipDirectory.getPipByID(endPipID).model.getPipType()).cgColor
 		}else{
 			endColor = startColor
 		}
 		
 		// Convert start and end points to superview coordinate space
-		let startConv: CGPoint = self.convertPoint(start, fromView: superview)
-		let endConv: CGPoint = self.convertPoint(end, fromView: superview)
+		let startConv: CGPoint = self.convert(start, from: superview)
+		let endConv: CGPoint = self.convert(end, from: superview)
 		let halfPoint: CGPoint = CGPoint(x: (startConv.x + endConv.x) / 2, y: (startConv.y + endConv.y) / 2)
 		
 		let startInfl = CGPoint(x: startConv.x + 200, y: startConv.y)
 		let endInfl = CGPoint(x: endConv.x - 200, y: endConv.y)
 		
-		let hand = CGRectMake((startConv.x + endConv.x)/2, (startConv.y + endConv.y)/2, 25, 25)
+		let hand = CGRect(x: (startConv.x + endConv.x)/2, y: (startConv.y + endConv.y)/2, width: 25, height: 25)
 		
 		// Set Line to Draw
-		CGContextMoveToPoint(context, startConv.x, startConv.y)
-		CGContextAddCurveToPoint(context, startInfl.x, startInfl.y, halfPoint.x, halfPoint.y, halfPoint.x, halfPoint.y)
+		context?.move(to: CGPoint(x: startConv.x, y: startConv.y))
+//		CGContextAddCurveToPoint(context, startInfl.x, startInfl.y, halfPoint.x, halfPoint.y, halfPoint.x, halfPoint.y)
+        context?.addCurve(to: CGPoint(x: startInfl.x, y:startInfl.y), control1: CGPoint(x: halfPoint.x, y: halfPoint.y), control2: CGPoint(x: halfPoint.x, y: halfPoint.y))
 		
-		CGContextSetStrokeColorWithColor(context, startColor)
-		CGContextStrokePath(context)
+		context?.setStrokeColor(startColor)
+		context?.strokePath()
 		
-		CGContextMoveToPoint(context, halfPoint.x, halfPoint.y)
-		CGContextAddCurveToPoint(context, halfPoint.x, halfPoint.y, endInfl.x, endInfl.y, endConv.x, endConv.y)
-		// Draw Arm
-		CGContextSetStrokeColorWithColor(context, endColor)
-		CGContextStrokePath(context)
+		context?.move(to: CGPoint(x: halfPoint.x, y: halfPoint.y))
+//		CGContextAddCurveToPoint(context, halfPoint.x, halfPoint.y, endInfl.x, endInfl.y, endConv.x, endConv.y)
+//        context?.addCurve(halfPoint.x, halfPoint.y, endInfl.x, endInfl.y, endConv.x, endConv.y)
+		context?.addCurve(to: CGPoint(x: halfPoint.x, y: halfPoint.y), control1: CGPoint(x: endInfl.x, y: endInfl.y), control2: CGPoint(x: endConv.x, y: endConv.y))
+        // Draw Arm
+		context?.setStrokeColor(endColor)
+		context?.strokePath()
 		//CGContextFillEllipseInRect(context, hand)
 		
 	}

@@ -18,7 +18,7 @@ class TextOutput: BasePipOutput{
 	
 	override init(){
 		text = ""
-		color = UIColor.blackColor()
+		color = UIColor.black
 	}
 	
 	override var description: String {
@@ -50,21 +50,21 @@ class TextOutput: BasePipOutput{
 	// setText: String ->
 	// I/O: sets text to newText
 	
-    func setText(newText: String){
+    func setText(_ newText: String){
         text = newText
     }
 	
 	// prependText: String ->
 	// I/O: appends to the text field
 	
-	func appendText(pText: String){
+	func appendText(_ pText: String){
 		text = text + pText
 	}
 	
 	// setColor: UIColor ->
 	// I/O: sets color to newColor
 	
-    func setColor(newColor: UIColor){
+    func setColor(_ newColor: UIColor){
         color = newColor
     }
 }
@@ -72,7 +72,7 @@ class TextOutput: BasePipOutput{
 class TextPip: BasePip {
     
     // of type text
-    private var output: TextOutput!
+    fileprivate var output: TextOutput!
 	
 	var baseOutput: String = ""
     
@@ -82,7 +82,7 @@ class TextPip: BasePip {
     }
 
     
-    func updateText(newVal: String){
+    func updateText(_ newVal: String){
 		baseOutput = newVal
 		updateReliantPips()
     }
@@ -101,7 +101,7 @@ class TextPip: BasePip {
             switch inPip.getPipType(){
                 
             case .Accel:
-                println("accel > text")
+                print("accel > text")
                 let castItem: AccelPip! = inPip as? AccelPip
                 
                 var accelView = _mainPipDirectory.getPipByID(castItem.pipID).view
@@ -118,11 +118,11 @@ class TextPip: BasePip {
                     
 //                    output.setText("ACCEL IS INSIDE")
 					
-                    println("accelViewCast.arrayX")
-                    println(accelViewCast.arrayX[0])
+                    print("accelViewCast.arrayX")
+                    print(accelViewCast.arrayX[0])
 					//println(accelViewCast.arrayX[accelViewCast.arrayX.count])
-                    println("count")
-                    println(accelViewCast.arrayX.count)
+                    print("count")
+                    print(accelViewCast.arrayX.count)
                     output.appendText("accel is inside \(accelViewCast.sx)")
                     accelViewCast.photoImageView.layer.addSublayer(accelViewCast.textLayer)
 
@@ -150,7 +150,7 @@ class TextPip: BasePip {
 				
 				if castItem != nil {
 					let setColor = castItem.getOutput().color
-					output.setColor(setColor)
+					output.setColor(setColor!)
 				}
 			default: // Switch Pip
 				let castItem: SwitchPip! = inPip as? SwitchPip

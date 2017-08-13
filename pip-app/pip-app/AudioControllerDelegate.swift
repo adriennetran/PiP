@@ -13,9 +13,9 @@ import AVFoundation
 var _audioController: AudioControllerDelegate = AudioControllerDelegate()
 
 enum AudioClips: Int {
-	case Delete
-	case Handshake
-	case Move
+	case delete
+	case handshake
+	case move
 }
 
 class AudioControllerDelegate {
@@ -26,20 +26,20 @@ class AudioControllerDelegate {
 	
 	init() {
 		
-		clipPaths[.Delete] = ["PipSamples/01_deletionSounds/0", "PipSamples/01_deletionSounds/1", "PipSamples/01_deletionSounds/2"]
-		clipPaths[.Handshake] = ["PipSamples/02_handshakeSounds/0", "PipSamples/02_handshakeSounds/1", "PipSamples/02_handshakeSounds/2"]
-		clipPaths[.Move] = ["PipSamples/03_moveSounds/0", "PipSamples/03_moveSounds/1", "PipSamples/03_moveSounds/2"]
+		clipPaths[.delete] = ["PipSamples/01_deletionSounds/0", "PipSamples/01_deletionSounds/1", "PipSamples/01_deletionSounds/2"]
+		clipPaths[.handshake] = ["PipSamples/02_handshakeSounds/0", "PipSamples/02_handshakeSounds/1", "PipSamples/02_handshakeSounds/2"]
+		clipPaths[.move] = ["PipSamples/03_moveSounds/0", "PipSamples/03_moveSounds/1", "PipSamples/03_moveSounds/2"]
 		
-		clips[.Delete] = setupAudioPlayerWithFile(clipPaths[.Delete]![0], type: "wav")
-		clips[.Delete]?.prepareToPlay()
-		clips[.Handshake] = setupAudioPlayerWithFile(clipPaths[.Handshake]![0], type: "wav")
-		clips[.Handshake]?.prepareToPlay()
-		clips[.Move] = setupAudioPlayerWithFile(clipPaths[.Move]![0], type: "wav")
-		clips[.Move]?.prepareToPlay()
+		clips[.delete] = setupAudioPlayerWithFile(clipPaths[.delete]![0], type: "wav")
+		clips[.delete]?.prepareToPlay()
+		clips[.handshake] = setupAudioPlayerWithFile(clipPaths[.handshake]![0], type: "wav")
+		clips[.handshake]?.prepareToPlay()
+		clips[.move] = setupAudioPlayerWithFile(clipPaths[.move]![0], type: "wav")
+		clips[.move]?.prepareToPlay()
 		
 	}
 	
-	func playSound(clip: AudioClips){
+	func playSound(_ clip: AudioClips){
 		
 		if let clip: AVAudioPlayer = clips[clip] {
 			clip.play()
@@ -76,14 +76,17 @@ class AudioControllerDelegate {
 //		}
 	}
 	
-	func setupAudioPlayerWithFile(file: String, type: String) -> AVAudioPlayer {
-		var path = NSBundle.mainBundle().pathForResource(file, ofType: type)
-		var url = NSURL.fileURLWithPath(path!)
-		
-		var error: NSError?
-		
+	func setupAudioPlayerWithFile(_ file: String, type: String) -> AVAudioPlayer {
+		let path = Bundle.main.path(forResource: file, ofType: type)
+		let url = URL(fileURLWithPath: path!)
+			
 		var audioPlayer:AVAudioPlayer?
-		audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            
+        } catch let error as NSError {
+            print(error.description)
+        }
 		
 		return audioPlayer!
 	}

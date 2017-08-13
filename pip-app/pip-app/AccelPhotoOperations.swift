@@ -11,9 +11,9 @@ import UIKit
 
 class PendingOperations{
     
-    lazy var filtrationInProgress = [NSIndexPath:NSOperationQueue]()
-    lazy var filtrationQueue:NSOperationQueue = {
-        var queue = NSOperationQueue()
+    lazy var filtrationInProgress = [IndexPath:OperationQueue]()
+    lazy var filtrationQueue:OperationQueue = {
+        var queue = OperationQueue()
         queue.name = "Image Filtration Queue"
         queue.maxConcurrentOperationCount = 1
         return queue

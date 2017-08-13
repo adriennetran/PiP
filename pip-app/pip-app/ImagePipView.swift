@@ -26,11 +26,11 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     
     // for image pip
     // TO DO: FIGURE OUT A WAY TO SAVE UNBLURRED+ BLURRED IMAGE
-    var photoImageView = UIImageView(frame: CGRectMake(12, 32, 75, 68))
+    var photoImageView = UIImageView(frame: CGRect(x: 12, y: 32, width: 75, height: 68))
     
-    var textView = UIView(frame: CGRectMake(40, 120, 200, 200))
+    var textView = UIView(frame: CGRect(x: 40, y: 120, width: 200, height: 200))
     
-    var blurImageView = UIImageView(frame: CGRectMake(24, 64, 75, 68))
+    var blurImageView = UIImageView(frame: CGRect(x: 24, y: 64, width: 75, height: 68))
 
 //    UIImageView(frame: CGRectMake(40, 120, 200, 200))
     
@@ -44,7 +44,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     init(point: CGPoint, id: Int){
         super.init(point: point, image: _mainPipDirectory.getImageForPipType(.Image), id: id)
 		
-		photoImageView.frame = CGRectMake((self.frame.width / 2) - 35, 32, 70, 68)
+		photoImageView.frame = CGRect(x: (self.frame.width / 2) - 35, y: 32, width: 70, height: 68)
 		photoImageView.layer.cornerRadius = 15
 		photoImageView.layer.masksToBounds = true
 		
@@ -53,16 +53,16 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
 //        self.photoImageView.alpha = 1.0
 		
-		photoImageView.backgroundColor = UIColor.whiteColor()
+		photoImageView.backgroundColor = UIColor.white
 		addSubview(photoImageView)
 		addSubview(textView)
-		photoImageView.contentMode = UIViewContentMode.ScaleAspectFill
+		photoImageView.contentMode = UIViewContentMode.scaleAspectFill
 		
-		textLayer.frame = CGRectMake(0, 0, photoImageView.bounds.width, photoImageView.bounds.height)
-		textLayer.font = CTFontCreateWithName("Helvetica", 12, nil)
-		textLayer.wrapped = true
+		textLayer.frame = CGRect(x: 0, y: 0, width: photoImageView.bounds.width, height: photoImageView.bounds.height)
+		textLayer.font = CTFontCreateWithName("Helvetica" as CFString?, 12, nil)
+		textLayer.isWrapped = true
 		textLayer.alignmentMode = kCAAlignmentCenter
-		textLayer.contentsScale = UIScreen.mainScreen().scale
+		textLayer.contentsScale = UIScreen.main.scale
 		textView.layer.addSublayer(textLayer)
 		
 		addGestureRecognizer(UITapGestureRecognizer(target: _mainPipDirectory.viewController, action: "capture:"))
@@ -78,35 +78,35 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
     // applies a blur
     // sets that blurred image to attribute blurImageView
     // returns a UIImage
-    func applyBlurEffect(image: UIImage) -> UIImage{
-        println("applyBlurEffect0")
+    func applyBlurEffect(_ image: UIImage) -> UIImage{
+        print("applyBlurEffect0")
         
 //        var imageToBlur = CIImage(image: image)
         var blurfilter = CIFilter(name: "CIGaussianBlur")
-        println("applyBlurEffect1")
+        print("applyBlurEffect1")
 //        blurfilter.setValue(imageToBlur, forKey: "inputImage")
-        blurfilter.setValue(CIImage(image: image), forKey: kCIInputImageKey)
-        println("applyBlurEffect2")
-        blurfilter.setValue(50.0, forKey: kCIInputRadiusKey)
-        println("applyBlurEffect2a")
-        let resultImage = blurfilter.valueForKey("outputImage") as? CIImage
+        blurfilter?.setValue(CIImage(image: image), forKey: kCIInputImageKey)
+        print("applyBlurEffect2")
+        blurfilter?.setValue(50.0, forKey: kCIInputRadiusKey)
+        print("applyBlurEffect2a")
+        let resultImage = blurfilter?.value(forKey: "outputImage") as? CIImage
         
 //        let displayImage = UIImage(CGImage: CIContext(options:nil).createCGImage(blurfilter.outputImage, fromRect:blurfilter.outputImage.extent()))!
         
         let context = CIContext(options: nil)
         if context != nil {
-            var cgiImage = context.createCGImage(resultImage, fromRect: resultImage!.extent())
-            var final = UIImage(CGImage: cgiImage)
-            return final!
+            var cgiImage = context.createCGImage(resultImage!, from: resultImage!.extent)
+            var final = UIImage(cgImage: cgiImage!)
+            return final
         }
         
        
         
-        println("applyBlurEffect3")
+        print("applyBlurEffect3")
 //        let blurredImage = UIImage(CIImage: resultImage!)
-        println("applyBlurEffect4")
+        print("applyBlurEffect4")
 //        self.blurImageView.image = displayImage
-        println("applyBlurEffect5")
+        print("applyBlurEffect5")
 //        return blurredImage!
         return self.photoImageView.image!
         
@@ -125,13 +125,13 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 //    }
     
     override func updateView(){
-        println ("updating imageView (ImagePipView)")
+        print("updating imageView (ImagePipView)")
         let output = (getModel() as? ImagePip)?.getOutput()
         
         // color
         if (output?.getColor() != nil){
-            println(output?.getColor())
-            self.colorLayer.backgroundColor = (output?.getColor())!.CGColor
+            print(output?.getColor())
+            self.colorLayer.backgroundColor = (output?.getColor())!.cgColor
             self.colorLayer.opacity = 0.2
         }
         
@@ -145,17 +145,17 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         if (output?.getSwitch() != nil){
             if (output?.getSwitch() == true){
                 // update black
-                println("switch > image: true")
+                print("switch > image: true")
                 self.blackLayer.opacity = 0.5
             } else{
-                println("switch > image: false")
+                print("switch > image: false")
                 self.blackLayer.opacity = 0.1
             }
         }
         
         
         if (output?.getAccel() == true){
-            println("accel > image: true")
+            print("accel > image: true")
         if let img2 = output?.getImage(){
             if let image = self.photoImageView.image{
 //                println("let image = self.photoImageView.image")
@@ -164,18 +164,18 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 //                self.photoImageView.image = blurredImage
 //                println("blurredImage2")
                 
-                var darkBlur = UIBlurEffect(style: UIBlurEffectStyle.Light)
+                var darkBlur = UIBlurEffect(style: UIBlurEffectStyle.light)
                 // 2
-                println("1")
+                print("1")
                 self.blurView = UIVisualEffectView(effect: darkBlur)
-                println("2")
+                print("2")
                 self.blurView!.frame = self.photoImageView.bounds
-                println("3")
+                print("3")
                 
                 // 3
                 self.photoImageView.addSubview(self.blurView!)
                 
-                println("4")
+                print("4")
             }
         }
         }

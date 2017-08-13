@@ -20,7 +20,7 @@ class AudioOutput: BasePipOutput{
     override init(){
         // image initializes as null until user adds something
         text = ""
-        color = UIColor.blackColor()
+        color = UIColor.black
         switchStatus = false
         accelStatus = false
         image = nil
@@ -31,7 +31,7 @@ class AudioOutput: BasePipOutput{
         return "ImageOutput: \n with Text: \(text)"
     }
     
-    func setAccel(status: Bool){
+    func setAccel(_ status: Bool){
         accelStatus = status
     }
     
@@ -39,7 +39,7 @@ class AudioOutput: BasePipOutput{
         return accelStatus!
     }
     
-    func setSwitch(status: Bool){
+    func setSwitch(_ status: Bool){
         switchStatus = status
     }
     
@@ -51,7 +51,7 @@ class AudioOutput: BasePipOutput{
         return image
     }
     
-    func setImage(newImage: UIImage){
+    func setImage(_ newImage: UIImage){
         image = newImage
     }
     
@@ -59,7 +59,7 @@ class AudioOutput: BasePipOutput{
         return text
     }
     
-    func setText(newText: String) -> String{
+    func setText(_ newText: String) -> String{
         text = newText
         return text
     }
@@ -74,7 +74,7 @@ class AudioOutput: BasePipOutput{
     // setColor: UIColor ->
     // I/O: sets color to newColor
     
-    func setColor(newColor: UIColor){
+    func setColor(_ newColor: UIColor){
         color = newColor
     }
     
@@ -96,10 +96,10 @@ class AudioPip: BasePip{
 //        curView!.photoImageView.removeFromSuperview()
 //        curView!.textView.removeFromSuperview()
         
-        println("deleting audio pip!")
+        print("deleting audio pip!")
     }
     
-    func updateImage(newVal: UIImage){
+    func updateImage(_ newVal: UIImage){
         output.setImage(newVal)
         updateReliantPips()
     }
@@ -129,25 +129,25 @@ class AudioPip: BasePip{
                 
                 if castItem != nil {
                     let setColor = castItem.getOutput().color
-                    output.setColor(setColor)
+                    output.setColor(setColor!)
                 }
                 
             case .Text:
                 let castItem: TextPip! = inPip as? TextPip
                 
                 if castItem != nil{
-                    println("setting text")
+                    print("setting text")
                     let newString = castItem.getOutput().getText()
-                    println("setting text2")
+                    print("setting text2")
                     output.setText(newString)
-                    println("the text should be")
-                    println(newString)
+                    print("the text should be")
+                    print(newString)
                 }
                 
                 // case .Color
                 
             default: // switch pip
-                println("switch pip > image pip")
+                print("switch pip > image pip")
                 let castItem: SwitchPip! = inPip as? SwitchPip
                 if castItem != nil{
                     if castItem.getOutput().getState() {

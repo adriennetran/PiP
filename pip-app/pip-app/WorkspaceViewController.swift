@@ -45,44 +45,44 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 //    
     
     // capture is called in ImagePipView as a gesture recognizer
-    func capture(tap: UITapGestureRecognizer) {
+    func capture(_ tap: UITapGestureRecognizer) {
         
-        println("capture")
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-            println("Button capture")
+        print("capture")
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
+            print("Button capture")
             
             var imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera;
-            imagePicker.mediaTypes = [kUTTypeImage]
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
+            imagePicker.mediaTypes = [kUTTypeImage as String]
             imagePicker.allowsEditing = false
             
-            println("post button capture")
+            print("post button capture")
             
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            self.present(imagePicker, animated: true, completion: nil)
         }
     }
 
     
-    func imagePickerController(picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [NSObject : AnyObject]){
-            println("Inside imagePickerController function in ViewController")
-            println("curPipView")
-            println(curPipView)
+    func imagePickerController(_ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [AnyHashable: Any]){
+            print("Inside imagePickerController function in ViewController")
+            print("curPipView")
+            print(curPipView)
             var curPipView2 = curPipView as? ImagePipView!
             
             // to do: align photo with image pip
             curPipView2!.photoImageView.image = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
 
-            println("black layer")
+            print("black layer")
             
             // black layer
-            curPipView2!.blackLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
+            curPipView2!.blackLayer.frame = CGRect(x: 0, y: 0, width: curPipView2!.photoImageView.bounds.width, height: curPipView2!.photoImageView.bounds.height)
             curPipView2!.blackLayer.bounds = curPipView2!.photoImageView.layer.bounds
-            curPipView2!.blackLayer.backgroundColor = UIColor.blackColor().CGColor
+            curPipView2!.blackLayer.backgroundColor = UIColor.black.cgColor
             curPipView2!.blackLayer.opacity = 0.0
             
-            curPipView2!.colorLayer.frame = CGRectMake(0, 0, curPipView2!.photoImageView.bounds.width, curPipView2!.photoImageView.bounds.height)
+            curPipView2!.colorLayer.frame = CGRect(x: 0, y: 0, width: curPipView2!.photoImageView.bounds.width, height: curPipView2!.photoImageView.bounds.height)
             curPipView2!.colorLayer.bounds = curPipView2!.photoImageView.layer.bounds
 //            curPipView2!.colorLayer.backgroundColor = UIColor.blackColor().CGColor
 //            curPipView2!.colorLayer.opacity = 0.0
@@ -95,37 +95,36 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             // afer taking image, set image.
             
             curModel?.updateImage(curPipView2!.photoImageView.image!)
-            println("called updateImage in ImagePip")
+            print("called updateImage in ImagePip")
             curModel?.output.setImage(curPipView2!.photoImageView.image!)
-            println("called setImage function in ViewController")
+            print("called setImage function in ViewController")
             
-            println("setting image")
+            print("setting image")
             
             
             // ImagePip output has an attribute 'accelStatus' that toggles according to whether there is an AccelPip input
             if (curModel?.output.accelStatus == true){
-                println("GET ACCEL IS TRUE")
+                print("GET ACCEL IS TRUE")
                 var blurredImage = curPipView2!.applyBlurEffect(curPipView2!.photoImageView.image!)
                 curPipView2!.photoImageView.image = blurredImage
             }
             
-            println("changed pip view black")
-            self.dismissViewControllerAnimated(false, completion: nil)
+            print("changed pip view black")
+            self.dismiss(animated: false, completion: nil)
     }
 
     
     func isCameraAvailable() -> Bool{
-        return UIImagePickerController.isSourceTypeAvailable(.Camera)
+        return UIImagePickerController.isSourceTypeAvailable(.camera)
     }
     func doesCameraSupportTakingPhotos() -> Bool{
-        return cameraSupportsMedia((kUTTypeImage as? String)!, sourceType: .Camera)
+        return cameraSupportsMedia((kUTTypeImage as? String)!, sourceType: .camera)
     }
-    func cameraSupportsMedia(mediaType: String,
+    func cameraSupportsMedia(_ mediaType: String,
         sourceType: UIImagePickerControllerSourceType) -> Bool{
 
             let availableMediaTypes =
-            UIImagePickerController.availableMediaTypesForSourceType(sourceType) as!
-                [String]?
+            UIImagePickerController.availableMediaTypes(for: sourceType) 
     
             if let types = availableMediaTypes{
                 for type in types{
@@ -144,24 +143,29 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
     var beenHereBefore = false
     var controller: UIImagePickerController?
     
-    func setupAudioPlayerWithFile(file:NSString, type:NSString) -> AVAudioPlayer  {
+    func setupAudioPlayerWithFile(_ file:NSString, type:NSString) -> AVAudioPlayer  {
         //1
-        var path = NSBundle.mainBundle().pathForResource(file as String, ofType: type as String)
-        var url = NSURL.fileURLWithPath(path!)
+        let path = Bundle.main.path(forResource: file as String, ofType: type as String)
+        let url = URL(fileURLWithPath: path!)
         
         //2
-        var error: NSError?
+//        var error: NSError?
         
         //3
         var audioPlayer:AVAudioPlayer?
-        audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            
+        } catch let error as NSError {
+            print(error.description)
+        }
         
         //4
         return audioPlayer!
     }
     
 	override func viewDidLoad() {
-        println("hello")
+        print("hello")
 		super.viewDidLoad()
 		
         // get camera data
@@ -169,38 +173,32 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
         if isCameraAvailable() == false{
             print ("not ")
         }
-        println("available")
+        print("available")
     
         if doesCameraSupportTakingPhotos(){
-            println("The camera supports taking photos")
+            print("The camera supports taking photos")
         } else{
-            println("The camera does not support taking photos")
+            print("The camera does not support taking photos")
         }
         
         // audio recording permissions
-        var error: NSError?
         let session = AVAudioSession.sharedInstance()
-        if session.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: .DuckOthers,
-            error: &error){
-            if session.setActive(true, error: nil){ println("Successfully activated the audio session")
-            session.requestRecordPermission{[weak self](allowed: Bool) in
-            if allowed{
-//            self!.startRecordingAudio()
-                println("audio recording allowed")
-        } else {
-            println("We don't have permission to record audio");
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try session.setActive(true)
+            session.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async {
+                    if allowed {
+                        print("audio recording allowed")
+                    } else {
+                        print("We don't have permission to record audio")
+                    }
+                }
             }
-            }
-        } else {
-            println("Could not activate the audio session")
-            }
-        } else {
-            if let theError = error{
-            println("An error occurred in setting the audio " +
-            "session category. Error = \(theError)")
-            }
+        } catch let error as NSError {
+            print("An error occurred in setting the audio " +
+                "session category. Error = \(error)")
         }
-        
         
 		_mainPipDirectory.registerViewController(self)
 		
@@ -208,13 +206,13 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 			Scroll View Setup
 		   ------------------- */
 	
-		containerView = UIView(frame: CGRectMake(0, 0, 1440, 2880))
+		containerView = UIView(frame: CGRect(x: 0, y: 0, width: 1440, height: 2880))
 		scrollView.addSubview(containerView)
 		containerView.setNeedsDisplay()
 		
 		scrollView.contentSize = containerView.bounds.size
 		
-		scrollView.backgroundColor = UIColor.whiteColor()
+		scrollView.backgroundColor = UIColor.white
 		
 		/*  -------------------
 			 Menu's Setup
@@ -246,49 +244,49 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		// Pip Menu Button
 		
 		let pipMenuBtnPos = CGPoint(x: 0, y: 0)
-		var pipMenuButton = UIButton(frame: CGRectMake(pipMenuBtnPos.x, pipMenuBtnPos.y, 120, 120))
-		pipMenuButton.setImage(UIImage(named: "pipMenuButton"), forState: UIControlState.Normal)
-		pipMenuButton.addTarget(pipMenu, action: "toggleActive:", forControlEvents: .TouchUpInside)
-		pipMenuButton.addTarget(self, action: "setMenuButtonsInactive:", forControlEvents: .TouchUpInside)
+		var pipMenuButton = UIButton(frame: CGRect(x: pipMenuBtnPos.x, y: pipMenuBtnPos.y, width: 120, height: 120))
+		pipMenuButton.setImage(UIImage(named: "pipMenuButton"), for: UIControlState())
+		pipMenuButton.addTarget(pipMenu, action: "toggleActive:", for: .touchUpInside)
+		pipMenuButton.addTarget(self, action: #selector(WorkspaceViewController.setMenuButtonsInactive(_:)), for: .touchUpInside)
 		let pipTuple: (view: UIView, pos: CGPoint) = (view: pipMenuButton, pos: pipMenuBtnPos)
 		staticScreenElements.append(pipTuple)
 		
 		// User Data Button
 		
-		let userDataBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 120, y: 0)
-		var userDataButton = UIButton(frame: CGRectMake(userDataBtnPos.x, userDataBtnPos.y, 120, 120))
-		userDataButton.setImage(UIImage(named: "dataButton"), forState: .Normal)
-		userDataButton.addTarget(dataMenu, action: "toggleActive:", forControlEvents: .TouchUpInside)
-		userDataButton.addTarget(self, action: "setMenuButtonsInactive:", forControlEvents: .TouchUpInside)
+		let userDataBtnPos = CGPoint(x: UIScreen.main.bounds.width - 120, y: 0)
+		var userDataButton = UIButton(frame: CGRect(x: userDataBtnPos.x, y: userDataBtnPos.y, width: 120, height: 120))
+		userDataButton.setImage(UIImage(named: "dataButton"), for: UIControlState())
+		userDataButton.addTarget(dataMenu, action: "toggleActive:", for: .touchUpInside)
+		userDataButton.addTarget(self, action: #selector(WorkspaceViewController.setMenuButtonsInactive(_:)), for: .touchUpInside)
 		let userTuple: (view: UIView, pos: CGPoint) = (view: userDataButton, pos: userDataBtnPos)
 		staticScreenElements.append(userTuple)
 		
 		// Network Button
 		
-		let networkBtnPos = CGPoint(x: 0, y: UIScreen.mainScreen().bounds.height - 120)
-		var networkButton = UIButton(frame: CGRectMake(networkBtnPos.x, networkBtnPos.y, 120, 120))
-		networkButton.setImage(UIImage(named: "networkButton"), forState: .Normal)
-		networkButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
+		let networkBtnPos = CGPoint(x: 0, y: UIScreen.main.bounds.height - 120)
+		var networkButton = UIButton(frame: CGRect(x: networkBtnPos.x, y: networkBtnPos.y, width: 120, height: 120))
+		networkButton.setImage(UIImage(named: "networkButton"), for: UIControlState())
+		networkButton.addTarget(self, action: #selector(WorkspaceViewController.menuButtonPressed(_:)), for: .touchUpInside)
 		let netTuple: (view: UIView, pos: CGPoint) = (view: networkButton, pos: networkBtnPos)
 		staticScreenElements.append(netTuple)
 		
 		// Settings Button
 		
-		let settingsBtnPos = CGPoint(x: UIScreen.mainScreen().bounds.width - 120,
-			y: UIScreen.mainScreen().bounds.height - 120)
-		var settingsButton = UIButton(frame: CGRectMake(settingsBtnPos.x, settingsBtnPos.y, 120, 120))
-		settingsButton.setImage(UIImage(named: "settingsButton"), forState: .Normal)
-		settingsButton.addTarget(self, action: "menuButtonPressed:", forControlEvents: .TouchUpInside)
+		let settingsBtnPos = CGPoint(x: UIScreen.main.bounds.width - 120,
+			y: UIScreen.main.bounds.height - 120)
+		var settingsButton = UIButton(frame: CGRect(x: settingsBtnPos.x, y: settingsBtnPos.y, width: 120, height: 120))
+		settingsButton.setImage(UIImage(named: "settingsButton"), for: UIControlState())
+		settingsButton.addTarget(self, action: #selector(WorkspaceViewController.menuButtonPressed(_:)), for: .touchUpInside)
 		let settingsTuple: (view: UIView, pos: CGPoint) = (view: settingsButton, settingsBtnPos)
 		staticScreenElements.append(settingsTuple)
 		
 		// Trash Can
 		
-		let trashCanPos = CGPoint(x: UIScreen.mainScreen().bounds.width/2 - 50,
-			y: UIScreen.mainScreen().bounds.height - 110)
-		trashCanButton = UIView(frame: CGRectMake(trashCanPos.x, trashCanPos.y, 100, 100))
-		trashCanButton.backgroundColor = UIColor.blackColor()
-		trashCanButton.hidden = true
+		let trashCanPos = CGPoint(x: UIScreen.main.bounds.width/2 - 50,
+			y: UIScreen.main.bounds.height - 110)
+		trashCanButton = UIView(frame: CGRect(x: trashCanPos.x, y: trashCanPos.y, width: 100, height: 100))
+		trashCanButton.backgroundColor = UIColor.black
+		trashCanButton.isHidden = true
 		let trashTuple: (view: UIView, pos: CGPoint) = (view: trashCanButton, trashCanPos)
 		staticScreenElements.append(trashTuple)
         
@@ -306,20 +304,20 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 			Tap Gesture Recognizer
 		   ------------------------ */
 		
-		self.view.userInteractionEnabled = true;
-		scrollView.userInteractionEnabled = true;
+		self.view.isUserInteractionEnabled = true;
+		scrollView.isUserInteractionEnabled = true;
 		
-		var doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
+		var doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(WorkspaceViewController.scrollViewDoubleTapped(_:)))
 		doubleTapRecognizer.numberOfTapsRequired = 2
 		doubleTapRecognizer.numberOfTouchesRequired = 1
 		scrollView.addGestureRecognizer(doubleTapRecognizer)
 		
-		var tapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewTapped:")
+		var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(WorkspaceViewController.scrollViewTapped(_:)))
 		tapRecognizer.numberOfTapsRequired = 1
 		tapRecognizer.numberOfTouchesRequired = 1
 		scrollView.addGestureRecognizer(tapRecognizer)
 		
-		var panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "scrollViewPan:")
+		var panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(WorkspaceViewController.scrollViewPan(_:)))
 		panGestureRecognizer.delegate = self
 		scrollView.addGestureRecognizer(panGestureRecognizer)
 		
@@ -345,52 +343,52 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		// Dispose of any resources that can be recreated.
 	}
 	
-	func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 		return true
 	}
 	
-	func setPipBeingDragged(view: BasePipView) {
+	func setPipBeingDragged(_ view: BasePipView) {
 		pipViewBeingDragged = view
         
-		scrollView.scrollEnabled = false
+		scrollView.isScrollEnabled = false
 	}
 	
 	func clearPipBeingDragged() {
 		pipViewBeingDragged = nil
-		scrollView.scrollEnabled = true
+		scrollView.isScrollEnabled = true
 	}
 	
     
     /* The delegate message that will let us know that the player has finished playing an audio file */
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!,
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer!,
         successfully flag: Bool) {
-        println("Finished playing the song")
+        print("Finished playing the song")
     }
 	
-	func scrollViewPan(recognizer: UIPanGestureRecognizer) {
+	func scrollViewPan(_ recognizer: UIPanGestureRecognizer) {
         
         
         
 		if pipViewBeingDragged != nil {
 			
-			if recognizer.state == .Began {
+			if recognizer.state == .began {
 				pipViewBeingDragged.updateLastLocation()
 				
-				_audioController.playSound(.Move)
+				_audioController.playSound(.move)
 			}
 			
 			let lastLocation = pipViewBeingDragged.lastLocation
 			
-			let translation = recognizer.translationInView(scrollView)
+			let translation = recognizer.translation(in: scrollView)
 			let translationScaled = CGPoint(x: translation.x / scrollView.zoomScale, y: translation.y / scrollView.zoomScale)
-			pipViewBeingDragged.center = CGPointMake(lastLocation.x + translationScaled.x, lastLocation.y + translationScaled.y)
+			pipViewBeingDragged.center = CGPoint(x: lastLocation.x + translationScaled.x, y: lastLocation.y + translationScaled.y)
 			
 			pipViewBeingDragged.updateArms()
 			
-			if recognizer.state == .Ended {
+			if recognizer.state == .ended {
 				if stoppedBeingDragged(pipViewBeingDragged.frame) {
 					
-					_audioController.playSound(AudioClips.Delete)
+					_audioController.playSound(AudioClips.delete)
 					
 					_mainPipDirectory.deletePip(pipViewBeingDragged.pipId)
 				}
@@ -405,11 +403,11 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		}
 		
 		if armViewBeingCreated != nil {
-			let locInView = recognizer.locationInView(scrollView)
+			let locInView = recognizer.location(in: scrollView)
 			let locInViewScaled = CGPoint(x: locInView.x / scrollView.zoomScale, y: locInView.y / scrollView.zoomScale)
 			armViewBeingCreated.updateEnd(locInViewScaled)
 			
-			if recognizer.state == .Ended {
+			if recognizer.state == .ended {
 				
 				armStoppedBeingDragged(armViewBeingCreated)
 				
@@ -420,9 +418,9 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	// touchesBegan: 
 	// I/O: used to exit/cancel any active screen elements
 	//		active buttons, open menus etc.
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent){
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
 		for ele in staticScreenElements {
-			if var menu = (ele.view as? CanvasMenuView){
+			if let menu = (ele.view as? CanvasMenuView){
 				menu.toggleActive()
 			}
 		}
@@ -437,10 +435,10 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	// I/O: called when the background is double tapped
 	//		zooms the view in by 1.5%
 	
-	func scrollViewDoubleTapped(recognizer: UITapGestureRecognizer) {
-		let pointInView = recognizer.locationInView(containerView)
+	func scrollViewDoubleTapped(_ recognizer: UITapGestureRecognizer) {
+		let pointInView = recognizer.location(in: containerView)
 		
-		var newZoomScale = min((scrollView.zoomScale * 1.5), scrollView.maximumZoomScale)
+		let newZoomScale = min((scrollView.zoomScale * 1.5), scrollView.maximumZoomScale)
 		
 		let scrollViewSize = scrollView.bounds.size
 		let w = scrollViewSize.width / newZoomScale
@@ -448,18 +446,18 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 		let x = pointInView.x - (w / 2.0)
 		let y = pointInView.y - (h / 2.0)
 		
-		let rectToZoomTo = CGRectMake(x, y, w, h)
+		let rectToZoomTo = CGRect(x: x, y: y, width: w, height: h)
 		
-		scrollView.zoomToRect(rectToZoomTo, animated: true)
+		scrollView.zoom(to: rectToZoomTo, animated: true)
 	}
 	
 	// scrollViewTapped: UITapGestureRecognizer -> nil
 	// I/O: resets the state of active Pips, and closes all menus
 	
-	func scrollViewTapped(recognizer: UITapGestureRecognizer) {
+	func scrollViewTapped(_ recognizer: UITapGestureRecognizer) {
 			
 		for ele in staticScreenElements {
-			if var menu = (ele.view as? CanvasMenuView) {
+			if let menu = (ele.view as? CanvasMenuView) {
 				if menu.viewIsActive {
 					menu.toggleActive()
 					self.setMenuButtonsActive()
@@ -472,25 +470,25 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	// viewForZoomingInScrollView: UIScrollView -> UIView
 	// I/O: returns containerView. Don't remember why.
 	
-	func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+	func viewForZooming(in scrollView: UIScrollView) -> UIView? {
 		return containerView
 	}
 	
 	// scrollViewDidZoom: UIScrollView -> ??
 	// I/O: ???
 	
-	func scrollViewDidZoom(scrollView: UIScrollView) {
+	func scrollViewDidZoom(_ scrollView: UIScrollView) {
 		return
 	}
 	
 	// scrollViewDidScoll: UIScrollView -> nil
 	// I/O: moves all static screen elements to stay relative to screen
 	
-	func scrollViewDidScroll(scrollView: UIScrollView) {
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
 		let offset: CGPoint = scrollView.contentOffset
 		
 		for ele in staticScreenElements {
-			if var menuView = (ele.view as? CanvasMenuView) {
+			if let menuView = (ele.view as? CanvasMenuView) {
 				var basePos: CGPoint!
 				if menuView.viewIsActive {
 					basePos = menuView.baseLocation
@@ -498,10 +496,10 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 					basePos = menuView.offsetLocation
 				}
 				
-				menuView.frame = CGRectMake(basePos.x + offset.x, basePos.y + offset.y,
-					ele.view.frame.width, ele.view.frame.height)
+				menuView.frame = CGRect(x: basePos.x + offset.x, y: basePos.y + offset.y,
+					width: ele.view.frame.width, height: ele.view.frame.height)
 			} else {
-				ele.view.frame = CGRectMake(ele.pos.x + offset.x, ele.pos.y + offset.y, ele.view.frame.width, ele.view.frame.height)
+				ele.view.frame = CGRect(x: ele.pos.x + offset.x, y: ele.pos.y + offset.y, width: ele.view.frame.width, height: ele.view.frame.height)
 			}
 		}
 	}
@@ -510,28 +508,28 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	// I/O: called by a pip when it first starts being dragged
 	//		makes the trash can visible
 	func startedBeingDragged() {
-		trashCanButton.hidden = false
+		trashCanButton.isHidden = false
 	}
 	
 	// pipStoppedBeingDragged: nil -> nil
 	// I/O: called by a pip when touchesEnded
 	//		hides the trash can 
-	func stoppedBeingDragged(rect: CGRect) -> Bool{
-		trashCanButton.hidden = true
+	func stoppedBeingDragged(_ rect: CGRect) -> Bool{
+		trashCanButton.isHidden = true
 		
-		let pipRect: CGRect = scrollView.convertRect(rect, fromView: containerView)
+		let pipRect: CGRect = scrollView.convert(rect, from: containerView)
 		
-		return CGRectIntersectsRect(pipRect, trashCanButton.frame)
+		return pipRect.intersects(trashCanButton.frame)
 	}
 	
-	func armStoppedBeingDragged(arm: ArmView) {
+	func armStoppedBeingDragged(_ arm: ArmView) {
 		for (id, pip) in _mainPipDirectory.getAllPips() {
 			
 			// if arm was successfully connected
 			if pip.view.frame.contains(arm.end) && id != arm.startPipID{
         
                 // play sound effect
-                _audioController.playSound(AudioClips.Handshake)
+                _audioController.playSound(AudioClips.handshake)
 				
 				arm.endPipID = id
 				arm.makeConnection()
@@ -549,21 +547,21 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	// menuButtonPressed: UIButton -> nil
 	// I/O: unused for now, will be used to implement other menus
 	
-	func menuButtonPressed(sender: UIButton!){
-		println("no menu to toggle yet")
+	func menuButtonPressed(_ sender: UIButton!){
+		print("no menu to toggle yet")
 	}
 	
 	// setMenuButtonsInactive: nil -> nil
 	// I/O: delegate method of all menu buttons
 	//		used to make them invisible and untouchable while a menu is open
 	
-	func setMenuButtonsInactive(sender: UIButton) {
+	func setMenuButtonsInactive(_ sender: UIButton) {
 		
-		scrollView.scrollEnabled = false
+		scrollView.isScrollEnabled = false
 		
 		for ele in staticScreenElements {
-			if var buttonView = (ele.view as? UIButton) {
-				buttonView.enabled = false
+			if let buttonView = (ele.view as? UIButton) {
+				buttonView.isEnabled = false
 			}
 		}
 	}
@@ -574,12 +572,12 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	
 	func setMenuButtonsActive(){
 		
-		scrollView.scrollEnabled = true
+		scrollView.isScrollEnabled = true
 		
 		for ele in staticScreenElements {
-			if var buttonView = (ele.view as? UIButton) {
-				buttonView.enabled = true;
-				buttonView.hidden = false;
+			if let buttonView = (ele.view as? UIButton) {
+				buttonView.isEnabled = true;
+				buttonView.isHidden = false;
 			}
 		}
 	}
@@ -597,16 +595,16 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	//		called by PipDirectory.createPipOfType()
     
     var curPipView : BasePipView? // TO DO: VERY MESSY.
-    func currPipView(pipView: BasePipView){
+    func currPipView(_ pipView: BasePipView){
         curPipView = pipView
     }
 
     
     
-	func addPipView(pipView: BasePipView) {
-        println("Add pip view")
+	func addPipView(_ pipView: BasePipView) {
+        print("Add pip view")
         
-        var pipType: String = pipView.description.componentsSeparatedByString(".")[1].componentsSeparatedByString(":")[0]
+        var pipType: String = pipView.description.components(separatedBy: ".")[1].components(separatedBy: ":")[0]
         
         // this returns fatal error: unexpectedly found nil while unwrapping an Optional value” errors in Swift error
         var curPipType = _mainPipDirectory.getPipByID(pipView.pipId).model.getPipType()
@@ -628,20 +626,20 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
         
         
         if var castPipView = (pipView as? AudioPipView){
-            println("audio pip!")
+            print("audio pip!")
             currPipView(castPipView)
         }
 
         
 		containerView.addSubview(pipView)
-		containerView.bringSubviewToFront(pipView)
+		containerView.bringSubview(toFront: pipView)
 	}
 	
 	// addArmView: ArmView -> nil
 	// I/O: Adds armView to containerView and moves it all the way to the back
 	//		called by PipDirectory.makeConnection()
 	
-	func addArmView(armView: ArmView) {
+	func addArmView(_ armView: ArmView) {
 		containerView.addSubview(armView)
 		//scrollView.sendSubviewToBack(armView)
 		armView.setNeedsDisplay()
@@ -650,15 +648,15 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
 	// removeArmView: ArmView -> nil
 	// I/O: Removes armView from containerView
 	
-	func removeArmView(armView: ArmView) {
+	func removeArmView(_ armView: ArmView) {
 		armView.removeFromSuperview()
 	}
 	
-	func addHandView(handView: HandView) {
+	func addHandView(_ handView: HandView) {
 		containerView.addSubview(handView)
 	}
 	
-	func removeHandView(handView: HandView) {
+	func removeHandView(_ handView: HandView) {
 		handView.removeFromSuperview()
 	}
 	
