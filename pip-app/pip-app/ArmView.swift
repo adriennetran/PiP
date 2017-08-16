@@ -74,8 +74,8 @@ class ArmView: UIView {
 			return
 		}
 		
-		var s = _mainPipDirectory.getPipByID(startPipID)
-		var e = _mainPipDirectory.getPipByID(endPipID)
+		let s = _mainPipDirectory.getPipByID(startPipID)
+		let e = _mainPipDirectory.getPipByID(endPipID)
 		
 		updateFrame()
 		
@@ -160,15 +160,14 @@ class ArmView: UIView {
 		// Set Line to Draw
 		context?.move(to: CGPoint(x: startConv.x, y: startConv.y))
 //		CGContextAddCurveToPoint(context, startInfl.x, startInfl.y, halfPoint.x, halfPoint.y, halfPoint.x, halfPoint.y)
-        context?.addCurve(to: CGPoint(x: startInfl.x, y:startInfl.y), control1: CGPoint(x: halfPoint.x, y: halfPoint.y), control2: CGPoint(x: halfPoint.x, y: halfPoint.y))
+        context?.addCurve(to: CGPoint(x: halfPoint.x, y:halfPoint.y), control1: CGPoint(x: startInfl.x, y: startInfl.y), control2: CGPoint(x: halfPoint.x, y: halfPoint.y))
 		
 		context?.setStrokeColor(startColor)
 		context?.strokePath()
 		
 		context?.move(to: CGPoint(x: halfPoint.x, y: halfPoint.y))
 //		CGContextAddCurveToPoint(context, halfPoint.x, halfPoint.y, endInfl.x, endInfl.y, endConv.x, endConv.y)
-//        context?.addCurve(halfPoint.x, halfPoint.y, endInfl.x, endInfl.y, endConv.x, endConv.y)
-		context?.addCurve(to: CGPoint(x: halfPoint.x, y: halfPoint.y), control1: CGPoint(x: endInfl.x, y: endInfl.y), control2: CGPoint(x: endConv.x, y: endConv.y))
+		context?.addCurve(to: CGPoint(x: endConv.x, y: endConv.y), control1: CGPoint(x: halfPoint.x, y: halfPoint.y), control2: CGPoint(x: endInfl.x, y: endInfl.y))
         // Draw Arm
 		context?.setStrokeColor(endColor)
 		context?.strokePath()

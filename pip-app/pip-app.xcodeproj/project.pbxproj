@@ -91,6 +91,7 @@
 		AEDB54E51AED63720016D054 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		AEEB81041AFFA00D00CB8CA5 /* AudioPip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPip.swift; sourceTree = "<group>"; };
 		AEEB81061AFFA0C600CB8CA5 /* AudioPipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPipView.swift; sourceTree = "<group>"; };
+		B8D3B7711F3E984500BC9C21 /* pip-app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "pip-app.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +117,7 @@
 			children = (
 				5E5354591AD17E9800617B7C /* pip-app */,
 				5E5354581AD17E9800617B7C /* Products */,
+				B8D3B7721F3E984600BC9C21 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,6 +133,7 @@
 		5E5354591AD17E9800617B7C /* pip-app */ = {
 			isa = PBXGroup;
 			children = (
+				B8D3B7711F3E984500BC9C21 /* pip-app.entitlements */,
 				5E438FD71B048FB100DD86CF /* PipSamples */,
 				5E879C771AD18B7200DCAC47 /* View */,
 				5E53547E1AD1801100617B7C /* Model */,
@@ -219,6 +222,13 @@
 			name = PipViews;
 			sourceTree = "<group>";
 		};
+		B8D3B7721F3E984600BC9C21 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -268,8 +278,14 @@
 				TargetAttributes = {
 					5E5354561AD17E9800617B7C = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 2KXS2LAEZ2;
+						DevelopmentTeam = 3BZ54827F5;
 						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+						};
 					};
 					5E53546B1AD17E9800617B7C = {
 						CreatedOnToolsVersion = 6.2;
@@ -476,11 +492,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3BZ54827F5;
 				INFOPLIST_FILE = "pip-app/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kdpinnovations.StatusRecap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -491,11 +510,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3BZ54827F5;
 				INFOPLIST_FILE = "pip-app/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kdpinnovations.StatusRecap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
