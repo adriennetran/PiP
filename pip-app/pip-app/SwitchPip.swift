@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class SwitchOutput: BasePipOutput{
-	var state: Bool = true;
+	var state: Bool = false;
 	
 	override var description: String{
 		return state.description
@@ -29,7 +29,7 @@ class SwitchPip: BasePip {
 	fileprivate var output: SwitchOutput = SwitchOutput();
 	
 	init(id: Int){
-		super.init(pipType: .Switch, id: id)
+		super.init(pipType: PipType.Switch, id: id)
 	}
 	
 	func switchStateChange() -> SwitchOutput{

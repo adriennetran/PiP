@@ -51,7 +51,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
             print("Button capture")
             
-            var imagePicker = UIImagePickerController()
+            let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
             imagePicker.mediaTypes = [kUTTypeImage as String]
@@ -64,12 +64,12 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
     }
 
     
-    func imagePickerController(_ picker: UIImagePickerController,
+    private func imagePickerController(_ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [AnyHashable: Any]){
             print("Inside imagePickerController function in ViewController")
             print("curPipView")
-            print(curPipView)
-            var curPipView2 = curPipView as? ImagePipView!
+            print(curPipView!)
+            let curPipView2 = curPipView as? ImagePipView!
             
             // to do: align photo with image pip
             curPipView2!.photoImageView.image = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
@@ -90,7 +90,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.colorLayer)
             curPipView2!.photoImageView.layer.addSublayer(curPipView2!.blackLayer)
             
-            var curModel = curPipView2!.getModel() as? ImagePip
+            let curModel = curPipView2!.getModel() as? ImagePip
             
             // afer taking image, set image.
             
@@ -105,7 +105,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
             // ImagePip output has an attribute 'accelStatus' that toggles according to whether there is an AccelPip input
             if (curModel?.output.accelStatus == true){
                 print("GET ACCEL IS TRUE")
-                var blurredImage = curPipView2!.applyBlurEffect(curPipView2!.photoImageView.image!)
+                let blurredImage = curPipView2!.applyBlurEffect(curPipView2!.photoImageView.image!)
                 curPipView2!.photoImageView.image = blurredImage
             }
             

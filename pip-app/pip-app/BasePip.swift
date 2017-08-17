@@ -88,7 +88,7 @@ class BasePip {
 	//		inputPipID is not already an input, or is not this pip's ID
 	
 	func setInput(_ inputPipID: Int){
-		if inputPipIDs.contains(inputPipID) && !(inputPipID == self.pipID){
+		if !inputPipIDs.contains(inputPipID) && !(inputPipID == self.pipID){
 			self.inputPipIDs.append(inputPipID)
 		}
     }
@@ -97,7 +97,7 @@ class BasePip {
 	// I/O: adds outputPipID to this pip's list of outputs as long as
 	//		outputPipID is not already an output, or is not this pip's ID
 	func setOutput(_ outputPipID: Int){
-		if outputPipIDs.contains(outputPipID) && !(outputPipID == self.pipID){
+		if !outputPipIDs.contains(outputPipID) && !(outputPipID == self.pipID){
 			self.outputPipIDs.append(outputPipID)
 		}
 	}

@@ -244,6 +244,7 @@ class PipDirectory{
 			//case .Button:
         case .Audio:
             (getPipByID(pID).model as? AudioPip)?.getOutput()
+            
         case .Image:
             (getPipByID(pID).model as? ImagePip)?.getOutput()
             

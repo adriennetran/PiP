@@ -85,7 +85,7 @@ class AudioPip: BasePip{
     var output: AudioOutput!
     
     init(id: Int){
-        super.init(pipType: PipType.Accel, id: id)
+        super.init(pipType: PipType.Audio, id: id)
         output = AudioOutput()
     }
     

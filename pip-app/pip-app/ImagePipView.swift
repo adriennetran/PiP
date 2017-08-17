@@ -65,7 +65,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
 		textLayer.contentsScale = UIScreen.main.scale
 		textView.layer.addSublayer(textLayer)
 		
-		addGestureRecognizer(UITapGestureRecognizer(target: _mainPipDirectory.viewController, action: "capture:"))
+		addGestureRecognizer(UITapGestureRecognizer(target: _mainPipDirectory.viewController, action: Selector(("capture:"))))
         
     }
     
@@ -82,7 +82,7 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         print("applyBlurEffect0")
         
 //        var imageToBlur = CIImage(image: image)
-        var blurfilter = CIFilter(name: "CIGaussianBlur")
+        let blurfilter = CIFilter(name: "CIGaussianBlur")
         print("applyBlurEffect1")
 //        blurfilter.setValue(imageToBlur, forKey: "inputImage")
         blurfilter?.setValue(CIImage(image: image), forKey: kCIInputImageKey)
@@ -95,8 +95,8 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         let context = CIContext(options: nil)
         if context != nil {
-            var cgiImage = context.createCGImage(resultImage!, from: resultImage!.extent)
-            var final = UIImage(cgImage: cgiImage!)
+            let cgiImage = context.createCGImage(resultImage!, from: resultImage!.extent)
+            let final = UIImage(cgImage: cgiImage!)
             return final
         }
         
@@ -156,15 +156,15 @@ class ImagePipView: BasePipView, NSURLConnectionDelegate, UIScrollViewDelegate, 
         
         if (output?.getAccel() == true){
             print("accel > image: true")
-        if let img2 = output?.getImage(){
-            if let image = self.photoImageView.image{
+        if (output?.getImage()) != nil{
+            if self.photoImageView.image != nil{
 //                println("let image = self.photoImageView.image")
 //                var blurredImage = self.applyBlurEffect(image)
 //                println("blurredImage")
 //                self.photoImageView.image = blurredImage
 //                println("blurredImage2")
                 
-                var darkBlur = UIBlurEffect(style: UIBlurEffectStyle.light)
+                let darkBlur = UIBlurEffect(style: UIBlurEffectStyle.light)
                 // 2
                 print("1")
                 self.blurView = UIVisualEffectView(effect: darkBlur)

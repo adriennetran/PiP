@@ -104,8 +104,8 @@ class TextPip: BasePip {
                 print("accel > text")
                 let castItem: AccelPip! = inPip as? AccelPip
                 
-                var accelView = _mainPipDirectory.getPipByID(castItem.pipID).view
-                var accelViewCast: AccelPipView! = accelView as? AccelPipView
+                let accelView = _mainPipDirectory.getPipByID(castItem.pipID).view
+                let accelViewCast: AccelPipView! = accelView as? AccelPipView
                 
                 if castItem != nil{
                     

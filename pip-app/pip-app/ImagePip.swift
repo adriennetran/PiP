@@ -91,14 +91,14 @@ class ImagePip: BasePip{
     var output: ImageOutput!
     
     init(id: Int){
-        super.init(pipType: PipType.Accel, id: id)
+        super.init(pipType: PipType.Image, id: id)
         output = ImageOutput()
     }
     
     override func pipToBeDestroyed() {
         super.pipToBeDestroyed()
 
-        var curView = _mainPipDirectory.getPipByID(self.pipID).view as? ImagePipView
+        let curView = _mainPipDirectory.getPipByID(self.pipID).view as? ImagePipView
         curView!.photoImageView.removeFromSuperview()
         curView!.textView.removeFromSuperview()
         

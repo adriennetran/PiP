@@ -59,7 +59,7 @@ class SwitchPipView: BasePipView{
 	//		updates the view to match, and calls model.updateReliantPips
 	
 	override func updateView() {
-		if var model = (_mainPipDirectory.getPipByID(pipId).model as? SwitchPip){
+		if let model = (_mainPipDirectory.getPipByID(pipId).model as? SwitchPip){
 			if model.getOutput().getState(){
 				self.image? = stateImages[0]
 			}else{
