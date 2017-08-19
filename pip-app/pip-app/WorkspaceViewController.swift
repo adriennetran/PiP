@@ -1,4 +1,4 @@
-//
+﻿//
 //  WorkspaceViewController.swift
 //  pip-app
 //
@@ -64,7 +64,7 @@ class WorkspaceViewController: UIViewController, UIGestureRecognizerDelegate, UI
     }
 
     
-    private func imagePickerController(_ picker: UIImagePickerController,
+    func imagePickerController(_ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [AnyHashable: Any]){
             print("Inside imagePickerController function in ViewController")
             print("curPipView")
